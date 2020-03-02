@@ -1,5 +1,5 @@
 import loginBackground from "../../assets/loginbackground.jpg";
-const stylesSignIn = theme => ({
+const stylesSignUp = theme => ({
   root: {
     height: "100vh"
   },
@@ -40,6 +40,9 @@ const stylesSignIn = theme => ({
     }
   },
   signup: {
+    "&:hover": {
+      cursor: "pointer"
+    },
     flexBasis: "auto",
     flexGrow: "unset"
   },
@@ -48,14 +51,7 @@ const stylesSignIn = theme => ({
   },
   remember: {
     color: "#3f51b5"
-  },
-  hover: {
-    "&:hover": {
-      cursor: "pointer"
-    }
   }
-
-  // Menu Of Language
 });
 
-export default stylesSignIn;
+export default stylesSignUp;

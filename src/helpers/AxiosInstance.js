@@ -1,5 +1,5 @@
 import axios from "axios";
-import GetToken from "../helper/GetToken/getToken";
+import GetToken from "./GetToken";
 const test = new axios.create({
   headers: {
     "Content-Type": "application/json",

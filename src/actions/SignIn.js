@@ -1,20 +1,21 @@
-import * as SigninConstants from "../constants/SignIn";
+import * as SignInConstants from "../constants/SignIn";
 
-export const Signin_Error = error => {
+export const SignIn_Error = error => {
   return {
-    type: SigninConstants.SIGNIN_ERROR,
-    payload: error
+    type: SignInConstants.SIGNIN_ERROR,
+    payload: { error }
   };
 };
-export const Signin_Request = (data, history) => {
+export const SignIn_Request = (data, history, enqueueSnackbar, t) => {
+  console.log("dung useDispatch thanh cong: ", history);
   return {
-    type: SigninConstants.SIGNIN_REQUEST,
-    payload: { data, history }
+    type: SignInConstants.SIGNIN_REQUEST,
+    payload: { data, history, enqueueSnackbar, t }
   };
 };
-export const Signin_Success = (success, remember) => {
+export const SignIn_Success = (success, remember) => {
   return {
-    type: SigninConstants.SIGNIN_SUCCESS,
+    type: SignInConstants.SIGNIN_SUCCESS,
     payload: { success, remember }
   };
 };

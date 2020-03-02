@@ -1,44 +1,40 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
+import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import LanguageIcon from "@material-ui/icons/Language";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core";
-import stylesSignIn from "./Styles";
+import stylesSignUp from "./Styles";
 
 import MenuLanguage from "../MenuLanguage";
 
-const SignIn = props => {
+const SignUp = props => {
   const {
     classes,
-    _checkCurrentLanguage,
-    _onHandleSubmit,
     _handleClickShowPassword,
     _handleMouseDownPassword,
-    showPassword,
-    handleChange,
-    _handleChangeLanguage,
-    i18n,
-    t,
-    values,
-    setFieldTouched,
-    enqueueSnackbar,
+    _onHandleSubmit,
     touched,
     errors,
-    handleBlur
+    setFieldTouched,
+    i18n,
+    showPassword,
+    values,
+    history,
+    _handleChangeLanguage,
+    _checkCurrentLanguage,
+    t,
+    handleChange
   } = props;
-  const { username, password, remember } = values;
+  const { email, username, password, retypepassword } = values;
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -55,40 +51,52 @@ const SignIn = props => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {t("SignIn")}
+            {t("SignUp")}
           </Typography>
-          <form
-            className={classes.form}
-            onSubmit={event => _onHandleSubmit(event)}
-          >
+          <form className={classes.form} onSubmit={_onHandleSubmit}>
             <TextField
+              required
               variant="outlined"
               margin="normal"
               fullWidth
-              value={username}
+              id="email"
+              value={email}
+              label={t("Email")}
+              name="email"
+              autoComplete="email"
+              onChange={handleChange}
+              error={errors.email && touched.email ? true : false}
+              helperText={touched.email ? t(errors.email) : ""}
+              onKeyUp={() => setFieldTouched("email", true, false)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
               id="username"
               label={t("Username")}
               name="username"
-              autoComplete="username"
-              error={touched.username && errors.username ? true : false}
-              helperText={touched.username ? t(errors.username) : ""}
-              // error={testError}
-              //autoFocus
+              value={username}
               onChange={handleChange}
+              autoComplete="username"
+              error={errors.username && touched.username ? true : false}
+              helperText={touched.username ? t(errors.username) : ""}
               onKeyUp={() => setFieldTouched("username", true, false)}
             />
             <TextField
               variant="outlined"
               margin="normal"
+              required
               fullWidth
-              value={password}
               name="password"
               label={t("Password")}
+              value={password}
               type={showPassword ? "text" : "password"}
               id="password"
-              error={touched.password && errors.password ? true : false}
+              error={errors.password && touched.password ? true : false}
+              helperText={touched.password ? `${t(errors.password)}` : ""}
               autoComplete="current-password"
-              helperText={touched.password ? t(errors.password) : ""}
               onChange={handleChange}
               onKeyUp={() => setFieldTouched("password", true, false)}
               InputProps={{
@@ -102,18 +110,35 @@ const SignIn = props => {
                 )
               }}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="remember"
-                  value={remember}
-                  checked={remember}
-                  className={classes.remember}
-                  onChange={handleChange}
-                  color="primary"
-                />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="retypepassword"
+              label={t("RetypePassword")}
+              type={showPassword ? "text" : "password"}
+              value={retypepassword}
+              id="retypepassword"
+              error={
+                errors.retypepassword && touched.retypepassword ? true : false
               }
-              label={t("Remember")}
+              helperText={
+                touched.retypepassword ? `${t(errors.retypepassword)}` : ""
+              }
+              autoComplete="current-password"
+              onChange={handleChange}
+              onKeyUp={() => setFieldTouched("retypepassword", true, false)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    onClick={_handleClickShowPassword}
+                    onMouseDown={_handleMouseDownPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                )
+              }}
             />
             <Button
               type="submit"
@@ -122,20 +147,8 @@ const SignIn = props => {
               color="primary"
               className={classes.submit}
             >
-              {t("SignIn")}
+              {t("SignUp")}
             </Button>
-            <Grid container className={classes.container}>
-              <Grid item xs className={classes.forgot}>
-                <Link to="#" variant="body2">
-                  {t("ForgotPassword")}
-                </Link>
-              </Grid>
-              <Grid item xs className={classes.signup}>
-                <Link to="/signup" variant="body2" className={classes.hover}>
-                  {t("DontHaveAcc")}
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
       </Grid>
@@ -143,4 +156,4 @@ const SignIn = props => {
   );
 };
 
-export default withStyles(stylesSignIn)(SignIn);
+export default withStyles(stylesSignUp)(SignUp);
