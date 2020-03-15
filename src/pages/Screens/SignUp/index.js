@@ -1,4 +1,11 @@
-import React from "react";
+import React from 'react'
+import { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { withSnackbar } from "notistack";
+import { withFormik } from "formik";
+import * as Yup from "yup";
 import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
@@ -12,40 +19,74 @@ import IconButton from "@material-ui/core/IconButton";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core";
-import stylesSignUp from "./Styles";
 
-import MenuLanguage from "../MenuLanguage";
+import CheckAuthen from "helpers/GetToken";
+import * as SignUpActions from "actions/SignUp";
+import MenuLanguage from "pages/Components/MenuLanguage";
+import styles from './styles'
 
-const SignUp = props => {
+const SignUp = (props) => {
+    const { i18n, t } = useTranslation("translation");
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
   const {
-    classes,
-    _handleClickShowPassword,
-    _handleMouseDownPassword,
-    _onHandleSubmit,
-    touched,
-    errors,
-    setFieldTouched,
-    i18n,
-    showPassword,
     values,
+    errors,
     history,
-    _handleChangeLanguage,
-    _checkCurrentLanguage,
-    t,
+    setFieldTouched,
+    classes,
+    touched,
+    enqueueSnackbar,
     handleChange
   } = props;
   const { email, username, password, retypepassword } = values;
-  return (
-    <Grid container component="main" className={classes.root}>
+  const _onHandleSubmit = event => {
+    event.preventDefault();
+    const user = {
+      email: email,
+      username: username,
+      password: password
+    };
+    if (email !== "" && username !== "" && password !== "") {
+      dispatch(SignUpActions.SignUpRequest(user, history, t, enqueueSnackbar));
+    }
+  };
+  const _handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const _handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+  const _handleChangeLanguage = () => {
+    let currentLanguage = i18n.language;
+    if (currentLanguage === "vn") {
+      i18n.changeLanguage("en");
+    }
+    if (currentLanguage === "en") {
+      i18n.changeLanguage("vn");
+    }
+  };
+  const _checkCurrentLanguage = () => {
+    var lng = null;
+    if (i18n.language === "vn") {
+      lng = t("ChangeToEN");
+    }
+    if (i18n.language === "en") {
+      lng = t("ChangeToVN");
+    }
+    return lng;
+  };
+  useEffect(() => {
+    if (CheckAuthen()) {
+      history.push("/");
+    }
+  });
+    return (
+<Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <MenuLanguage
-          t={t}
-          i18n={i18n}
-          _handleChangeLanguage={_handleChangeLanguage}
-          _checkCurrentLanguage={_checkCurrentLanguage}
-        />
+        <MenuLanguage />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -153,7 +194,30 @@ const SignUp = props => {
         </div>
       </Grid>
     </Grid>
-  );
-};
+    )
+}
 
-export default withStyles(stylesSignUp)(SignUp);
+const SignUpFormik = withFormik({
+    mapPropsToValues: () => ({
+      email: "",
+      username: "",
+      password: "",
+      retypepassword: "",
+      userForWeb: true
+    }),
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email("InvalidEmail")
+        .required("EmailRequired"),
+      username: Yup.string()
+        .min(5, "MinUsername")
+        .required("UsernameRequired"),
+      password: Yup.string()
+        .min(8, "MinPassword")
+        .required("PasswordRequired"),
+      retypepassword: Yup.string()
+        .required("ConfirmPassword")
+        .oneOf([Yup.ref("password")], "MatchPassword")
+    })
+  })(SignUp);
+export default withRouter(withStyles(styles)(withSnackbar(SignUpFormik)));

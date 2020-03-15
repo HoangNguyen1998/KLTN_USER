@@ -33,14 +33,26 @@ let theme = createMuiTheme({
 theme = {
   ...theme,
   overrides: {
-    MuiDrawer: {
-      paper: {
-        backgroundColor: "#18202c"
+    MuiInputBase:{
+      root:{
+        fontSize: "1.6rem"
       }
     },
+    MuiSnackbarContent:{
+      root: {
+        fontSize: "1.6rem !important"
+      }
+    },
+    MuiDrawer: {
+      paper: {
+        backgroundColor: "#18202c",
+      }
+    },
+    MuiFormLabel: { root: { fontSize: "1.6rem" } },
     MuiButton: {
       label: {
-        textTransform: "none"
+        textTransform: "none",
+        fontSize: "1.6rem"
       },
       contained: {
         boxShadow: "none",

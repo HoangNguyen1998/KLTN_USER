@@ -1,4 +1,4 @@
-import * as SignUpConstants from "../constants/SignUp";
+import * as SignUpConstants from "constants/SignUp";
 
 export const SignUpError = error => {
   return {

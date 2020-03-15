@@ -24,5 +24,10 @@ export default {
   SignInFail: "Username or password is incorrect!",
   SignUpSuccess: "Sign up success!",
   DuplicateEmail: "Duplicate Email, please use another email!",
-  DuplicateName: "Duplicate Username, please use another username!"
+  DuplicateName: "Duplicate Username, please use another username!",
+
+  // User's courses
+  CreateCourse: "Create course",
+  CreateCourseSuccess: "Create course success",
+  CreateCourseError: "Create course error"
 };

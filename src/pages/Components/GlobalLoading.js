@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import LoadingIcon from "../assets/loading.gif";
+import LoadingIcon from "assets/loading.gif";
 
 const GlobalLoading = () => {
   const loading = useSelector(state => state.Loading.showLoading);

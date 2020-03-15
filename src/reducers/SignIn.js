@@ -1,6 +1,6 @@
-import * as SignInConstants from "../constants/SignIn";
-import { ToastSuccess, ToastError } from "../helpers/ToastifyHelper";
-import GetToken from "../helpers/GetToken";
+import * as SignInConstants from "constants/SignIn";
+import { ToastSuccess, ToastError } from "helpers/ToastifyHelper";
+import GetToken from "helpers/GetToken";
 const initialState = {
   user: {}
 };
@@ -12,6 +12,7 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SignInConstants.SIGNIN_SUCCESS: {
+      console.log("chay")
       const { success, remember, enqueueSnackbar, t } = action.payload;
       const { token } = success;
       var now = new Date();
@@ -21,7 +22,7 @@ const reducer = (state = initialState, action) => {
       } else {
         document.cookie = `token=${token}`;
       }
-      GetToken();
+      // GetToken();
       return {
         ...state,
         user: action.payload

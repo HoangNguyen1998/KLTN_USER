@@ -1,9 +1,9 @@
 import { call, put, takeLatest, delay } from "redux-saga/effects";
-import * as SignUpConstants from "../constants/SignUp";
-import * as SignUpActions from "../actions/SignUp";
-import * as LoadingActions from "../actions/GlobalLoading";
-import CheckError from "../helpers/CheckError";
-import CallApi from "../helpers/ApiCaller";
+import * as SignUpConstants from "constants/SignUp";
+import * as SignUpActions from "actions/SignUp";
+import * as LoadingActions from "actions/GlobalLoading";
+import CheckError from "helpers/CheckError";
+import CallApi from "helpers/ApiCaller";
 
 function* SignUpFlow(user) {
   const { data, history, t, enqueueSnackbar } = user.payload;

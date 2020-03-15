@@ -1,4 +1,4 @@
-import * as SignInConstants from "../constants/SignIn";
+import * as SignInConstants from "constants/SignIn";
 
 export const SignIn_Error = error => {
   return {

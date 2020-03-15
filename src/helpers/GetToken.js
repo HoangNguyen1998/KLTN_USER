@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../constants/Config");
+const config = require("constants/Config");
 const getCookie = () => {
   if (document.cookie !== null) {
     const name = "token=";

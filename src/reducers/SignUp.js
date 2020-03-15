@@ -1,5 +1,4 @@
-import * as SignUpConstants from "../constants/SignUp";
-import { ToastSuccess, ToastError } from "../helpers/ToastifyHelper";
+import * as SignUpConstants from "constants/SignUp";
 const initialState = {
   history: null
 };
@@ -13,11 +12,9 @@ const reducer = (state = initialState, action) => {
       };
     }
     case SignUpConstants.SIGNUP_SUCCESS: {
-      ToastSuccess(action.payload);
       return { ...state };
     }
     case SignUpConstants.SIGNUP_ERROR: {
-      ToastError(action.payload);
       return { ...state };
     }
     default:

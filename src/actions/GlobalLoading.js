@@ -1,4 +1,4 @@
-import * as LoadingConstants from "../constants/GlobalLoading";
+import * as LoadingConstants from "constants/GlobalLoading";
 
 export const ShowLoading = () => {
   return {

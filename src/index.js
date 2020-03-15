@@ -1,18 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from './pages/Screens/Home'
 import { I18nextProvider } from "react-i18next";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 
-import i18Config from "./helpers/Translations/i18";
-import ConfigStore from "./helpers/ReduxConfig";
-import AuthenRoutes from "./routes/AuthenRoutes";
-import CheckAuthen from "./helpers/GetToken";
-import GlobalLoading from "./components/GlobalLoading";
-import theme from "./helpers/ThemeCustom";
+import i18Config from "helpers/Translations/i18";
+import ConfigStore from "helpers/ReduxConfig";
+import AuthenRoutes from "routes/AuthenRoutes";
+import CheckAuthen from "helpers/GetToken";
+import GlobalLoading from "pages/Components/GlobalLoading";
+import theme from "helpers/ThemeCustom";
 
 const store = ConfigStore();
 
@@ -22,11 +22,11 @@ ReactDOM.render(
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <SnackbarProvider
+            style={{ fontSize: 25 }}
             maxSnack={1}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             autoHideDuration={5000}
           >
-            {" "}
             <GlobalLoading />
             <Switch>
               {AuthenRoutes.map((prop, key) => (
@@ -37,6 +37,7 @@ ReactDOM.render(
                   key={key}
                 />
               ))}
+
               <Route
                 path="/"
                 render={() =>

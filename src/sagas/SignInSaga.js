@@ -1,8 +1,8 @@
 import { call, put, takeLatest, delay } from "redux-saga/effects";
-import * as SignInConstants from "../constants/SignIn";
-import * as LoadingActions from "../actions/GlobalLoading";
-import * as SignInActions from "../actions/SignIn";
-import CallApi from "../helpers/ApiCaller";
+import * as SignInConstants from "constants/SignIn";
+import * as LoadingActions from "actions/GlobalLoading";
+import * as SignInActions from "actions/SignIn";
+import CallApi from "helpers/ApiCaller";
 
 function* SignInFlow(user) {
   const { history, enqueueSnackbar, t } = user.payload;

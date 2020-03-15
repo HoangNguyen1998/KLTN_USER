@@ -1,17 +1,17 @@
 import React from "react";
-import SignInPage from "../pages/SignInPage";
-import SignUpPage from "../pages/SignUpPage";
+import SignIn from "pages/Screens/SignIn";
+import SignUp from "pages/Screens/SignUp";
 
 const routes = [
   {
     path: "/signin",
     exact: false,
-    main: () => <SignInPage />
+    main: () => <SignIn />
   },
   {
     path: "/signup",
     exact: false,
-    main: () => <SignUpPage />
+    main: () => <SignUp />
   }
 ];
 

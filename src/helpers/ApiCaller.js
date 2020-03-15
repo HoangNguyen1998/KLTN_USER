@@ -1,4 +1,4 @@
-import * as Config from "../constants/Config";
+import * as Config from "constants/Config";
 import axiosInstance from "./AxiosInstance";
 
 export default function callApi(endpoint, method, body) {

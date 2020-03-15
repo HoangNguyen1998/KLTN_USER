@@ -1,4 +1,4 @@
-import * as LoadingConstants from "../constants/GlobalLoading";
+import * as LoadingConstants from "constants/GlobalLoading";
 
 const reducer = (state = { showLoading: false }, action) => {
   switch (action.type) {

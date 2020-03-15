@@ -1,4 +1,4 @@
-import loginBackground from "../../assets/loginbackground.jpg";
+import loginBackground from "assets/loginbackground.jpg";
 const stylesSignIn = theme => ({
   root: {
     height: "100vh"
@@ -17,18 +17,18 @@ const stylesSignIn = theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "#3f51b5"
+    backgroundColor: theme.palette.primary.main
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
     // backgroundColor: "red",
-    // "&:hover":{
-    //     backgroundColor: "red"
-    // }
+    "&:hover": {
+      backgroundColor: "#0582bd"
+    }
   },
   forgot: {
     flexGrow: "unset",
@@ -47,7 +47,7 @@ const stylesSignIn = theme => ({
     justifyContent: "space-between"
   },
   remember: {
-    color: "#3f51b5"
+    color: theme.palette.primary.main
   },
   hover: {
     "&:hover": {

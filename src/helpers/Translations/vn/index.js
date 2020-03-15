@@ -23,5 +23,10 @@ export default {
   SignInSuccess: "Đăng nhập thành công!",
   SignInFail: "Tên người dùng hoặc mật khẩu không chính xác!",
   DuplicateEmail: "Email đã sử dụng, vui lòng dùng email khác!",
-  DuplicateName: "Tên người dùng đã sử dụng, vui lòng dùng tên khác!"
+  DuplicateName: "Tên người dùng đã sử dụng, vui lòng dùng tên khác!",
+
+  // User's courses
+  CreateCourse: "Tạo khoá học",
+  CreateCourseSuccess: "Tạo khoá học thành công",
+  CreateCourseError: "Tạo khoá học thất bại"
 };

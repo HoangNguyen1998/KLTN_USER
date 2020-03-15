@@ -1,4 +1,4 @@
-import loginBackground from "../../assets/loginbackground.jpg";
+import loginBackground from "assets/loginbackground.jpg";
 const stylesSignUp = theme => ({
   root: {
     height: "100vh"
