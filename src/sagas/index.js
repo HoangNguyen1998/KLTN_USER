@@ -1,6 +1,6 @@
 import SignUpSaga from "./SignUpSaga";
 import SignInSaga from "./SignInSaga";
-// import getmeSaga from "./GetMeSaga";
+import GetMeSaga from "./GetMeSaga";
 // import homeSaga from "./HomeSaga";
 import CoursesSaga from "./CoursesSaga";
 // import challengesSaga from "./ChallengesSaga";
@@ -10,8 +10,8 @@ function* rootSaga() {
   yield all([
     SignUpSaga(),
     SignInSaga(),
-    CoursesSaga()
-    // getmeSaga(),
+    CoursesSaga(),
+    GetMeSaga(),
     // homeSaga(),
     // coursesSaga(),
     // topicsSaga(),
