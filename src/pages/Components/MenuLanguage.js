@@ -35,8 +35,8 @@ const MenuLanguages = () => {
           _handleChangeLanguage();
         }}
       >
-        <Button style={{fontSize: "1.6rem", color: "white"}}>
-          <LanguageIcon style={{fontSize:25, color:"white", marginRight: 5}}/>
+        <Button style={{fontSize: "1.6rem"}}>
+          <LanguageIcon style={{fontSize:25, color:"black", marginRight: 5}}/>
           {i18n.language}
         </Button>
       </Tooltip>

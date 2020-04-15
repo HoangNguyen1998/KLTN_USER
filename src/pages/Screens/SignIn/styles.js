@@ -32,7 +32,7 @@ const stylesSignIn = theme => ({
   },
   forgot: {
     flexGrow: "unset",
-    flexBasis: "auto !important"
+    flexBasis: "auto !important",
   },
   email: {
     "&:hover": {

@@ -1,12 +1,29 @@
 .courses-list-container {
   margin: 1rem;
+  &__blank-courses{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 }
 .button {
   margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin: 1rem 0 0rem 2rem
+}
+.button-load-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__button-load{
+  }
+  &__page-number{}
 }
 .paper-container {
   box-sizing: border-box;
   padding: 1rem;
+  border: 10rem
 }
 .MuiPaper-root.paper {
   height: 25rem;
@@ -16,6 +33,7 @@
   &:hover {
     box-shadow: 1rem 1rem 4rem rgba($color: #000000, $alpha: 0.1);
     transform: scale(1.05);
+    cursor: pointer;
   }
 }
 
@@ -51,3 +69,4 @@
     font-size: 1.6rem;
   }
 }
+

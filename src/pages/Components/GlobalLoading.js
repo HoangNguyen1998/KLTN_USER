@@ -4,7 +4,6 @@ import LoadingIcon from "assets/loading.gif";
 
 const GlobalLoading = () => {
   const loading = useSelector(state => state.Loading.showLoading);
-  console.log(loading);
   const _renderLoading = () => {
     let xhtml = null;
     if (loading) {
@@ -16,8 +15,8 @@ const GlobalLoading = () => {
             right: 0,
             top: 0,
             bottom: 0,
-            zIndex: 10000000,
-            background: "rgba(0,0,0,0.4)"
+            zIndex: 1000000000000000000,
+            background: "white"
           }}
         >
           <img

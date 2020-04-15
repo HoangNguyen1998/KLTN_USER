@@ -1,7 +1,13 @@
 import * as CoursesConstants from "constants/Courses";
+import findIndex from "lodash/findIndex";
 
 const reducer = (
-    state = {courses: [], course: {title: "", content: []}, showModal: false},
+    state = {
+        courses: [],
+        course: {title: "", contents: []},
+        isLoading: true,
+        courseLearn: [],
+    },
     action
 ) => {
     switch (action.type) {
@@ -11,7 +17,11 @@ const reducer = (
         case CoursesConstants.GET_ALL_COURSES_SUCCESS: {
             const {payload} = action;
             const dataReverse = payload.reverse();
-            return {...state, courses: [...state.courses, ...dataReverse]};
+            return {
+                ...state,
+                courses: [...state.courses, ...dataReverse],
+                isLoading: false,
+            };
         }
         case CoursesConstants.GET_ALL_COURSES_ERROR: {
             return {...state};
@@ -23,6 +33,32 @@ const reducer = (
             const data = [...state.courses];
             data.unshift(action.payload);
             return {...state, courses: [...data]};
+        }
+        case CoursesConstants.GET_COURSE_REQUEST: {
+            return {...state};
+        }
+        case CoursesConstants.GET_COURSE_SUCCESS: {
+            const {data, dataLearn} = action.payload;
+            const {title, contents} = data;
+            return {
+                ...state,
+                course: {...state.course, title: title, contents: contents},
+                courseLearn: dataLearn,
+            };
+        }
+        case CoursesConstants.DELETE_COURSE_SUCCESS: {
+            const result = findIndex(state.courses, {_id: action.payload});
+            const data = [...state.courses];
+            data.splice(result, 1);
+            return {...state, courses: [...data]};
+        }
+        case CoursesConstants.RESET_COURSE_MODAL: {
+            console.log("HEllllllloo")
+            return {
+                ...state,
+                course: {title: '', contents:[]},
+                courseLearn: [],
+            };
         }
         default:
             return {...state};

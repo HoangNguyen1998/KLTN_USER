@@ -4,13 +4,15 @@ import SignUpReducer from "./SignUp";
 import LoadingReducer from "./GlobalLoading";
 import CoursesReducer from "./Courses";
 import GetMeReducer from "./GetMe";
+import ChallengesReducer from './Challenges'
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
     SignUp: SignUpReducer,
     Loading: LoadingReducer,
     Courses: CoursesReducer,
-    GetMe: GetMeReducer
+    GetMe: GetMeReducer,
+    Challenges: ChallengesReducer
 });
 
 export default rootReducer;

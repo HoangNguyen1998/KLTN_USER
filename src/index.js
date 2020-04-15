@@ -1,4 +1,5 @@
 import React from "react";
+import 'styles/global.scss'
 import ReactDOM from "react-dom";
 import App from './pages/Screens/Home'
 import { I18nextProvider } from "react-i18next";

@@ -29,5 +29,25 @@ export default {
   // User's courses
   CreateCourse: "Create course",
   CreateCourseSuccess: "Create course success",
-  CreateCourseError: "Create course error"
+  CreateCourseError: "Create course error",
+  Create: "Create",
+  CreateNewCard: "Create new card",
+
+  // AppBar
+  UserInfor: "User information",
+  SignOut: "Sign out",
+
+  // User's information
+  UserName: 'User name',
+
+  LoadMore: "Load more...",
+  AreYouSure: "Are you sure?",
+  OK: "OK",
+  Cancel: "Cancel",
+  BlankCourses: "You don't have any courses, please create one to continue.",
+
+  Question: "Question",
+  Conversation: "Speak conversation",
+  YourComment: "Comment here",
+  Close: "Close",
 };

@@ -11,3 +11,15 @@ export const HideLoading = () => {
     type: LoadingConstants.HIDE_LOADING
   };
 };
+
+export const ShowCirCular=()=>{
+  return {
+    type: LoadingConstants.SHOW_CIRCULAR
+  }
+}
+
+export const HideCirCular=()=>{
+  return {
+    type: LoadingConstants.HIDE_CIRCULAR
+  }
+}

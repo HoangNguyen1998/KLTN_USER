@@ -7,15 +7,16 @@ import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
+import CircularProgress from '@material-ui/core/CircularProgress'
 import IconButton from "@material-ui/core/IconButton";
-import {withStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import * as CoursesActions from "actions/Courses";
 
-const AddCourse = props => {
+const AddCourseModal = props => {
+    const circularRedux = useSelector(state => state.Loading.showCircular);
     const [array, setArray] = useState({
         title: "",
         content: [
@@ -23,7 +24,7 @@ const AddCourse = props => {
             {text: "", mean: ""}
         ]
     });
-    const {history, enqueueSnackbar, t} = props;
+    const {history, enqueueSnackbar, t, onHideCreateCourse} = props;
     const AddCourseValue = useSelector(state => {
         return state.Courses.course;
     });
@@ -65,7 +66,8 @@ const AddCourse = props => {
                 array,
                 history,
                 enqueueSnackbar,
-                t
+                t,
+                onHideCreateCourse
             )
         );
     };
@@ -153,22 +155,22 @@ const AddCourse = props => {
                             fullWidth
                             variant="contained"
                             onClick={onAddNewCard}
+                            disabled={circularRedux}
                         >
                             <Grid container spacing={5}>
                                 <Grid item xs={12}>
-                                    Tao the moi
+                                   {t("CreateNewCard")}
                                 </Grid>
                             </Grid>
                         </Button>
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className="add-course-container__button"
-                            type="submit"
-                        >
-                            Create
-                        </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className="add-course-container__button"
+                                type="submit"
+                            >
+                                {circularRedux?<CircularProgress color="#ffffff" size={25} />:t("Create")}
+                            </Button>
                     </Box>
                 </form>
             </div>
@@ -176,4 +178,4 @@ const AddCourse = props => {
     );
 };
 
-export default AddCourse;
+export default AddCourseModal;

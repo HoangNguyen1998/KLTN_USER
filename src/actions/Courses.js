@@ -1,8 +1,9 @@
 import * as CoursesConstants from "constants/Courses";
 
-export const Get_All_Courses_Request = () => {
+export const Get_All_Courses_Request = (IsWaiting) => {
   return {
-    type: CoursesConstants.GET_ALL_COURSES_REQUEST
+    type: CoursesConstants.GET_ALL_COURSES_REQUEST,
+    payload: IsWaiting
   };
 };
 
@@ -27,10 +28,10 @@ export const Add_Word = (data, title) => {
   };
 };
 
-export const Add_Course_Request = (data, history, enqueueSnackbar, t) => {
+export const Add_Course_Request = (data, history, enqueueSnackbar, t, onHideCreateCourse) => {
   return {
     type: CoursesConstants.ADD_COURSE_REQUEST,
-    payload: {data, history, enqueueSnackbar, t}
+    payload: {data, history, enqueueSnackbar, t, onHideCreateCourse}
   };
 }; 
 
@@ -60,4 +61,34 @@ export const Show_Modal_Add_Course=result=>{
     type: CoursesConstants.SHOW_MODAL_ADD_COURSE,
     payload: result
   }
+}
+
+export const Get_Course_Request = (id)=>{
+  return {
+    type: CoursesConstants.GET_COURSE_REQUEST,
+    payload: id
+  }
+}
+
+export const Get_Course_Success = (data, dataLearn)=>{
+  return {
+    type: CoursesConstants.GET_COURSE_SUCCESS,
+    payload: {data, dataLearn}
+  }
+}
+
+export const Delete_Course_Request=(id, showModal)=>{
+  return {type: CoursesConstants.DELETE_COURSE_REQUEST, payload: {id, showModal}}
+}
+
+export const Delete_Course_Success=(id)=>{
+  return {type: CoursesConstants.DELETE_COURSE_SUCCESS, payload: id}
+}
+
+export const Delete_Course_Error=(id)=>{
+  return {type: CoursesConstants.DELETE_COURSE_ERROR}
+}
+
+export const Reset_Course_Modal=()=>{
+  return {type: CoursesConstants.RESET_COURSE_MODAL}
 }

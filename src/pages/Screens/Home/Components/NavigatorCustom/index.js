@@ -94,7 +94,7 @@ const NavigatorCustom = props =>
         </ListItem>
         { categories.map(({ id, children }) => (
           <React.Fragment key={ id }>
-            <p className="test">{ id }</p>
+            <p className="text-navigation">{ id }</p>
             { children.map(({ id: childId, icon, active }) => (
               <ListItem
                 key={ childId }

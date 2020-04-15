@@ -13,16 +13,17 @@ function* SignInFlow(user) {
         const userdetail = {username: username, password: password};
         const res = yield call(CallApi, "users/login", "POST", userdetail);
         const {data} = res;
-        yield put(GetMeActions.Get_Me_Success(data));
-        yield put(SignInActions.SignIn_Success(data, remember));
-        yield delay(1000);
+        console.log(data)
+        yield put(GetMeActions.Get_Me_Success(data.result));
+        yield put(SignInActions.SignIn_Success(data.result, remember));
+        yield delay(500);
         yield put(LoadingActions.HideLoading());
-        enqueueSnackbar(t("SignInSuccess"), {variant: "success"});
         history.push("/");
+        enqueueSnackbar(t("SignInSuccess"), {variant: "success"});
     } catch (err) {
         // const { message } = err.response.data;
         console.log(err);
-        yield delay(1000);
+        yield delay(500);
         yield put(LoadingActions.HideLoading());
         yield put(SignInActions.SignIn_Error(err, t));
         enqueueSnackbar(t("SignInFail"), {variant: "error"});

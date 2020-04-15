@@ -1,0 +1,64 @@
+@import '../../../styles/global.scss';
+
+.container {
+    margin: 2rem;
+}
+
+.col1 {
+    height: 100%;
+    margin-right: 2rem;
+    &__divider{
+        background-color: map-get($color, "blue" ) !important;
+        margin-bottom: 1rem !important
+    }
+    &__card-media{
+        width: 100%;
+        height: 40rem;
+    }
+    &__answer-container{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        &__button{
+            width: 80%;
+            border: 1px solid map-get($color, "blue") !important
+        }
+        &__button:hover{
+            background-color:map-get($color, "blue") !important;
+        }
+    }
+    &__comment-container{
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        &__button-post{
+            width: 25%;
+            color: map-get($color, "white") !important;
+            margin: 1rem 0 !important;
+            border: 1px solid map-get($color, "blue") !important;
+            background-color:map-get($color, "blue") !important;
+            align-self: center;
+        }
+    }
+}
+
+.col2 {
+    &__card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 23%;
+        margin: 1%;
+        &__card-button{
+            border: 1px solid map-get($color, "blue") !important
+        }
+        &__card-button:hover{
+            background-color:map-get($color, "blue") !important;
+        }
+        &__card-active{
+            background-color:map-get($color, "blue") !important;
+            color: map-get($color, "white");
+        }
+    }
+
+}

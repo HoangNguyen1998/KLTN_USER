@@ -1,2 +1,6 @@
 export const SHOW_LOADING = "SHOW_LOADING";
 export const HIDE_LOADING = "HIDE_LOADING";
+
+
+export const SHOW_CIRCULAR="SHOW_CIRCULAR"
+export const HIDE_CIRCULAR="HIDE_CIRCULAR"

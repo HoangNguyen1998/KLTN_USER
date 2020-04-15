@@ -1,0 +1,29 @@
+// Learn course
+.font-text {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.learn-course-container {
+    margin-top: 1rem !important;
+    &__header {
+        display: flex;
+        flex-direction: column;
+    }
+    &__body {
+    }
+}
+
+.remember-card-container {
+    &__card {
+        max-width: 80rem;
+        min-height: 50rem;
+        box-shadow: 0.1rem 0.1rem 0.5rem 0.6rem rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__stepper{
+        margin-top: 1rem;
+        max-width: 80rem;
+    }
+}
