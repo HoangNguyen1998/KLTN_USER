@@ -8,10 +8,8 @@ function* Get_All_Courses_Request() {
   while (true) {
     try {
       const action=yield take(CoursesConstants.GET_ALL_COURSES_REQUEST)
-      console.log(action)
       const res = yield call(CallApi, "courses", "GET", null);
       const { data } = res;
-      console.log(data)
       yield put(CoursesActions.Get_All_Courses_Success(data.result));
       action.payload(false)
     } catch (err) {
@@ -31,23 +29,23 @@ function* Add_Course_Request(dataCourse) {
     yield put(LoadingActions.ShowCirCular())
     const res = yield call(CallApi, "courses", "POST", data);
     // yield put(CoursesActions(res.data))
+    console.log(res.data.result)
     enqueueSnackbar(t("CreateCourseSuccess"), { variant: "success" })
-    yield put(CoursesActions.Create_New_Course(data))
+    yield put(CoursesActions.Create_New_Course(res.data.result))
     yield put(CoursesActions.Show_Modal_Add_Course(false))
     yield put(LoadingActions.HideCirCular())
     onHideCreateCourse(false)
   } catch (err) {
     enqueueSnackbar(t("CreateCourseError"), { variant: "error" });
+    yield put(LoadingActions.HideCirCular())
   }
 }
 
 function* Get_Course_Request(action){
-  console.log("Saga: ", action)
   const {payload}=action
   try{
   const res = yield call(CallApi, `courses/${payload}`, "GET", null)
   const resLearn = yield call(CallApi, `courses/${payload}/learn`, "GET", null)
-  console.log(resLearn.data)
   yield put(CoursesActions.Get_Course_Success(res.data.result, resLearn.data.result))
   }
   catch(err){
@@ -56,12 +54,10 @@ function* Get_Course_Request(action){
 }
 
 function* Delete_Course_Request(action){
-  console.log(action.payload)
   const {id, showModal}=action.payload
   try{
     yield put(LoadingActions.ShowCirCular())
     const res = yield call(CallApi, `courses/${id}`, "DELETE", null)
-    console.log(res.data)
     yield put(CoursesActions.Delete_Course_Success(id))
     showModal(false)
     yield put(LoadingActions.HideCirCular())

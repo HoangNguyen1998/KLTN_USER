@@ -31,6 +31,7 @@ export default {
     CreateCourseError: "Tạo khoá học thất bại",
     Create: "Tạo",
     CreateNewCard: "Tạo thẻ mới",
+    "RememberCard": "Thẻ ghi nhớ",
 
     // AppBar
     UserInfor: "Thông tin cá nhân",
@@ -49,5 +50,6 @@ export default {
     Conversation: "Nói đoạn hội thoại",
     YourComment: "Để lại bình luận của bạn",
     Close: "Đóng",
+
 };
 

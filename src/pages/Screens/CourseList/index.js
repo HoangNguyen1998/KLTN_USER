@@ -36,6 +36,9 @@ const CourseList = (props) => {
         if (courses.length === 0) {
             dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
         }
+        if(courses.length!==0){
+            setIsWaiting(false)
+        }
     }, [courses.length, dispatch]);
     const renderCourses = (courses) => {
         if (courses.length !== 0) {
@@ -78,6 +81,7 @@ const CourseList = (props) => {
         return <Loading/>
     }
     if (courses.length !== 0) {
+        console.log("deooo hieu")
         return (
             <div className="courses-list-container">
                 {/* Nut tao khoa hoc */}

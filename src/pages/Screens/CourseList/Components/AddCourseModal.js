@@ -60,7 +60,6 @@ const AddCourseModal = props => {
     };
     const onHandleSubmit = event => {
         event.preventDefault();
-        console.log(array);
         dispatch(
             CoursesActions.Add_Course_Request(
                 array,
@@ -74,7 +73,6 @@ const AddCourseModal = props => {
     const renderCard = data => {
         let xhtml = null;
         xhtml = data.map((item, index) => {
-            console.log("????: ", index);
             return (
                 <Card key={index} style={{marginBottom: "4%"}}>
                     <CardHeader

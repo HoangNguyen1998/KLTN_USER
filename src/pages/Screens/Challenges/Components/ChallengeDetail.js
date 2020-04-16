@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
@@ -20,9 +21,24 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Box from "@material-ui/core/Box";
 import RightIcon from "@material-ui/icons/CheckCircle";
+import socketIOClient from "socket.io-client";
 import WrongIcon from "@material-ui/icons/Cancel";
+import * as ChallengesActions from "actions/Challenges";
+import getToken from "helpers/CheckToken";
+let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
+    query: "token=" + getToken(),
+});
+socket.on("authenticate", (data) => {
+    console.log(data);
+    alert(JSON.stringify(data));
+});
+socket.on("validation", (data) => {
+    console.log(data);
+    alert(JSON.stringify(data));
+});
 
 const ChallengeDetail = (props) => {
+    console.log("renderrrrrrrrrrrrr");
     const {
         ChallengeDetail,
         Challenges,
@@ -30,8 +46,21 @@ const ChallengeDetail = (props) => {
         setPosition,
         showResult,
         setShowResult,
+        valueComment,
+        setValueComment,
     } = props;
+    const dispatch = useDispatch();
+    useEffect(
+        () =>
+            socket.on("newComment", (comment) => {
+                console.log("Helllooooo");
+                
+                dispatch(ChallengesActions.Get_Comments([comment]));
+            }),
+        []
+    );
     const {
+        _id,
         question,
         image,
         answer,
@@ -43,6 +72,31 @@ const ChallengeDetail = (props) => {
     } = ChallengeDetail;
     const [showExplan, setShowExplan] = useState(false);
     const {t} = useTranslation("translation");
+    const listComment = useSelector((state) => state.listComment);
+    // socket
+
+    // useEffect(() => {
+    //     socket.on("connect", () => {
+    //         console.log("what on?");
+    //         socket.emit("join", {room: _id}, () => {
+    //             console.log("connect done!" + `${1} fake`);
+    //         });
+    //     });
+    // }, [_id]);
+    useEffect(() => {
+        // socket.emit("join", {room: _id}, () => {
+        //     console.log("connect done!" + `${_id} fake`);
+        // });
+    }, []);
+
+
+    const comment = () => {
+        setValueComment(null)
+        socket.emit("createComment", {comment: valueComment, room: _id}, () => {
+            console.log("send!");
+        
+        });
+    };
 
     //func
     const checkAnswer = (choice) => {
@@ -186,10 +240,21 @@ const ChallengeDetail = (props) => {
                     </Tooltip>
                 </Box>
             </Paper>
-            <div className="col1__comment-container">{t("YourComment")}
-                    <TextField variant="outlined" multiline rows={5}/>
-                    <Button className="col1__comment-container__button-post">{t("Post")}</Button>
-                    <div>{t("ListComment")}</div>
+            <div className="col1__comment-container">
+                {t("YourComment")}
+                <TextField
+                    value={valueComment}
+                    onChange={(e) => setValueComment(e.target.value)}
+                    variant="outlined"
+                    multiline
+                    rows={5}
+                />
+                <Button
+                    className="col1__comment-container__button-post"
+                    onClick={comment}
+                >
+                    {t("Post")}
+                </Button>
             </div>
             <Dialog
                 open={showExplan}

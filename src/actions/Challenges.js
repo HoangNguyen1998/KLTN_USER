@@ -39,3 +39,7 @@ export const Get_Challenge_Details_Error = (error) => {
         payload: error,
     };
 };
+
+export const Get_Comments = (comments) => {
+    return {type: ChallengesConstants.GET_COMMENTS_SUCCESS, payload: comments};
+};

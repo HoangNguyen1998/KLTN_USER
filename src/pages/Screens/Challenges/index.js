@@ -10,16 +10,17 @@ import * as ChallengesActions from "actions/Challenges";
 import ChallengeItem from "./Components/ChallengeItem";
 import Loading from "./Components/Loading";
 import ChallengeDetail from "./Components/ChallengeDetail";
+import ListComment from './Components/ListComment'
 
 const Challenges = (props) => {
     const [isWaiting, setIsWaiting] = useState(true);
     const [position, setPosition] = useState(0);
     const [showResult, setShowResult] = useState(0);
+    const [valueComment, setValueComment]=useState(null)
     const dispatch = useDispatch();
     const ChallengesRedux = useSelector((state) => {
         return state.Challenges;
     });
-    console.log(ChallengesRedux.challenges);
     const {t} = useTranslation("translation");
     useEffect(() => {
         dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));
@@ -31,7 +32,6 @@ const Challenges = (props) => {
     }, [dispatch]);
     //func
     const renderListItem = (data) => {
-        console.log(data);
         return data.map((item, index) => {
             return (
                 <ChallengeItem
@@ -50,9 +50,7 @@ const Challenges = (props) => {
         dispatch(ChallengesActions.Get_Challenge_Details_Request(id, setIsWaiting));
     };
 
-    const renderComment=()=>{
-        return <h1>Hello</h1>
-    }
+    
 
     //render
     if (isWaiting) {
@@ -70,6 +68,8 @@ const Challenges = (props) => {
                         position={position}
                         setPosition={setPosition}
                         setShowResult={setShowResult}
+                        valueComment={valueComment}
+                        setValueComment={setValueComment}
                     />
                 </Grid>
                 <Grid
@@ -85,7 +85,7 @@ const Challenges = (props) => {
                     {renderListItem(ChallengesRedux.challenges)}
                 </Grid>
             </Grid>
-            {renderComment()}
+            <ListComment/>
         </div>
     );
 };

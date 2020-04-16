@@ -28,7 +28,7 @@ function* Get_Me_Request(){
         console.log("saga")
         // yield put(LoadingActions.ShowLoading());
         const res=yield call(CallApi, "users/me", "GET", null)
-        yield put(GetMeActions.Get_Me_Success(res.data))
+        yield put(GetMeActions.Get_Me_Success(res.data.result))
         // yield delay(1000)
         // yield put(LoadingActions.HideLoading());
         } catch(err){

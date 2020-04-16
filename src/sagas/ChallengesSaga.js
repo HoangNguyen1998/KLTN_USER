@@ -23,8 +23,10 @@ function* getChallengeDetailsRequest(data) {
   const { payload } = data;
   try {
     const res = yield call(CallApi, `challenges/${payload.id}`, "GET", null);
+    const resComments = yield call(CallApi, `comments/challenge/${payload.id}`, "GET", null)
     const { data } = res;
     yield put(ChallengesActions.Get_Challenge_Details_Success(data));
+    yield put(ChallengesActions.Get_Comments(resComments.data.result))
     payload.setIsWaiting(false)
   } catch (err) {
     yield put(ChallengesActions.Get_Challenge_Details_Error(err));
