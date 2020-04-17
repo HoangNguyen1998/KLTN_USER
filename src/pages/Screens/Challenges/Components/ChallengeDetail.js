@@ -24,7 +24,7 @@ import RightIcon from "@material-ui/icons/CheckCircle";
 import socketIOClient from "socket.io-client";
 import WrongIcon from "@material-ui/icons/Cancel";
 import * as ChallengesActions from "actions/Challenges";
-import getToken from "helpers/CheckToken";
+import getToken from "helpers/GetToken";
 let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
     query: "token=" + getToken(),
 });
@@ -52,12 +52,13 @@ const ChallengeDetail = (props) => {
     const dispatch = useDispatch();
     useEffect(
         () =>
+        {console.log("ccccccc")
             socket.on("newComment", (comment) => {
                 console.log("Helllooooo");
                 
                 dispatch(ChallengesActions.Get_Comments([comment]));
-            }),
-        []
+            })},
+        [dispatch]
     );
     const {
         _id,
@@ -82,15 +83,14 @@ const ChallengeDetail = (props) => {
     //             console.log("connect done!" + `${1} fake`);
     //         });
     //     });
-    // }, [_id]);
+    // }, [_i]);
     useEffect(() => {
-        // socket.emit("join", {room: _id}, () => {
-        //     console.log("connect done!" + `${_id} fake`);
-        // });
-    }, []);
-
-
+        socket.emit("join", {room: _id}, () => {
+            console.log("connect done!" + `${_id} fake`);
+        });
+    }, [_id]);
     const comment = () => {
+        console.log("k;dfgfdgjdklgjdfklgkl")
         setValueComment(null)
         socket.emit("createComment", {comment: valueComment, room: _id}, () => {
             console.log("send!");
