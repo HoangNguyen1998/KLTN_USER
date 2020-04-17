@@ -32,6 +32,7 @@ const reducer = (
             const {payload} = action;
             return {
                 ...state,
+                listComment: [],
                 challengeDetail: payload.result,
             };
         }

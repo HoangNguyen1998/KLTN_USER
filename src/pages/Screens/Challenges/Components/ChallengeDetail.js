@@ -25,18 +25,21 @@ import socketIOClient from "socket.io-client";
 import WrongIcon from "@material-ui/icons/Cancel";
 import * as ChallengesActions from "actions/Challenges";
 import getToken from "helpers/GetToken";
-let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
-    query: "token=" + getToken(),
-});
-socket.on("authenticate", (data) => {
-    console.log(data);
-    alert(JSON.stringify(data));
-});
-socket.on("validation", (data) => {
-    console.log(data);
-    alert(JSON.stringify(data));
-});
-
+// let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
+//     query: "token=" + getToken(),
+// });
+// socket.on("authenticate", (data) => {
+//     console.log(data);
+//     alert(JSON.stringify(data));
+// });
+// socket.on("validation", (data) => {
+//     console.log(data);
+//     alert(JSON.stringify(data));
+// });
+// const test= (dispatch)=>socket.on("newComment", (comment) => {
+//      dispatch(ChallengesActions.Get_Comments([comment]))
+// })
+var socket;
 const ChallengeDetail = (props) => {
     console.log("renderrrrrrrrrrrrr");
     const {
@@ -50,16 +53,27 @@ const ChallengeDetail = (props) => {
         setValueComment,
     } = props;
     const dispatch = useDispatch();
-    useEffect(
-        () =>
-        {console.log("ccccccc")
-            socket.on("newComment", (comment) => {
-                console.log("Helllooooo");
-                
-                dispatch(ChallengesActions.Get_Comments([comment]));
-            })},
-        [dispatch]
-    );
+    useEffect(() => {
+        console.log("kggfdkgj;dlfgddfkgsdg;jfd;gjfk;dljgk;ldjh;lgfjhkgs");
+        socket = socketIOClient.connect(
+            "https://jp-server-kltn.herokuapp.com/",
+            {
+                query: "token=" + getToken(),
+            }
+        );
+        socket.on("authenticate", (data) => {
+            console.log(data);
+            alert(JSON.stringify(data));
+        });
+        socket.on("validation", (data) => {
+            console.log(data);
+            alert(JSON.stringify(data));
+        });
+        socket.on("newComment", (comment) => {
+            console.log("Helllooooo");
+            dispatch(ChallengesActions.Get_Comments([comment]));
+        });
+    }, [dispatch]);
     const {
         _id,
         question,
@@ -74,28 +88,23 @@ const ChallengeDetail = (props) => {
     const [showExplan, setShowExplan] = useState(false);
     const {t} = useTranslation("translation");
     const listComment = useSelector((state) => state.listComment);
-    // socket
 
-    // useEffect(() => {
-    //     socket.on("connect", () => {
-    //         console.log("what on?");
-    //         socket.emit("join", {room: _id}, () => {
-    //             console.log("connect done!" + `${1} fake`);
-    //         });
-    //     });
-    // }, [_i]);
+    // socket
     useEffect(() => {
         socket.emit("join", {room: _id}, () => {
             console.log("connect done!" + `${_id} fake`);
         });
     }, [_id]);
     const comment = () => {
-        console.log("k;dfgfdgjdklgjdfklgkl")
-        setValueComment(null)
-        socket.emit("createComment", {comment: valueComment, room: _id}, () => {
-            console.log("send!");
-        
-        });
+        console.log("k;dfgfdgjdklgjdfklgkl");
+        setValueComment(null);
+        socket.emit(
+            "createComment",
+            {comment: valueComment, room: _id},
+            (data) => {
+                console.log("send! ", data);
+            }
+        );
     };
 
     //func

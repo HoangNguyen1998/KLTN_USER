@@ -8,11 +8,11 @@ const ListComment = () => {
     const commentRedux = useSelector((state) => state.Challenges.listComment);
     //func
     const renderComment = (commentRedux) => {
-        console.log(commentRedux);
         if (commentRedux.length !== 0) {
             return commentRedux.map((item, index) => {
                 return (
                     <TextField
+                        key={index}
                         label={item.userName}
                         value={item.content}
                         inputProps={{readOnly: true}}

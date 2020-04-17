@@ -13,6 +13,7 @@ import ChallengeDetail from "./Components/ChallengeDetail";
 import ListComment from './Components/ListComment'
 
 const Challenges = (props) => {
+    console.log("trang cha")
     const [isWaiting, setIsWaiting] = useState(true);
     const [position, setPosition] = useState(0);
     const [showResult, setShowResult] = useState(0);
