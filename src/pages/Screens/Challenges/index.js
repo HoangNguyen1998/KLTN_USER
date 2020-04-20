@@ -10,14 +10,19 @@ import * as ChallengesActions from "actions/Challenges";
 import ChallengeItem from "./Components/ChallengeItem";
 import Loading from "./Components/Loading";
 import ChallengeDetail from "./Components/ChallengeDetail";
-import ListComment from './Components/ListComment'
+import ListComment from "./Components/ListComment";
+import socketIOClient from "socket.io-client";
+import getToken from "helpers/GetToken";
 
+let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
+    query: "token=" + getToken(),
+});
 const Challenges = (props) => {
-    console.log("trang cha")
+    console.log("trang cha");
     const [isWaiting, setIsWaiting] = useState(true);
     const [position, setPosition] = useState(0);
     const [showResult, setShowResult] = useState(0);
-    const [valueComment, setValueComment]=useState(null)
+    const [valueComment, setValueComment] = useState(null);
     const dispatch = useDispatch();
     const ChallengesRedux = useSelector((state) => {
         return state.Challenges;
@@ -47,11 +52,11 @@ const Challenges = (props) => {
     const onChangeChallenge = (id) => {
         setShowResult(0);
         setPosition(0);
-        setIsWaiting(true)
-        dispatch(ChallengesActions.Get_Challenge_Details_Request(id, setIsWaiting));
+        setIsWaiting(true);
+        dispatch(
+            ChallengesActions.Get_Challenge_Details_Request(id, setIsWaiting)
+        );
     };
-
-    
 
     //render
     if (isWaiting) {
@@ -63,6 +68,7 @@ const Challenges = (props) => {
             <Grid container style={{height: "90vh"}}>
                 <Grid item xs={12} lg={8}>
                     <ChallengeDetail
+                        socket={socket}
                         ChallengeDetail={ChallengesRedux.challengeDetail}
                         Challenges={ChallengesRedux.challenges}
                         showResult={showResult}
@@ -86,7 +92,10 @@ const Challenges = (props) => {
                     {renderListItem(ChallengesRedux.challenges)}
                 </Grid>
             </Grid>
-            <ListComment/>
+            <ListComment
+                ChallengeDetail={ChallengesRedux.challengeDetail}
+                socket={socket}
+            />
         </div>
     );
 };

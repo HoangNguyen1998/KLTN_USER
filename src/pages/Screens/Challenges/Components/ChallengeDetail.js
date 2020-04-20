@@ -39,28 +39,34 @@ import getToken from "helpers/GetToken";
 // const test= (dispatch)=>socket.on("newComment", (comment) => {
 //      dispatch(ChallengesActions.Get_Comments([comment]))
 // })
-var socket;
+// var socket;
+// let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
+//     query: "token=" + getToken(),
+// });
+// socket.on("authenticate", (data) => {
+//     console.log(data);
+//     alert(JSON.stringify(data));
+// });
+// socket.on("validation", (data) => {
+//     console.log(data);
+//     alert(JSON.stringify(data));
+// });
 const ChallengeDetail = (props) => {
     console.log("renderrrrrrrrrrrrr");
+    const [valueComment, setValueComment] = useState(null);
     const {
         ChallengeDetail,
         Challenges,
         position,
         setPosition,
         showResult,
+        socket,
         setShowResult,
-        valueComment,
-        setValueComment,
+        // valueComment,
+        // setValueComment,
     } = props;
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log("kggfdkgj;dlfgddfkgsdg;jfd;gjfk;dljgk;ldjh;lgfjhkgs");
-        socket = socketIOClient.connect(
-            "https://jp-server-kltn.herokuapp.com/",
-            {
-                query: "token=" + getToken(),
-            }
-        );
         socket.on("authenticate", (data) => {
             console.log(data);
             alert(JSON.stringify(data));
@@ -73,7 +79,8 @@ const ChallengeDetail = (props) => {
             console.log("Helllooooo");
             dispatch(ChallengesActions.Get_Comments([comment]));
         });
-    }, [dispatch]);
+        return () => socket.removeEventListener("newComment");
+    }, []);
     const {
         _id,
         question,
@@ -97,7 +104,7 @@ const ChallengeDetail = (props) => {
     }, [_id]);
     const comment = () => {
         console.log("k;dfgfdgjdklgjdfklgkl");
-        setValueComment(null);
+        setValueComment("");
         socket.emit(
             "createComment",
             {comment: valueComment, room: _id},

@@ -5,6 +5,8 @@ import LoadingReducer from "./GlobalLoading";
 import CoursesReducer from "./Courses";
 import GetMeReducer from "./GetMe";
 import ChallengesReducer from './Challenges'
+import TopicsReducer from './Topics'
+import FriendsReducer from './Friends'
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -12,7 +14,9 @@ const rootReducer = combineReducers({
     Loading: LoadingReducer,
     Courses: CoursesReducer,
     GetMe: GetMeReducer,
-    Challenges: ChallengesReducer
+    Challenges: ChallengesReducer,
+    Topics: TopicsReducer,
+    Friends: FriendsReducer
 });
 
 export default rootReducer;

@@ -38,9 +38,17 @@ const reducer = (
         }
         case ChallengesConstants.GET_COMMENTS_SUCCESS: {
             const {payload} = action;
-            console.log(payload)
-            const list = [...state.listComment]
-            return {...state, listComment: [...state.listComment, ...payload]};
+            const list = [...state.listComment];
+            const index = list.findIndex((item) => item._id === payload[0]._id);
+            list.splice(index, 1, payload[0]);
+            if (index === -1) {
+                return {
+                    ...state,
+                    listComment: [...state.listComment, ...payload],
+                };
+            } else {
+                return {...state, listComment: list};
+            }
         }
         default:
             return {...state};

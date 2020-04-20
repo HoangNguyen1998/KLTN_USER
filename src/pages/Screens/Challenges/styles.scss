@@ -67,4 +67,24 @@
     border-top: 1px dashed map-get($color, "blue" );
     display: flex;
     flex-direction: column;
+    &__header{
+        font-weight: bold;
+        margin: 1rem 0;
+    }
+    &__list-item{
+        margin: 1rem 0;
+        &__user-name{
+            border-radius: 2rem;
+            width: fit-content;
+            padding: 0.5rem;
+            border: 1px solid map-get($color, "blue") !important;
+            background-color: map-get($color, "blue");
+        }
+        &__text{
+            width: 100% !important;
+        }
+    }
+    &__modal-report{
+        
+    }
 }

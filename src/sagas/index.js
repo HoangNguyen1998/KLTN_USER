@@ -4,7 +4,8 @@ import GetMeSaga from "./GetMeSaga";
 // import homeSaga from "./HomeSaga";
 import CoursesSaga from "./CoursesSaga";
 import ChallengesSaga from "./ChallengesSaga";
-// import topicsSaga from "./TopicsSaga";
+import TopicsSaga from "./TopicsSaga";
+import FriendsSaga from './FriendsSaga'
 import { all } from "redux-saga/effects";
 function* rootSaga() {
   yield all([
@@ -14,8 +15,9 @@ function* rootSaga() {
     GetMeSaga(),
     // homeSaga(),
     // coursesSaga(),
-    // topicsSaga(),
-    ChallengesSaga()
+    TopicsSaga(),
+    ChallengesSaga(),
+    FriendsSaga()
   ]);
 }
 export default rootSaga;

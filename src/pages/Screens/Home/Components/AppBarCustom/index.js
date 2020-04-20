@@ -47,9 +47,9 @@ const AppBarCustom = props => {
     const dispatch = useDispatch();
     useEffect(() => {
         console.log(UserInformation)
-        if (_.isEmpty(UserInformation)) {
-            dispatch(GetMeActions.Get_Me_Request());
-        }
+        // if (_.isEmpty(UserInformation)) {
+        //     dispatch(GetMeActions.Get_Me_Request());
+        // }
     }, []);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {classes, onDrawerToggle, history} = props;
