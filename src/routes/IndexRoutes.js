@@ -22,10 +22,15 @@ const routes = [
         exact: false,
         main: () => (CheckAuthen() ? <Topics /> : <SignIn />),
     },
+    // {
+    //     path: "/challenges",
+    //     exact: false,
+    //     main: () => (CheckAuthen() ? <Challenges /> : <SignIn />),
+    // },
     {
-        path: "/challenges",
+        path: "/challenges/:id",
         exact: false,
-        main: () => (CheckAuthen() ? <Challenges /> : <SignIn />),
+        main: () =>(CheckAuthen()?<Challenges/>:<SignIn/>)
     },
     {
         path: "/courses",

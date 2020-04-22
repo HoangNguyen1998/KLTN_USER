@@ -19,7 +19,7 @@ function* Get_List_Users_Request() {
     try {
       console.log('Hello')
       const action = yield take(FriendsConstants.GET_LIST_USERS_REQUEST);
-      const res = yield call(CallApi, "users", "GET", null);
+      const res = yield call(CallApi, "users/notFriend", "GET", null);
       const { data } = res;
       console.log(data)
       yield put(FriendsActions.Get_List_Users_Success(data.result))

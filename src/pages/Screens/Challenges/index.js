@@ -13,12 +13,20 @@ import ChallengeDetail from "./Components/ChallengeDetail";
 import ListComment from "./Components/ListComment";
 import socketIOClient from "socket.io-client";
 import getToken from "helpers/GetToken";
+import whyDidYouRender from "@welldone-software/why-did-you-render";
 
 let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
     query: "token=" + getToken(),
 });
+
+whyDidYouRender(React, {
+    onlyLogs: true,
+    titleColor: "green",
+    diffNameColor: "darkturquoise",
+});
+
 const Challenges = (props) => {
-    console.log("trang cha");
+    const {id} = props.match.params;
     const [isWaiting, setIsWaiting] = useState(true);
     const [position, setPosition] = useState(0);
     const [showResult, setShowResult] = useState(0);
@@ -29,13 +37,14 @@ const Challenges = (props) => {
     });
     const {t} = useTranslation("translation");
     useEffect(() => {
+        console.log("Hello")
         dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));
         dispatch(
             ChallengesActions.Get_Challenge_Details_Request(
-                "5dea0eeb1433d60e205f6a4b"
+                id ? id : "5dea0eeb1433d60e205f6a4b"
             )
         );
-    }, [dispatch]);
+    }, []);
     //func
     const renderListItem = (data) => {
         return data.map((item, index) => {
@@ -76,6 +85,8 @@ const Challenges = (props) => {
                         setPosition={setPosition}
                         setShowResult={setShowResult}
                         valueComment={valueComment}
+                        isWaiting={isWaiting}
+                        setIsWaiting={setIsWaiting}
                         setValueComment={setValueComment}
                     />
                 </Grid>
@@ -99,5 +110,7 @@ const Challenges = (props) => {
         </div>
     );
 };
+
+// Challenges.whyDidYouRender = true;
 
 export default withRouter(withSnackbar(Challenges));

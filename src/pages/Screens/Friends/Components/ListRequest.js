@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 const ListRequest = () => {
     return (
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={4}>
         <div>
             cuc cu
         </div>

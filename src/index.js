@@ -1,5 +1,6 @@
 import React from "react";
 import 'styles/global.scss'
+import * as ReactRedux from 'react-redux'
 import ReactDOM from "react-dom";
 import App from './pages/Screens/Home'
 import { I18nextProvider } from "react-i18next";
@@ -7,7 +8,6 @@ import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
-
 import i18Config from "helpers/Translations/i18";
 import ConfigStore from "helpers/ReduxConfig";
 import AuthenRoutes from "routes/AuthenRoutes";

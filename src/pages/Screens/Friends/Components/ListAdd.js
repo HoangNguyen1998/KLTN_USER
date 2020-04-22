@@ -16,11 +16,11 @@ const ListFriends = () => {
     const renderListFriends = (data) => {
         console.log(data);
         if(!data){
-            return (<div className="no-friend-container"><CircularProgress/></div>)
+            return (<div className="loading-container"><CircularProgress/></div>)
         }
         if (data) {
             const {friends} = data;
-            if (friends.length !== 0) {
+            if (friends.length === 0) {
                 // data.map((item, index) => {
                 //     return <div>Helo</div>;
                 // });
@@ -159,7 +159,7 @@ const ListFriends = () => {
         }
     };
     return (
-        <Grid item xs={12} lg={3}>
+        <Grid item xs={12} lg={4}>
             <div className=" list-friend-header">Danh sach ban be</div>
             {renderListFriends(friendsRedux)}
         </Grid>

@@ -42,6 +42,27 @@ export const Get_List_Users_Success = (data) => {
     };
 };
 
+export const Add_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.ADD_FRIEND_REQUEST,
+        payload: data,
+    };
+};
+
+export const Add_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.ADD_FRIEND_ERROR,
+        payload: errors,
+    };
+};
+
+export const Add_Friend_Success = (data) => {
+    return {
+        type: FriendsConstants.ADD_FRIEND_SUCCESS,
+        payload: data,
+    };
+};
+
 // export const Get_Challenge_Details_Request = (id, setIsWaiting) => {
 //     return {
 //         type: FriendsConstants.GET_CHALLENGE_DETAILS_REQUEST,

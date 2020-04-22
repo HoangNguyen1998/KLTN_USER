@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import _ from "lodash";
 import {Link} from "react-router-dom";
 import SpeakIcon from "@material-ui/icons/VolumeUp";
+import {withRouter} from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -51,6 +52,7 @@ import getToken from "helpers/GetToken";
 //     console.log(data);
 //     alert(JSON.stringify(data));
 // });
+
 const ChallengeDetail = (props) => {
     console.log("renderrrrrrrrrrrrr");
     const [valueComment, setValueComment] = useState(null);
@@ -60,12 +62,23 @@ const ChallengeDetail = (props) => {
         position,
         setPosition,
         showResult,
+        setIsWaiting,
         socket,
         setShowResult,
         // valueComment,
         // setValueComment,
     } = props;
+    const {id}= props.match.params
     const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("Hello")
+        dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));
+        dispatch(
+            ChallengesActions.Get_Challenge_Details_Request(
+                id ? id : "5dea0eeb1433d60e205f6a4b"
+            )
+        );
+    }, [id]);
     useEffect(() => {
         socket.on("authenticate", (data) => {
             console.log(data);
@@ -101,7 +114,7 @@ const ChallengeDetail = (props) => {
         socket.emit("join", {room: _id}, () => {
             console.log("connect done!" + `${_id} fake`);
         });
-    }, [_id]);
+    }, []);
     const comment = () => {
         console.log("k;dfgfdgjdklgjdfklgkl");
         setValueComment("");
@@ -296,4 +309,4 @@ const ChallengeDetail = (props) => {
     );
 };
 
-export default ChallengeDetail;
+export default withRouter(ChallengeDetail);

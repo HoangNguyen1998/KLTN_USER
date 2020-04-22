@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Divider from "@material-ui/core/Divider";
@@ -23,109 +23,117 @@ import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 import styles from "./styles";
-import './styles.scss'
+import "./styles.scss";
 
 const categories = [
-  {
-    id: "Learn",
-    children: [
-      { id: "Courses", icon: <GolfCourseIcon />, active: true },
-      { id: "Topics", icon: <MenuBookIcon /> },
-      { id: "Challenges", icon: <LandscapeIcon /> }
-    ]
-  },
-  {
-    id: "Chat",
-    children: [
-      { id: "Friends", icon: <PeopleAltIcon /> },
-      { id: "Messages", icon: <MessageIcon /> }
-    ]
-  }
+    {
+        id: "Learn",
+        children: [
+            {id: "Courses", icon: <GolfCourseIcon />, active: true},
+            {id: "Topics", icon: <MenuBookIcon />},
+            {id: "Challenges", icon: <LandscapeIcon />},
+        ],
+    },
+    {
+        id: "Chat",
+        children: [
+            {id: "Friends", icon: <PeopleAltIcon />},
+            {id: "Messages", icon: <MessageIcon />},
+        ],
+    },
 ];
 
-const NavigatorCustom = props =>
-{
-  const { history, classes, ...other } = props
-  useEffect(() =>
-  {
-    categories.map(({ id, children }) =>
-    {
-      children.map(({ id: childId }) =>
-      {
-        let checkPathname = `/${ childId }`;
-        const { pathname } = props.history.location;
-        if (pathname === checkPathname)
-        {
-          setCategory(childId);
-        }
-      });
+const NavigatorCustom = (props) => {
+    const {history, classes, ...other} = props;
+    useEffect(() => {
+        categories.map(({id, children}) => {
+            children.map(({id: childId}) => {
+                let checkPathname = `/${childId}`;
+                const {pathname} = props.history.location;
+                if (pathname === checkPathname) {
+                    setCategory(childId);
+                }
+            });
+        });
     });
-  });
-  const [category, setCategory] = useState("Authentication");
-  const _useListItem = childId =>
-  {
-    let checkPathname = `/${ childId.toLowerCase() }`;
-    setCategory(childId);
-    const { location } = history;
-    if (location.pathname !== checkPathname)
-    {
-      props.history.push(checkPathname);
-    }
-  };
-  const goHome = () =>
-  {
-    history.push("/")
-    setCategory()
-  }
+    const [category, setCategory] = useState("Authentication");
+    const _useListItem = (childId) => {
+        let checkPathname = "";
+        if (childId === "Challenges") {
+            checkPathname = `/${childId.toLowerCase()}/5dea0eeb1433d60e205f6a4b`;
+        } else {
+            checkPathname = `/${childId.toLowerCase()}`;
+        }
+        setCategory(childId);
+        const {location} = history;
+        if (location.pathname !== checkPathname) {
+            props.history.push(checkPathname);
+        }
+    };
+    const goHome = () => {
+        history.push("/");
+        setCategory();
+    };
 
-  return (
-    <Drawer variant="permanent" { ...other }>
-      <List disablePadding>
-        <ListItem
-          style={ { display: "inline-flex", alignItems: "center", height: "4.9rem" } }
-          onClick={ goHome }
-          className={ clsx(classes.firebase, classes.item, classes.itemCategory) }
-        >
-          <HomeIcon style={ { fontSize: 30, marginRight: 20 } } />
-          Hello
-        </ListItem>
-        { categories.map(({ id, children }) => (
-          <React.Fragment key={ id }>
-            <p className="text-navigation">{ id }</p>
-            { children.map(({ id: childId, icon, active }) => (
-              <ListItem
-                key={ childId }
-                button
-                onClick={ () => _useListItem(childId) }
-                className={ clsx(
-                  classes.item,
-                  category === childId && classes.itemActiveItem
-                ) }
-              >
-                <ListItemIcon className={ classes.itemIcon }>{ icon }</ListItemIcon>
-                <ListItemText
-                  classes={ {
-                    primary: classes.itemPrimary
-                  } }
+    return (
+        <Drawer variant="permanent" {...other}>
+            <List disablePadding>
+                <ListItem
+                    style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        height: "4.9rem",
+                    }}
+                    onClick={goHome}
+                    className={clsx(
+                        classes.firebase,
+                        classes.item,
+                        classes.itemCategory
+                    )}
                 >
-                  { childId }
-                </ListItemText>
-              </ListItem>
-            )) }
+                    <HomeIcon style={{fontSize: 30, marginRight: 20}} />
+                    Hello
+                </ListItem>
+                {categories.map(({id, children}) => (
+                    <React.Fragment key={id}>
+                        <p className="text-navigation">{id}</p>
+                        {children.map(({id: childId, icon, active}) => (
+                            <ListItem
+                                key={childId}
+                                button
+                                onClick={() => _useListItem(childId)}
+                                className={clsx(
+                                    classes.item,
+                                    category === childId &&
+                                        classes.itemActiveItem
+                                )}
+                            >
+                                <ListItemIcon className={classes.itemIcon}>
+                                    {icon}
+                                </ListItemIcon>
+                                <ListItemText
+                                    classes={{
+                                        primary: classes.itemPrimary,
+                                    }}
+                                >
+                                    {childId}
+                                </ListItemText>
+                            </ListItem>
+                        ))}
 
-            <Divider className={ classes.divider } />
-          </React.Fragment>
-        )) }
-      </List>
-    </Drawer>
-  );
+                        <Divider className={classes.divider} />
+                    </React.Fragment>
+                ))}
+            </List>
+        </Drawer>
+    );
 };
 
 NavigatorCustom.propTypes = {
-  classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
 };
 
 const compose = withRouter(NavigatorCustom);
