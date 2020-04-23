@@ -16,3 +16,6 @@ export const CHANGEUSERNAME_ERROR = "CHANGEUSERNAME_ERROR";
 export const SETQUESTION_REQUEST = "SETQUESTION_REQUEST";
 export const SETQUESTION_SUCCESS = "SETQUESTION_SUCCESS";
 export const SETQUESTION_ERROR = "SETQUESTION_ERROR";
+
+// Them ban vao mang ban be sau khi accept yeu cau ket ban
+export const ADD_FRIEND_TO_ARRAY="ADD_FRIEND_TO_ARRAY"

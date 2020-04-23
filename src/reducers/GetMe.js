@@ -5,7 +5,9 @@ const reducer = (state = {}, action) => {
         case GetMeConstants.GET_ME_SUCCESS:
             return {...state, user: action.payload};
         case GetMeConstants.GET_ME_RESET:
-            return {}
+            return {...state}
+        case GetMeConstants.SIGN_OUT:
+            return {...state}
         default:
             return {...state};
     }

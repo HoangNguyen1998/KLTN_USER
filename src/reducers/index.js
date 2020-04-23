@@ -7,6 +7,7 @@ import GetMeReducer from "./GetMe";
 import ChallengesReducer from './Challenges'
 import TopicsReducer from './Topics'
 import FriendsReducer from './Friends'
+import SocketReducer from './Socket'
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     GetMe: GetMeReducer,
     Challenges: ChallengesReducer,
     Topics: TopicsReducer,
-    Friends: FriendsReducer
+    Friends: FriendsReducer,
+    Socket: SocketReducer
 });
 
 export default rootReducer;

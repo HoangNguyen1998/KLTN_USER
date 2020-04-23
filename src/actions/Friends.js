@@ -63,25 +63,86 @@ export const Add_Friend_Success = (data) => {
     };
 };
 
-// export const Get_Challenge_Details_Request = (id, setIsWaiting) => {
-//     return {
-//         type: FriendsConstants.GET_CHALLENGE_DETAILS_REQUEST,
-//         payload: {id, setIsWaiting},
-//     };
-// };
-// export const Get_Challenge_Details_Success = (success) => {
-//     return {
-//         type: FriendsConstants.GET_CHALLENGE_DETAILS_SUCCESS,
-//         payload: success,
-//     };
-// };
-// export const Get_Challenge_Details_Error = (error) => {
-//     return {
-//         type: FriendsConstants.GET_CHALLENGE_DETAILS_ERROR,
-//         payload: error,
-//     };
-// };
+export const Get_List_Add_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.GET_LIST_ADD_FRIEND_REQUEST,
+        payload: data,
+    };
+};
 
-// export const Get_Comments = (comments) => {
-//     return {type: FriendsConstants.GET_COMMENTS_SUCCESS, payload: comments};
-// };
+export const Get_List_Add_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.GET_LIST_ADD_FRIEND_ERROR,
+        payload: errors,
+    };
+};
+
+export const Get_List_Add_Friend_Success = (data) => {
+    return {
+        type: FriendsConstants.GET_LIST_ADD_FRIEND_SUCCESS,
+        payload: data,
+    };
+};
+
+export const Get_List_Request_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.GET_LIST_REQUEST_FRIEND_REQUEST,
+        payload: data,
+    };
+};
+
+export const Get_List_Request_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.GET_LIST_REQUEST_FRIEND_ERROR,
+        payload: errors,
+    };
+};
+
+export const Get_List_Request_Friend_Success = (data) => {
+    return {
+        type: FriendsConstants.GET_LIST_REQUEST_FRIEND_SUCCESS,
+        payload: data,
+    };
+};
+
+export const Reject_Add_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.REJECT_ADD_FRIEND_REQUEST,
+        payload: data,
+    };
+};
+
+export const Reject_Add_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.REJECT_ADD_FRIEND_ERROR,
+        payload: errors,
+    };
+};
+
+export const Reject_Add_Friend_Success = (data) => {
+    return {
+        type: FriendsConstants.REJECT_ADD_FRIEND_SUCCESS,
+        payload: data,
+    };
+};
+
+export const Accept_Request_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.ACCEPT_REQUEST_FRIEND_REQUEST,
+        payload: data,
+    };
+};
+
+export const Accept_Request_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.ACCEPT_REQUEST_FRIEND_ERROR,
+        payload: errors,
+    };
+};
+
+export const Accept_Request_Friend_Success = (data) => {
+    return {
+        type: FriendsConstants.ACCEPT_REQUEST_FRIEND_SUCCESS,
+        payload: data,
+    };
+};

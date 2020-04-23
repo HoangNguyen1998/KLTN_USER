@@ -14,44 +14,59 @@ import CallApi from "helpers/ApiCaller";
 
 const SearchFriends = (props) => {
     const dispatch = useDispatch();
-    const {socket} = props;
+    // const {socket} = props;
     const [listNotFriend, setListNotFriend] = useState([]);
+    const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
-        socket.on("authenticate", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        socket.on("validation", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        return () => socket.removeEventListener("newComment");
+        if (socket) {
+            socket.on("authenticate", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            socket.on("validation", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            return () => socket.removeEventListener("newComment");
+        }
     }, []);
     useEffect(() => {
         getListNotFriend();
     }, []);
+    const getMeRedux = useSelector((state) => state.GetMe.user);
     const usersRedux = useSelector((state) => state.Friends.listUsers);
     console.log(usersRedux);
 
     // CALL API
     useEffect(() => {
         dispatch(FriendsActions.Get_List_Users_Request());
+        dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
 
     // SOCKET
     useEffect(() => {
-        socket.on("emitAddFriend", (res) => {
-            console.log("cc: ", res);
-            dispatch(FriendsActions.Add_Friend_Request(res));
-        });
+        if (socket) {
+            socket.on("emitAddFriend", (res) => {
+                console.log("cc: ", res);
+                if (getMeRedux) {
+                    if (getMeRedux._id !== res.userSender) {
+                        dispatch(
+                            FriendsActions.Add_Friend_Request(res.userSender)
+                        );
+                    }
+                }
+            });
+        }
     }, []);
     // FUNC
     const addFriend = (username, id) => () => {
-        socket.emit(
-            "onAddFriend",
-            {receiverId: id, receiverName: username},
-            (res) => console.log("send add success")
-        );
+        if (socket) {
+            socket.emit(
+                "onAddFriend",
+                {receiverId: id, receiverName: username},
+                () => dispatch(FriendsActions.Add_Friend_Request(id))
+            );
+        }
     };
     const getListNotFriend = async () => {
         const res = await CallApi("users/notFriend", "GET", null);
@@ -71,7 +86,7 @@ const SearchFriends = (props) => {
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image"></div>
-                                    <div>{item.username}</div>
+                                    <div>{item ? item.username : ""}</div>
                                 </div>
                                 <div className="col2__list-user-container__item-container__action-container">
                                     <div className="col2__list-user-container__item-container__action-container__action">

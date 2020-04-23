@@ -3,6 +3,7 @@ import * as SignInConstants from "constants/SignIn";
 import * as LoadingActions from "actions/GlobalLoading";
 import * as GetMeActions from "actions/GetMe";
 import * as SignInActions from "actions/SignIn";
+import * as SocketActions from 'actions/Socket'
 import CallApi from "helpers/ApiCaller";
 
 function* SignInFlow(user) {
@@ -18,6 +19,7 @@ function* SignInFlow(user) {
         yield put(SignInActions.SignIn_Success(data.result, remember));
         yield delay(500);
         yield put(LoadingActions.HideLoading());
+        yield put(SocketActions.Connect_Socket())
         history.push("/");
         enqueueSnackbar(t("SignInSuccess"), {variant: "success"});
     } catch (err) {

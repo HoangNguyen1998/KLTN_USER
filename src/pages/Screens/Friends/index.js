@@ -7,20 +7,34 @@ import {withRouter} from "react-router-dom";
 import ListAdd from "./Components/ListAdd";
 import SearchFriends from "./Components/SearchFriends";
 import socketIOClient from "socket.io-client";
+import * as SocketActions from "actions/Socket";
 import ListRequest from "./Components/ListRequest";
 import getToken from "helpers/GetToken";
 import "./styles.scss";
 
-let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
-    query: "token=" + getToken(),
-});
+console.log("dfdgldfgdsfkgjdfg;ldfg: ", getToken());
+// let socket = socketIOClient.connect("https://d277e752.ngrok.io/", {
+//     query: "token=" + getToken(),
+// });
+// let socket = null;
 
 const Friend = (props) => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(SocketActions.Connect_Socket());
+    },[]);
+    // useEffect(() => {
+    //     socket = socketIOClient.connect("https://d277e752.ngrok.io/", {
+    //         query: "token=" + getToken(),
+    //     });
+    //     setReRender(true);
+    // }, []);
+    // console.log("renderrrrrrrr")
     return (
         <div className="container">
             <Grid container spacing={1}>
-                <SearchFriends socket={socket} />
-                <ListAdd />
+                <SearchFriends/>
+                <ListAdd  />
                 <ListRequest />
             </Grid>
         </div>

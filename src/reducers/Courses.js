@@ -1,5 +1,6 @@
 import * as CoursesConstants from "constants/Courses";
 import findIndex from "lodash/findIndex";
+import * as GetMeConstants from "constants/GetMe";
 
 const reducer = (
     state = {
@@ -53,13 +54,21 @@ const reducer = (
             return {...state, courses: [...data]};
         }
         case CoursesConstants.RESET_COURSE_MODAL: {
-            console.log("HEllllllloo")
+            console.log("HEllllllloo");
             return {
                 ...state,
-                course: {title: '', contents:[]},
+                course: {title: "", contents: []},
                 courseLearn: [],
             };
         }
+        case GetMeConstants.SIGN_OUT:
+            return {
+                ...state,
+                courses: [],
+                course: {title: "", contents: []},
+                isLoading: true,
+                courseLearn: [],
+            };
         default:
             return {...state};
     }

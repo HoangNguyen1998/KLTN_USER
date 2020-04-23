@@ -63,15 +63,16 @@ const ChallengeDetail = (props) => {
         setPosition,
         showResult,
         setIsWaiting,
-        socket,
+        // socket,
         setShowResult,
         // valueComment,
         // setValueComment,
     } = props;
-    const {id}= props.match.params
+    const {id} = props.match.params;
     const dispatch = useDispatch();
+    const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
-        console.log("Hello")
+        console.log("Hello");
         dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));
         dispatch(
             ChallengesActions.Get_Challenge_Details_Request(
@@ -80,19 +81,21 @@ const ChallengeDetail = (props) => {
         );
     }, [id]);
     useEffect(() => {
-        socket.on("authenticate", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        socket.on("validation", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        socket.on("newComment", (comment) => {
-            console.log("Helllooooo");
-            dispatch(ChallengesActions.Get_Comments([comment]));
-        });
-        return () => socket.removeEventListener("newComment");
+        if (socket) {
+            socket.on("authenticate", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            socket.on("validation", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            socket.on("newComment", (comment) => {
+                console.log("Helllooooo");
+                dispatch(ChallengesActions.Get_Comments([comment]));
+            });
+            return () => socket.removeEventListener("newComment");
+        }
     }, []);
     const {
         _id,
@@ -111,20 +114,23 @@ const ChallengeDetail = (props) => {
 
     // socket
     useEffect(() => {
-        socket.emit("join", {room: _id}, () => {
-            console.log("connect done!" + `${_id} fake`);
-        });
+        if (socket) {
+            socket.emit("join", {room: _id}, () => {
+                console.log("connect done!" + `${_id} fake`);
+            });
+        }
     }, []);
     const comment = () => {
-        console.log("k;dfgfdgjdklgjdfklgkl");
+        if (socket) {
         setValueComment("");
-        socket.emit(
-            "createComment",
-            {comment: valueComment, room: _id},
-            (data) => {
-                console.log("send! ", data);
-            }
-        );
+            socket.emit(
+                "createComment",
+                {comment: valueComment, room: _id},
+                (data) => {
+                    console.log("send! ", data);
+                }
+            );
+        }
     };
 
     //func

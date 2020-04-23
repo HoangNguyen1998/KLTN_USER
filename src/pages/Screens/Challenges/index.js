@@ -12,12 +12,13 @@ import Loading from "./Components/Loading";
 import ChallengeDetail from "./Components/ChallengeDetail";
 import ListComment from "./Components/ListComment";
 import socketIOClient from "socket.io-client";
+import * as SocketActions from "actions/Socket";
 import getToken from "helpers/GetToken";
 import whyDidYouRender from "@welldone-software/why-did-you-render";
 
-let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
-    query: "token=" + getToken(),
-});
+// let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
+//     query: "token=" + getToken(),
+// });
 
 whyDidYouRender(React, {
     onlyLogs: true,
@@ -37,7 +38,10 @@ const Challenges = (props) => {
     });
     const {t} = useTranslation("translation");
     useEffect(() => {
-        console.log("Hello")
+        dispatch(SocketActions.Connect_Socket());
+    }, []);
+    useEffect(() => {
+        console.log("Hello");
         dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));
         dispatch(
             ChallengesActions.Get_Challenge_Details_Request(
@@ -45,18 +49,21 @@ const Challenges = (props) => {
             )
         );
     }, []);
+
     //func
     const renderListItem = (data) => {
-        return data.map((item, index) => {
-            return (
-                <ChallengeItem
-                    ChallengeDetail={ChallengesRedux.challengeDetail}
-                    onChangeChallenge={onChangeChallenge}
-                    cau={index}
-                    item={item}
-                />
-            );
-        });
+        if (data) {
+            return data.map((item, index) => {
+                return (
+                    <ChallengeItem
+                        ChallengeDetail={ChallengesRedux.challengeDetail}
+                        onChangeChallenge={onChangeChallenge}
+                        cau={index}
+                        item={item}
+                    />
+                );
+            });
+        }
     };
     const onChangeChallenge = (id) => {
         setShowResult(0);
@@ -77,7 +84,7 @@ const Challenges = (props) => {
             <Grid container style={{height: "90vh"}}>
                 <Grid item xs={12} lg={8}>
                     <ChallengeDetail
-                        socket={socket}
+                        // socket={socket}
                         ChallengeDetail={ChallengesRedux.challengeDetail}
                         Challenges={ChallengesRedux.challenges}
                         showResult={showResult}
@@ -105,7 +112,7 @@ const Challenges = (props) => {
             </Grid>
             <ListComment
                 ChallengeDetail={ChallengesRedux.challengeDetail}
-                socket={socket}
+                // socket={socket}
             />
         </div>
     );

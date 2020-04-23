@@ -28,6 +28,34 @@ function* Get_List_Users_Request() {
   }
 }
 
+function* Get_List_Add_Friend_Request() {
+  while (true) {
+    try {
+      console.log('Hello')
+      const action = yield take(FriendsConstants.GET_LIST_ADD_FRIEND_REQUEST);
+      const res = yield call(CallApi, "users/senderAddFriend", "GET", null);
+      const { data } = res;
+      console.log(data)
+      yield put(FriendsActions.Get_List_Add_Friend_Success(data.result))
+    //   action.payload(false)
+    } catch (err) {}
+  }
+}
+
+function* Get_List_Request_Friend_Request() {
+  while (true) {
+    try {
+      console.log('Hello')
+      const action = yield take(FriendsConstants.GET_LIST_ADD_FRIEND_REQUEST);
+      const res = yield call(CallApi, "users/requestAddFriend", "GET", null);
+      const { data } = res;
+      console.log(data)
+      yield put(FriendsActions.Get_List_Request_Friend_Success(data.result))
+    //   action.payload(false)
+    } catch (err) {}
+  }
+}
+
 
 // function* getChallengeDetailsRequest(data) {
 //   console.log("trong saga chi tiet khoa hoc: ", data);
@@ -47,6 +75,8 @@ function* Get_List_Users_Request() {
 function* challengesWatcher() {
   yield fork(Get_List_Friends_Request);
   yield fork(Get_List_Users_Request)
+  yield fork(Get_List_Add_Friend_Request)
+  yield fork(Get_List_Request_Friend_Request)
 //   yield takeLatest(
 //     ChallengesConstants.GET_CHALLENGE_DETAILS_REQUEST,
 //     getChallengeDetailsRequest

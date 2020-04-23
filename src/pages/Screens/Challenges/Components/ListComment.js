@@ -14,16 +14,16 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import ReportIcon from "@material-ui/icons/Report";
-import * as ChallengesActions from 'actions/Challenges'
+import * as ChallengesActions from "actions/Challenges";
 import findIndex from "lodash/findIndex";
 import _ from "lodash";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
 const ListComment = (props) => {
-    const {socket, ChallengeDetail} = props;
-    const {_id}= ChallengeDetail
+    const {ChallengeDetail} = props;
+    const {_id} = ChallengeDetail;
     const {t} = useTranslation("translation");
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
     const commentRedux = useSelector((state) => state.Challenges.listComment);
     const userRedux = useSelector((state) => state.GetMe.user._id);
     const [openReport, setOpenReport] = useState(false);
@@ -32,24 +32,30 @@ const ListComment = (props) => {
     const [openUpdateCmt, setOpenUpdateCmt] = useState(false);
     const [valueUpdateCmt, setValueUpdateCmt] = useState("");
     const [idReport, setIdReport] = useState(null);
+    const socket = useSelector((state) => state.Socket.socket);
+
     useEffect(() => {
-        socket.emit("join", {room: _id}, () => {
-            console.log("connect done!" + `${_id} fake`);
-        });
+        if (socket) {
+            socket.emit("join", {room: _id}, () => {
+                console.log("connect done!" + `${_id} fake`);
+            });
+        }
     }, [_id]);
     useEffect(() => {
-        socket.on("authenticate", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        socket.on("validation", (data) => {
-            console.log(data);
-            alert(JSON.stringify(data));
-        });
-        socket.on("newComment", (comment) => {
-            dispatch(ChallengesActions.Get_Comments([comment]));
-        });
-        return () => socket.removeEventListener("newComment");
+        if (socket) {
+            socket.on("authenticate", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            socket.on("validation", (data) => {
+                console.log(data);
+                alert(JSON.stringify(data));
+            });
+            socket.on("newComment", (comment) => {
+                dispatch(ChallengesActions.Get_Comments([comment]));
+            });
+            return () => socket.removeEventListener("newComment");
+        }
     }, []);
     //func
     const onOpenModalReport = (id) => {
@@ -73,23 +79,25 @@ const ListComment = (props) => {
         setIndexUpdateCmt(test);
         setValueUpdateCmt(commentRedux[test].content);
     };
-    
+
     const onUpdateCmt = () => {
+        if (socket) {
         console.log(commentRedux);
         const {_id, idChallenge} = commentRedux[indexUpdateCmt];
-        socket.emit(
-            "updateComment",
-            {
-                _id: _id,
-                room: idChallenge,
-                commentUp: valueUpdateCmt,
-            },
-            (data) => {
-                console.log("send: ", data);
-                setIndexUpdateCmt("");
-                setOpenUpdateCmt(false)
-            }
-        );
+            socket.emit(
+                "updateComment",
+                {
+                    _id: _id,
+                    room: idChallenge,
+                    commentUp: valueUpdateCmt,
+                },
+                (data) => {
+                    console.log("send: ", data);
+                    setIndexUpdateCmt("");
+                    setOpenUpdateCmt(false);
+                }
+            );
+        }
     };
     const renderComment = (commentRedux) => {
         if (commentRedux.length !== 0) {
@@ -107,8 +115,8 @@ const ListComment = (props) => {
                             helperText={moment(item.createdAt).format("LLL")}
                             multiline
                             InputProps={{
-                                endAdornment:
-                                    (userRedux?(userRedux === item.idUser ? (
+                                endAdornment: userRedux ? (
+                                    userRedux === item.idUser ? (
                                         <Tooltip title="chinh sua">
                                             <IconButton
                                                 onClick={onOpenModalUpdateCmt(
@@ -128,7 +136,10 @@ const ListComment = (props) => {
                                                 <ReportIcon />
                                             </IconButton>
                                         </Tooltip>
-                                    )):''),
+                                    )
+                                ) : (
+                                    ""
+                                ),
                             }}
                         />
                     </div>

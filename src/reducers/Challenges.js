@@ -1,4 +1,5 @@
 import * as ChallengesConstants from "constants/Challenges";
+import * as GetMeConstants from "constants/GetMe";
 import findIndex from "lodash/findIndex";
 import socketIOClient from "socket.io-client";
 import getToken from "helpers/CheckToken";
@@ -50,6 +51,13 @@ const reducer = (
                 return {...state, listComment: list};
             }
         }
+        case GetMeConstants.SIGN_OUT:
+            return {
+                ...state,
+                challenges: {},
+                challengeDetail: {},
+                listComment: [],
+            };
         default:
             return {...state};
     }
