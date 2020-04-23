@@ -25,7 +25,11 @@ const ListComment = (props) => {
     const {t} = useTranslation("translation");
     const dispatch = useDispatch();
     const commentRedux = useSelector((state) => state.Challenges.listComment);
-    const userRedux = useSelector((state) => state.GetMe.user._id);
+    const userRedux = useSelector((state) => {
+        if (state.GetMe.user) {
+            return state.GetMe.user._id;
+        }
+    });
     const [openReport, setOpenReport] = useState(false);
     const [valueReport, setValueReport] = useState("");
     const [indexUpdateCmt, setIndexUpdateCmt] = useState("");
@@ -82,8 +86,8 @@ const ListComment = (props) => {
 
     const onUpdateCmt = () => {
         if (socket) {
-        console.log(commentRedux);
-        const {_id, idChallenge} = commentRedux[indexUpdateCmt];
+            console.log(commentRedux);
+            const {_id, idChallenge} = commentRedux[indexUpdateCmt];
             socket.emit(
                 "updateComment",
                 {
