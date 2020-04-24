@@ -27,25 +27,21 @@ const ListFriends = (props) => {
                 console.log(data);
                 alert(JSON.stringify(data));
             });
-            return () => socket.removeEventListener("newComment");
-        }
-    }, []);
-    useEffect(() => {
-        if (socket) {
-            socket.on("emitAddFriend", (res) => {
+            socket.on("emitRejectAddFriend", (res) => {
                 console.log("cc: ", res);
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
                         dispatch(
-                            FriendsActions.Reject_Add_Friend_Request(
+                            FriendsActions.Emit_Reject_Add_Friend(
                                 res.userSender
                             )
                         );
                     }
                 }
             });
+            return () => socket.removeEventListener("emitRejectAddFriend");
         }
-    }, []);
+    }, [listAddRedux]);
     // FUNC
     const rejectFriend = (id) => () => {
         if (socket) {

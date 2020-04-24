@@ -24,7 +24,7 @@ const Friend = (props) => {
     useEffect(() => {
         dispatch(SocketActions.Connect_Socket());
         return ()=>{
-            console.log("Helooooooo")
+            // console.log("Helooooooo")
             // if(socket){
             //     socket.removeAllListeners();
             // }

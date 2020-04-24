@@ -10,11 +10,14 @@ const reducer = (
     switch (action.type) {
         case FriendsConstants.GET_LIST_FRIENDS_REQUEST:
             return {...state};
+
         case FriendsConstants.GET_LIST_FRIENDS_SUCCESS:
             return {...state};
+
         case FriendsConstants.GET_LIST_USERS_SUCCESS:
             const {payload} = action;
             return {...state, listUsers: payload};
+
         case FriendsConstants.ADD_FRIEND_REQUEST:
             data = [...state.listUsers];
             index = data.findIndex((item) => item._id === action.payload);
@@ -26,9 +29,11 @@ const reducer = (
                 listUsers: data,
                 listAdd: [...state.listAdd, addFriend],
             };
+
         case FriendsConstants.GET_LIST_ADD_FRIEND_SUCCESS:
             console.log(action.payload);
             return {...state, listAdd: action.payload};
+
         case FriendsConstants.REJECT_ADD_FRIEND_REQUEST:
             data = [...state.listAdd];
             index = data.findIndex((item) => item._id === action.payload);
@@ -39,10 +44,13 @@ const reducer = (
                 listUsers: [...state.listUsers, rejectFriend],
                 listAdd: data,
             };
+
         case FriendsConstants.GET_LIST_REQUEST_FRIEND_SUCCESS:
             return {...state, listRequest: action.payload};
+
         case FriendsConstants.ACCEPT_REQUEST_FRIEND_REQUEST:
             return {...state};
+
         case GetMeConstants.SIGN_OUT:
             return {
                 ...state,
@@ -51,18 +59,27 @@ const reducer = (
                 listAdd: [],
                 listUsers: [],
             };
+
         case FriendsConstants.REQUEST_FRIEND_REQUEST:
             data = [...state.listUsers];
-            console.log(action.payload)
             index = data.findIndex((item) => item._id === action.payload);
-            console.log(index)
             const requestFriend = data[index];
-            console.log(requestFriend)
             data.splice(index, 1);
             return {
                 ...state,
                 listUsers: data,
-                // listRequest: [...state.listRequest, requestFriend],
+                listRequest: [...state.listRequest, requestFriend],
+            };
+
+        case FriendsConstants.EMIT_REJECT_ADD_FRIEND:
+            data = [...state.listRequest];
+            index = data.findIndex((item) => item._id === action.payload);
+            const emitRejectFriend = data[index];
+            data.splice(index, 1);
+            return {
+                ...state,
+                listRequest: data,
+                listUsers: [...state.listUsers, emitRejectFriend],
             };
         default:
             return {...state};

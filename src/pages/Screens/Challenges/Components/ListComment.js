@@ -37,7 +37,7 @@ const ListComment = (props) => {
     const [valueUpdateCmt, setValueUpdateCmt] = useState("");
     const [idReport, setIdReport] = useState(null);
     const socket = useSelector((state) => state.Socket.socket);
-
+    console.log("tai vi no render 1lan")
     useEffect(() => {
         if (socket) {
             socket.emit("join", {room: _id}, () => {

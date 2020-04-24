@@ -161,3 +161,10 @@ export const Request_Friend_Error = (errors) => {
         payload: errors,
     };
 };
+
+export const Emit_Reject_Add_Friend = (data) =>{
+    return {
+        type: FriendsConstants.EMIT_REJECT_ADD_FRIEND,
+        payload: data
+    }
+}

@@ -17,6 +17,8 @@ const SearchFriends = (props) => {
     // const {socket} = props;
     const [listNotFriend, setListNotFriend] = useState([]);
     const socket = useSelector((state) => state.Socket.socket);
+    const getMeRedux = useSelector((state) => state.GetMe.user);
+    const usersRedux = useSelector((state) => state.Friends.listUsers);
     useEffect(() => {
         if (socket) {
             socket.on("authenticate", (data) => {
@@ -28,35 +30,22 @@ const SearchFriends = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("emitAddFriend", (res) => {
+                console.log("Lang nghe su kien nay: ", res.userSender)
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
+
                         dispatch(
-                            FriendsActions.Add_Friend_Request(res.userSender)
+                            FriendsActions.Request_Friend_Request(res.userSender)
                         );
                     }
                 }
             });
-            return () => socket.removeEventListener("newComment");
+            return () => socket.removeEventListener("emitAddFriend");
         }
-    }, [dispatch]);
-    if (socket) {
-        socket.on("emitAddFriend", (res) => {
-            console.log("jghdflgdfgdfgdfgdgdgfd");
-            if (getMeRedux) {
-                if (getMeRedux._id !== res.userSender) {
-                    dispatch(
-                        FriendsActions.Request_Friend_Request(res.userSender)
-                    );
-                }
-            }
-        });
-    }
+    },[usersRedux]);
     useEffect(() => {
         getListNotFriend();
     }, []);
-    const getMeRedux = useSelector((state) => state.GetMe.user);
-    const usersRedux = useSelector((state) => state.Friends.listUsers);
-    console.log(usersRedux);
 
     // CALL API
     useEffect(() => {
