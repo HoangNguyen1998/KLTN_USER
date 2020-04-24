@@ -16,33 +16,34 @@ const SearchFriends = (props) => {
     const dispatch = useDispatch();
     // const {socket} = props;
     const [listNotFriend, setListNotFriend] = useState([]);
+    const [txtSearch, setTxtSearch] = useState("");
+    const [listUsers, setListUsers] = useState([]);
+    const [isSearch, setIsSearch] = useState(false);
     const socket = useSelector((state) => state.Socket.socket);
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const usersRedux = useSelector((state) => state.Friends.listUsers);
     useEffect(() => {
         if (socket) {
             socket.on("authenticate", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
             socket.on("validation", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
             socket.on("emitAddFriend", (res) => {
-                console.log("Lang nghe su kien nay: ", res.userSender)
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
-
                         dispatch(
-                            FriendsActions.Request_Friend_Request(res.userSender)
+                            FriendsActions.Request_Friend_Request(
+                                res.userSender
+                            )
                         );
                     }
                 }
             });
             return () => socket.removeEventListener("emitAddFriend");
         }
-    },[usersRedux]);
+    }, [usersRedux]);
     useEffect(() => {
         getListNotFriend();
     }, []);
@@ -69,7 +70,24 @@ const SearchFriends = (props) => {
     //     }
     // }, [socket]);
     // FUNC
-    const addFriend = (username, id) => () => {
+    const searchUser = (value) => {
+        console.log(value);
+        const data = usersRedux.filter((item) => item.username.includes(value));
+        console.log(data);
+        setListUsers(data);
+        if (value !== "") {
+            setIsSearch(true);
+        } else {
+            setIsSearch(false);
+        }
+    };
+    const removeInSearchUser = (id) => {
+        const data = listUsers;
+        const index = listUsers.findIndex((item) => item._id === id);
+        data.splice(index, 1);
+        setListUsers(data);
+    };
+    const addFriend = (username, id) => {
         if (socket) {
             socket.emit(
                 "onAddFriend",
@@ -80,11 +98,10 @@ const SearchFriends = (props) => {
     };
     const getListNotFriend = async () => {
         const res = await CallApi("users/notFriend", "GET", null);
-        console.log(res);
         setListNotFriend(res.data);
     };
-    const renderListUsers = (data) => {
-        console.log(data);
+
+    const renderListSearchUsers = (data) => {
         if (data.length === 0) {
             return <CircularProgress className="loading-container" />;
         }
@@ -103,10 +120,10 @@ const SearchFriends = (props) => {
                                         Detail
                                     </div>
                                     <div
-                                        onClick={addFriend(
-                                            item.username,
-                                            item._id
-                                        )}
+                                        onClick={() => {
+                                            removeInSearchUser(item._id);
+                                            addFriend(item.username, item._id);
+                                        }}
                                         className="col2__list-user-container__item-container__action-container__action"
                                     >
                                         Add
@@ -116,8 +133,41 @@ const SearchFriends = (props) => {
                         </div>
                     );
                 });
-            } else {
-                return <div>Ban khong co nguoi ban nao</div>;
+            }
+        }
+    };
+
+    const renderListUsers = (data) => {
+        if (data.length === 0) {
+            return <CircularProgress className="loading-container" />;
+        }
+        if (data) {
+            if (data.length !== 0) {
+                return data.map((item, index) => {
+                    return (
+                        <div className="col2__list-user-container">
+                            <div className="col2__list-user-container__item-container">
+                                <div className="col1__item-container__info">
+                                    <div className="col1__item-container__info__image"></div>
+                                    <div>{item ? item.username : ""}</div>
+                                </div>
+                                <div className="col2__list-user-container__item-container__action-container">
+                                    <div className="col2__list-user-container__item-container__action-container__action">
+                                        Detail
+                                    </div>
+                                    <div
+                                        onClick={() =>
+                                            addFriend(item.username, item._id)
+                                        }
+                                        className="col2__list-user-container__item-container__action-container__action"
+                                    >
+                                        Add
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                });
             }
         }
     };
@@ -129,14 +179,21 @@ const SearchFriends = (props) => {
                 </div>
                 <div className="col2__search-container">
                     <TextField
+                        value={txtSearch}
                         fullWidth
                         placeholder="Search friend"
+                        onChange={(e) => {
+                            setTxtSearch(e.target.value);
+                            searchUser(e.target.value);
+                        }}
                         InputProps={{
                             endAdornment: <SearchIcon />,
                         }}
                     />
                 </div>
-                {renderListUsers(usersRedux)}
+                {isSearch
+                    ? renderListSearchUsers(listUsers)
+                    : renderListUsers(usersRedux)}
             </div>
         </Grid>
     );
