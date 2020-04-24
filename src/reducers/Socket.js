@@ -8,20 +8,23 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SocketConstants.CONNECT_SOCKET: {
             console.log("Hello: ", getToken());
-            let socket = socketIOClient.connect(
-                "https://jp-server-kltn.herokuapp.com/",
-                {
-                    query: "token=" + getToken(),
-                }
-            );
+            let socket = socketIOClient.connect("https://c674b14d.ngrok.io/", {
+                query: "token=" + getToken(),
+            });
             return {
                 ...state,
                 socket,
             };
         }
+        case SocketConstants.DISCONNECT_SOCKET:
+            return {
+                ...state,
+                socket: {},
+            };
         case GetMeConstants.SIGN_OUT:
             return {
-                ...state, socket: {}
+                ...state,
+                socket: {},
             };
         default:
             return state;

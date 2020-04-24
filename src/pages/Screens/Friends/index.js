@@ -19,9 +19,17 @@ console.log("dfdgldfgdsfkgjdfg;ldfg: ", getToken());
 // let socket = null;
 
 const Friend = (props) => {
+    const socket = useSelector((state) => state.Socket.socket);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(SocketActions.Connect_Socket());
+        return ()=>{
+            console.log("Helooooooo")
+            // if(socket){
+            //     socket.removeAllListeners();
+            // }
+            
+        }
     },[]);
     // useEffect(() => {
     //     socket = socketIOClient.connect("https://d277e752.ngrok.io/", {

@@ -56,6 +56,7 @@ const ListComment = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("newComment", (comment) => {
+                console.log("cucuuuuuuuuuuuuuu")
                 dispatch(ChallengesActions.Get_Comments([comment]));
             });
             return () => socket.removeEventListener("newComment");

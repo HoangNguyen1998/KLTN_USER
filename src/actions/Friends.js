@@ -146,3 +146,18 @@ export const Accept_Request_Friend_Success = (data) => {
         payload: data,
     };
 };
+
+
+export const Request_Friend_Request = (data) => {
+    return {
+        type: FriendsConstants.REQUEST_FRIEND_REQUEST,
+        payload: data,
+    };
+};
+
+export const Request_Friend_Error = (errors) => {
+    return {
+        type: FriendsConstants.REQUEST_FRIEND_ERROR,
+        payload: errors,
+    };
+};

@@ -27,9 +27,30 @@ const SearchFriends = (props) => {
                 console.log(data);
                 alert(JSON.stringify(data));
             });
+            socket.on("emitAddFriend", (res) => {
+                if (getMeRedux) {
+                    if (getMeRedux._id !== res.userSender) {
+                        dispatch(
+                            FriendsActions.Add_Friend_Request(res.userSender)
+                        );
+                    }
+                }
+            });
             return () => socket.removeEventListener("newComment");
         }
-    }, []);
+    }, [dispatch]);
+    if (socket) {
+        socket.on("emitAddFriend", (res) => {
+            console.log("jghdflgdfgdfgdfgdgdgfd");
+            if (getMeRedux) {
+                if (getMeRedux._id !== res.userSender) {
+                    dispatch(
+                        FriendsActions.Request_Friend_Request(res.userSender)
+                    );
+                }
+            }
+        });
+    }
     useEffect(() => {
         getListNotFriend();
     }, []);
@@ -44,20 +65,20 @@ const SearchFriends = (props) => {
     }, []);
 
     // SOCKET
-    useEffect(() => {
-        if (socket) {
-            socket.on("emitAddFriend", (res) => {
-                console.log("cc: ", res);
-                if (getMeRedux) {
-                    if (getMeRedux._id !== res.userSender) {
-                        dispatch(
-                            FriendsActions.Add_Friend_Request(res.userSender)
-                        );
-                    }
-                }
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     console.log("Jegfgdgfgfdg")
+    //     if (socket) {
+    //         socket.on("emitAddFriend", (res) => {
+    //             if (getMeRedux) {
+    //                 if (getMeRedux._id !== res.userSender) {
+    //                     dispatch(
+    //                         FriendsActions.Add_Friend_Request(res.userSender)
+    //                     );
+    //                 }
+    //             }
+    //         });
+    //     }
+    // }, [socket]);
     // FUNC
     const addFriend = (username, id) => () => {
         if (socket) {

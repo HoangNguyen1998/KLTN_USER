@@ -5,3 +5,9 @@ export const Connect_Socket = () => {
         type: SocketConstants.CONNECT_SOCKET,
     };
 };
+
+export const DisConnect_Socket = () => {
+    return {
+        type: SocketConstants.DISCONNECT_SOCKET,
+    };
+};

@@ -1,7 +1,6 @@
 import * as FriendsConstants from "constants/Friends";
 import * as GetMeConstants from "constants/GetMe";
 
-
 const reducer = (
     state = {listFriends: [], listRequest: [], listAdd: [], listUsers: []},
     action
@@ -25,7 +24,7 @@ const reducer = (
             return {
                 ...state,
                 listUsers: data,
-                listAdd: [...state.listAdd, addFriend]
+                listAdd: [...state.listAdd, addFriend],
             };
         case FriendsConstants.GET_LIST_ADD_FRIEND_SUCCESS:
             console.log(action.payload);
@@ -45,7 +44,26 @@ const reducer = (
         case FriendsConstants.ACCEPT_REQUEST_FRIEND_REQUEST:
             return {...state};
         case GetMeConstants.SIGN_OUT:
-            return {...state, listFriends: [], listRequest: [], listAdd: [], listUsers: []}
+            return {
+                ...state,
+                listFriends: [],
+                listRequest: [],
+                listAdd: [],
+                listUsers: [],
+            };
+        case FriendsConstants.REQUEST_FRIEND_REQUEST:
+            data = [...state.listUsers];
+            console.log(action.payload)
+            index = data.findIndex((item) => item._id === action.payload);
+            console.log(index)
+            const requestFriend = data[index];
+            console.log(requestFriend)
+            data.splice(index, 1);
+            return {
+                ...state,
+                listUsers: data,
+                // listRequest: [...state.listRequest, requestFriend],
+            };
         default:
             return {...state};
     }
