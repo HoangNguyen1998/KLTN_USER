@@ -8,7 +8,7 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case SocketConstants.CONNECT_SOCKET: {
             console.log("Hello: ", getToken());
-            let socket = socketIOClient.connect("https://3401dac8.ngrok.io", {
+            let socket = socketIOClient.connect("https://learn-jp-kltn.herokuapp.com", {
                 query: "token=" + getToken(),
             });
             return {
