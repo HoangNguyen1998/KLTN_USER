@@ -1,11 +1,6 @@
 import * as ChallengesConstants from "constants/Challenges";
 import * as GetMeConstants from "constants/GetMe";
 import findIndex from "lodash/findIndex";
-import socketIOClient from "socket.io-client";
-import getToken from "helpers/CheckToken";
-let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
-    query: "token=" + getToken(),
-});
 
 const reducer = (
     state = {

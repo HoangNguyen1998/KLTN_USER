@@ -15,10 +15,12 @@ const ListFriends = (props) => {
     // const {socket} = props;
     const dispatch = useDispatch();
     const listAddRedux = useSelector((state) => state.Friends.listAdd);
+    const usersRedux = useSelector((state) => state.Friends.listUsers);
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
         if (socket) {
+            // console.log("hello mother fucker ")
             socket.on("authenticate", (data) => {
                 console.log(data);
                 alert(JSON.stringify(data));
@@ -28,7 +30,7 @@ const ListFriends = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("emitRejectAddFriend", (res) => {
-                console.log("cc: ", res);
+                console.log("ccccccccccccccccc", res.userSender)
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
                         dispatch(
@@ -41,7 +43,7 @@ const ListFriends = (props) => {
             });
             return () => socket.removeEventListener("emitRejectAddFriend");
         }
-    }, [listAddRedux]);
+    }, [usersRedux]);
     // FUNC
     const rejectFriend = (id) => () => {
         if (socket) {

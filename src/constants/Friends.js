@@ -47,3 +47,10 @@ export const REQUEST_FRIEND_ERROR = "REQUEST_FRIEND_ERROR";
 
 // emit reject add friend
 export const EMIT_REJECT_ADD_FRIEND = "EMIT_REJECT_ADD_FRIEND";
+
+// chap nhan loi moi ket ban
+export const ON_ACCEPT_ADD_FRIEND="ON_ACCEPT_ADD_FRIEND"
+
+
+// nghe su kien chap nhan loi moi ket ban
+export const EMIT_ACCEPT_ADD_FRIEND="EMIT_ACCEPT_ADD_FRIEND"

@@ -23,7 +23,6 @@ const reducer = (
             index = data.findIndex((item) => item._id === action.payload);
             const addFriend = data[index];
             data.splice(index, 1);
-            console.log(addFriend);
             return {
                 ...state,
                 listUsers: data,
@@ -31,7 +30,6 @@ const reducer = (
             };
 
         case FriendsConstants.GET_LIST_ADD_FRIEND_SUCCESS:
-            console.log(action.payload);
             return {...state, listAdd: action.payload};
 
         case FriendsConstants.REJECT_ADD_FRIEND_REQUEST:
@@ -80,6 +78,28 @@ const reducer = (
                 ...state,
                 listRequest: data,
                 listUsers: [...state.listUsers, emitRejectFriend],
+            };
+
+        case FriendsConstants.ON_ACCEPT_ADD_FRIEND:
+            data = [...state.listRequest];
+            index = data.findIndex((item) => item._id === action.payload);
+            const onAcceptFriend = data[index];
+            data.splice(index, 1);
+            return {
+                ...state,
+                listRequest: data,
+                listFriends: [...state.listFriends, onAcceptFriend],
+            };
+
+        case FriendsConstants.EMIT_ACCEPT_ADD_FRIEND:
+            data = [...state.listAdd];
+            index = data.findIndex((item) => item._id === action.payload);
+            const emitAcceptFriend = data[index];
+            data.splice(index, 1);
+            return {
+                ...state,
+                listAdd: data,
+                listFriends: [...state.listFriends, emitAcceptFriend],
             };
         default:
             return {...state};

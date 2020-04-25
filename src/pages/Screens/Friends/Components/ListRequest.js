@@ -15,28 +15,47 @@ const ListRequest = (props) => {
     // const {socket} = props;
     const dispatch = useDispatch();
     const listRequestRedux = useSelector((state) => state.Friends.listRequest);
+    const listFriendsRedux = useSelector((state) => state.Friends.listFriends);
+    const getMeRedux = useSelector((state) => state.GetMe.user);
     const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
         if (socket) {
+            console.log("hello mother fucker: ", socket.id);
             socket.on("authenticate", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
             socket.on("validation", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
-            return () => socket.removeEventListener("newComment");
+            socket.on("emitAcceptAddFriend", (res) => {
+                console.log("ccccccccccc:", res.userSender);
+                if (getMeRedux) {
+                    console.log("huhuhuhuhuhuhuhu: ", getMeRedux._id);
+                }
+                if (getMeRedux) {
+                    if (getMeRedux._id !== res.userSender) {
+                        console.log("Vao duoc day");
+                        dispatch(
+                            FriendsActions.Emit_Accept_Add_Friend(
+                                res.userSender
+                            )
+                        );
+                    }
+                }
+            });
+            return () => {
+                socket.removeEventListener("emitAcceptAddFriend");
+            };
         }
-    }, []);
+    }, [listRequestRedux]);
     // FUNC
     const acceptFriend = (username, id) => () => {
         if (socket) {
             socket.emit(
                 "onAcceptAddFriend",
-                {receiverId: id, receiverName: username},
+                {senderId: id, senderName: username},
                 () => {
-                    // dispatch(FriendsActions.(id))
+                    dispatch(FriendsActions.On_Accept_Add_Friend(id));
                 }
             );
         }

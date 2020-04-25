@@ -16,9 +16,6 @@ import * as SocketActions from "actions/Socket";
 import getToken from "helpers/GetToken";
 import whyDidYouRender from "@welldone-software/why-did-you-render";
 
-// let socket = socketIOClient.connect("https://jp-server-kltn.herokuapp.com/", {
-//     query: "token=" + getToken(),
-// });
 
 whyDidYouRender(React, {
     onlyLogs: true,

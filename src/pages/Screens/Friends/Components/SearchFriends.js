@@ -54,25 +54,12 @@ const SearchFriends = (props) => {
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
 
-    // SOCKET
-    // useEffect(() => {
-    //     console.log("Jegfgdgfgfdg")
-    //     if (socket) {
-    //         socket.on("emitAddFriend", (res) => {
-    //             if (getMeRedux) {
-    //                 if (getMeRedux._id !== res.userSender) {
-    //                     dispatch(
-    //                         FriendsActions.Add_Friend_Request(res.userSender)
-    //                     );
-    //                 }
-    //             }
-    //         });
-    //     }
-    // }, [socket]);
     // FUNC
     const searchUser = (value) => {
         console.log(value);
-        const data = usersRedux.filter((item) => item.username.includes(value));
+        const data = usersRedux.filter((item) =>
+            item.username.toLowerCase().includes(value.toLowerCase())
+        );
         console.log(data);
         setListUsers(data);
         if (value !== "") {

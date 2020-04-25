@@ -147,7 +147,6 @@ export const Accept_Request_Friend_Success = (data) => {
     };
 };
 
-
 export const Request_Friend_Request = (data) => {
     return {
         type: FriendsConstants.REQUEST_FRIEND_REQUEST,
@@ -162,9 +161,23 @@ export const Request_Friend_Error = (errors) => {
     };
 };
 
-export const Emit_Reject_Add_Friend = (data) =>{
+export const Emit_Reject_Add_Friend = (data) => {
     return {
         type: FriendsConstants.EMIT_REJECT_ADD_FRIEND,
-        payload: data
-    }
-}
+        payload: data,
+    };
+};
+
+export const Emit_Accept_Add_Friend = (data) => {
+    return {
+        type: FriendsConstants.EMIT_ACCEPT_ADD_FRIEND,
+        payload: data,
+    };
+};
+
+export const On_Accept_Add_Friend = (data) => {
+    return {
+        type: FriendsConstants.ON_ACCEPT_ADD_FRIEND,
+        payload: data,
+    };
+};
