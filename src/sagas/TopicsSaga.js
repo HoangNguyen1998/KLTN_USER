@@ -25,7 +25,7 @@ function* gettopicdetailsRequest(data) {
         const res = yield call(CallApi, `vocabularies/topic/${payload}`, "GET", null);
         const {data} = res;
         console.log(res.data);
-        yield put(TopicsActions.gettopicdetailsSuccess(data));
+        yield put(TopicsActions.gettopicdetailsSuccess(data.result));
     } catch (err) {
         yield put(TopicsActions.gettopicdetailsError(err));
     }

@@ -6,6 +6,8 @@ import CoursesSaga from "./CoursesSaga";
 import ChallengesSaga from "./ChallengesSaga";
 import TopicsSaga from "./TopicsSaga";
 import FriendsSaga from './FriendsSaga'
+import VideoSaga from './VideoSaga'
+import AlphabetSaga from './AlphabetSaga'
 import { all } from "redux-saga/effects";
 function* rootSaga() {
   yield all([
@@ -17,7 +19,9 @@ function* rootSaga() {
     // coursesSaga(),
     TopicsSaga(),
     ChallengesSaga(),
-    FriendsSaga()
+    FriendsSaga(),
+    AlphabetSaga(),
+    VideoSaga()
   ]);
 }
 export default rootSaga;

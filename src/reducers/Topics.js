@@ -15,13 +15,16 @@ const reducer = (
         }
         case TopicsConstants.GET_TOPICS_SUCCESS: {
             const {payload} = action;
-            const dataReverse = payload.reverse();
-            console.log(payload);
-            console.log(dataReverse);
             return {
                 ...state,
                 topics: payload,
             };
+        }
+        case TopicsConstants.GET_TOPIC_DETAILS_SUCCESS:{
+            return {
+                ...state,
+                topicDetail: action.payload
+            }
         }
         case TopicsConstants.GET_TOPICS_ERROR: {
             return {...state};

@@ -4,10 +4,12 @@ import SignUpReducer from "./SignUp";
 import LoadingReducer from "./GlobalLoading";
 import CoursesReducer from "./Courses";
 import GetMeReducer from "./GetMe";
-import ChallengesReducer from './Challenges'
-import TopicsReducer from './Topics'
-import FriendsReducer from './Friends'
-import SocketReducer from './Socket'
+import ChallengesReducer from "./Challenges";
+import TopicsReducer from "./Topics";
+import FriendsReducer from "./Friends";
+import SocketReducer from "./Socket";
+import VideoReducer from './Video'
+import AlphabetReducer from "./Alphabet";
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
     Challenges: ChallengesReducer,
     Topics: TopicsReducer,
     Friends: FriendsReducer,
-    Socket: SocketReducer
+    Socket: SocketReducer,
+    Alphabet: AlphabetReducer,
+    Video: VideoReducer,
 });
 
 export default rootReducer;

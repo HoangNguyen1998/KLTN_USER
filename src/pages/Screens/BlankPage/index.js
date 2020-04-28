@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {withSnackbar} from "notistack";
 import {withRouter} from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import './styles.scss'
 

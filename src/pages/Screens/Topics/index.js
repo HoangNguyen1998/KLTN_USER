@@ -34,9 +34,10 @@ const Topics = (props) => {
     }, [topics.length, dispatch]);
     //func
     const onGetTopicDetail = (id) => () => {
-        console.log("lay du lieu");
-        setOpenModal(true)
-        dispatch(TopicsActions.gettopicdetailsRequest(id));
+        props.history.push(`/topics/${id}`)
+        // console.log("lay du lieu");
+        // setOpenModal(true)
+        // dispatch(TopicsActions.gettopicdetailsRequest(id));
     };
     const renderTopic = (data) => {
         if (data) {

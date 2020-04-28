@@ -14,6 +14,7 @@ import AuthenRoutes from "routes/AuthenRoutes";
 import CheckAuthen from "helpers/GetToken";
 import GlobalLoading from "pages/Components/GlobalLoading";
 import theme from "helpers/ThemeCustom";
+import 'antd/dist/antd.css';
 
 const store = ConfigStore();
 

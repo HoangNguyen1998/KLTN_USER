@@ -6,8 +6,27 @@ import UserInformation from "pages/Screens/UserInformation";
 import Challenges from "pages/Screens/Challenges";
 import Topics from "pages/Screens/Topics";
 import Friends from "pages/Screens/Friends";
+import Alphabet from "pages/Screens/Alphabet";
+import Video from 'pages/Screens/Video'
+import VideoDetail from 'pages/Screens/VideoDetail'
+import TopicDetail from 'pages/Screens/TopicDetail'
 
 const routes = [
+    {
+        path: "/video/:id",
+        exact: false,
+        main: ()=>(CheckAuthen()?<VideoDetail/>:<SignIn/>)
+    },
+    {
+        path: "/video",
+        exact: false,
+        main: ()=>(CheckAuthen()?<Video/>:<SignIn/>)
+    },
+    {
+        path: "/alphabet/:id",
+        exact: false,
+        main: () => (CheckAuthen() ? <Alphabet /> : <SignIn />),
+    },
     {
         path: "/friends",
         exact: false,
@@ -15,7 +34,12 @@ const routes = [
     },
     {
         path: "/friends/:id",
-        main: ()=>(CheckAuthen()?<Friends/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <Friends /> : <SignIn />),
+    },
+    {
+        path: "/topics/:id",
+        exact: false,
+        main: () => (CheckAuthen() ? <TopicDetail /> : <SignIn />),
     },
     {
         path: "/topics",
@@ -30,7 +54,7 @@ const routes = [
     {
         path: "/challenges/:id",
         exact: false,
-        main: () =>(CheckAuthen()?<Challenges/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <Challenges /> : <SignIn />),
     },
     {
         path: "/courses",

@@ -17,10 +17,12 @@ import HomeIcon from "@material-ui/icons/Home";
 // import SettingsInputComponentIcon from "@material-ui/icons/SettingsInputComponent";
 // import TimerIcon from "@material-ui/icons/Timer";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
+import TranslateIcon from "@material-ui/icons/Translate";
 import LandscapeIcon from "@material-ui/icons/Landscape";
 import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
@@ -35,6 +37,8 @@ const categories = [
             {id: "Courses", icon: <GolfCourseIcon />, active: true},
             {id: "Topics", icon: <MenuBookIcon />},
             {id: "Challenges", icon: <LandscapeIcon />},
+            {id: "Alphabet", icon: <TranslateIcon />},
+            {id: "Video", icon: <VideoLibraryIcon/>}
         ],
     },
     {
@@ -62,10 +66,12 @@ const NavigatorCustom = (props) => {
     const [category, setCategory] = useState("Authentication");
     const _useListItem = (childId) => {
         let checkPathname = "";
+        checkPathname = `/${childId.toLowerCase()}`;
+        if (childId === "Alphabet") {
+            checkPathname = `/${childId.toLowerCase()}/5ea01bed347b3d4180a78540`;
+        }
         if (childId === "Challenges") {
             checkPathname = `/${childId.toLowerCase()}/5dea0eeb1433d60e205f6a4b`;
-        } else {
-            checkPathname = `/${childId.toLowerCase()}`;
         }
         setCategory(childId);
         const {location} = history;

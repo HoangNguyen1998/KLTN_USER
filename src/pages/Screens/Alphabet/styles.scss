@@ -1,0 +1,40 @@
+@import "../../../styles/global.scss";
+
+.container {
+    margin: 2rem;
+}
+
+.alphabet-item-container {
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    min-height: 10rem;
+    align-items: center;
+    flex-direction: column;
+}
+
+.item-active {
+    background-color: map-get($color, "blue");
+    color: white;
+}
+
+.alphabet-item-container:hover {
+    background-color: map-get($color, "blue");
+    color: black;
+    cursor: pointer;
+}
+
+.alphabet-detail-container {
+    padding: 1rem;
+    position: fixed;
+    min-height: 40rem;
+    min-width: 35rem;
+    box-shadow: 0.1rem 0.1rem 0.9rem rgba($color: #000000, $alpha: 0.5);
+    &__card-detail {
+        height: 40rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
