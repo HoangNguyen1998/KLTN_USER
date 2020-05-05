@@ -1,4 +1,4 @@
-@import '../../../../../styles/global.scss';
+@import "../../../../../styles/global.scss";
 
 // Learn course
 .font-text {
@@ -14,7 +14,7 @@
         flex-direction: column;
         align-items: flex-start;
         margin-left: 10rem;
-        &__button{
+        &__button {
             width: 50% !important;
             justify-content: normal !important;
         }
@@ -32,17 +32,38 @@
         justify-content: center;
         align-items: center;
     }
-    &__stepper{
+    &__stepper {
         margin-top: 1rem;
         max-width: 80rem;
+        font-size: 1.6rem;
+    }
+    &__card-text{
+        position: absolute;
+        width: 100%;
+        transition: 0.5s;
+        transform: rotateY(360deg);
+    }
+    &__card-mean{
+        // position: absolute;
+        transition: 0.5s;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+    }
+    &__card-text-rotate {
+        transition: 0.5s;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+    }
+    &__card-mean-rotate {
+        transition: 0.5s;
+        transform: rotateY(360deg);
+        // backface-visibility: hidden;
     }
 }
 
-.learn-tab-container{
-    &__ready{
+.learn-tab-container {
+    &__ready {
     }
-    &__card{
-
+    &__card {
     }
 }
-

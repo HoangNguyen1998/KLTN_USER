@@ -2,15 +2,16 @@ import * as SocketConstants from "constants/Socket";
 import socketIOClient from "socket.io-client";
 import getToken from "helpers/GetToken";
 import * as GetMeConstants from "constants/GetMe";
-const initialState = {};
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = {socket: {}}, action) => {
     switch (action.type) {
         case SocketConstants.CONNECT_SOCKET: {
-            console.log("Hello: ", getToken());
-            let socket = socketIOClient.connect("https://learn-jp-kltn.herokuapp.com", {
-                query: "token=" + getToken(),
-            });
+            let socket = socketIOClient.connect(
+                "https://learn-jp-kltn.herokuapp.com",
+                {
+                    query: "token=" + getToken(),
+                }
+            );
             return {
                 ...state,
                 socket,

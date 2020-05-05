@@ -13,7 +13,7 @@ import LearnTab from "./Components/LearnTab";
 
 const LearnCourseModal = (props) => {
     const [typeTab, setTypeTab] = useState(null);
-    const {type} = props;
+    const {type, t} = props;
     // const LearnRedux=useSelector(state=>state.)
     useEffect(() => {
         setTypeTab(type);
@@ -40,7 +40,7 @@ const LearnCourseModal = (props) => {
                         ]}`}
                         startIcon={<NoteIcon />}
                     >
-                        The ghi nho
+                        {t("FlashCard")}
                     </Button>
                     <Button
                         fullWidth
@@ -50,7 +50,7 @@ const LearnCourseModal = (props) => {
                         ]}`}
                         startIcon={<ImportContactsIcon />}
                     >
-                        Hoc
+                        {t("Learn")}
                     </Button>
                     <Button
                         fullWidth
@@ -60,7 +60,7 @@ const LearnCourseModal = (props) => {
                         ]}`}
                         startIcon={<BorderColorIcon />}
                     >
-                        Viet
+                        {t("Write")}
                     </Button>
                     <Button
                         fullWidth
@@ -70,7 +70,7 @@ const LearnCourseModal = (props) => {
                         ]}`}
                         startIcon={<VolumeUpIcon />}
                     >
-                        Nghe
+                        {t("Listen")}
                     </Button>
                     <Button
                         fullWidth
@@ -80,7 +80,7 @@ const LearnCourseModal = (props) => {
                         ]}`}
                         startIcon={<PlaylistAddCheckIcon />}
                     >
-                        Kiem tra
+                        {t("Test")}
                     </Button>
                 </div>
             </Grid>

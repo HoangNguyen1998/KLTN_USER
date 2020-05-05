@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {createElement, useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import {useTranslation} from "react-i18next";
@@ -13,7 +13,17 @@ import Button from "@material-ui/core/Button";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import {Comment, Avatar} from "antd";
 import ReportIcon from "@material-ui/icons/Report";
+import {Divider} from "antd";
+import {
+    DislikeOutlined,
+    LikeOutlined,
+    DislikeFilled,
+    LikeFilled,
+    WarningOutlined,
+    EditOutlined,
+} from "@ant-design/icons";
 import * as ChallengesActions from "actions/Challenges";
 import findIndex from "lodash/findIndex";
 import _ from "lodash";
@@ -36,8 +46,11 @@ const ListComment = (props) => {
     const [openUpdateCmt, setOpenUpdateCmt] = useState(false);
     const [valueUpdateCmt, setValueUpdateCmt] = useState("");
     const [idReport, setIdReport] = useState(null);
+    const [likes, setLikes] = useState(0);
+    const [dislikes, setDislikes] = useState(0);
+    const [action, setAction] = useState(null);
     const socket = useSelector((state) => state.Socket.socket);
-    console.log("tai vi no render 1lan")
+    console.log("tai vi no render 1lan");
     useEffect(() => {
         if (socket) {
             socket.emit("join", {room: _id}, () => {
@@ -56,14 +69,26 @@ const ListComment = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("newComment", (comment) => {
-                console.log("cucuuuuuuuuuuuuuu")
+                console.log("cucuuuuuuuuuuuuuu");
                 dispatch(ChallengesActions.Get_Comments([comment]));
             });
             return () => socket.removeEventListener("newComment");
         }
     }, []);
-    //func
-    const onOpenModalReport = (id) => {
+    // FUNC
+    const like = () => {
+        console.log("like");
+        setLikes(1);
+        setDislikes(0);
+        setAction("liked");
+    };
+
+    const dislike = () => {
+        setLikes(0);
+        setDislikes(1);
+        setAction("disliked");
+    };
+    const onOpenModalReport = (id) => () => {
         setOpenReport(true);
         setIdReport(id);
     };
@@ -76,6 +101,7 @@ const ListComment = (props) => {
         setOpenReport(false);
     };
     const onOpenModalUpdateCmt = (id) => () => {
+        console.log("Open modal");
         setOpenUpdateCmt(true);
         console.log(id);
         console.log(commentRedux);
@@ -104,12 +130,74 @@ const ListComment = (props) => {
             );
         }
     };
+    const renderActionOfComment = (item) => {
+        const actions = [
+            <span key="comment-basic-like">
+                <Tooltip title="Like">
+                    {createElement(
+                        action === "liked" ? LikeFilled : LikeOutlined,
+                        {
+                            onClick: like,
+                        }
+                    )}
+                </Tooltip>
+                <span className="comment-action">{likes}</span>
+            </span>,
+            <span key=' key="comment-basic-dislike"'>
+                <Tooltip title="Dislike">
+                    {React.createElement(
+                        action === "disliked" ? DislikeFilled : DislikeOutlined,
+                        {
+                            onClick: dislike,
+                        }
+                    )}
+                </Tooltip>
+                <span className="comment-action">{dislikes}</span>
+            </span>,
+            <span>
+                {userRedux ? (
+                    userRedux === item.idUser ? (
+                        <Tooltip title="Chinh sua">
+                            {createElement(EditOutlined, {
+                                onClick: onOpenModalUpdateCmt(item._id),
+                            })}
+                        </Tooltip>
+                    ) : (
+                        <Tooltip title="Bao cao vi pham">
+                            {createElement(WarningOutlined, {
+                                onClick: onOpenModalReport(item._id),
+                            })}
+                        </Tooltip>
+                    )
+                ) : (
+                    ""
+                )}
+            </span>,
+        ];
+        return actions;
+    };
     const renderComment = (commentRedux) => {
         if (commentRedux.length !== 0) {
             return commentRedux.map((item, index) => {
                 return (
                     <div className="list-comment-container__list-item">
-                        <div className="list-comment-container__list-item__user-name">
+                        <Comment
+                            actions={renderActionOfComment(item)}
+                            author={item.userName}
+                            avatar={
+                                <Avatar
+                                    src="https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/59768137_2282186408669057_5480248346935296000_n.jpg?_nc_cat=103&_nc_sid=7aed08&_nc_oc=AQk5byZ680e67vKG2KbblxkHhQa6x4y8dX0uX-4pjH8r2PVwn3rtfAi5zicSme9Cmi0&_nc_ht=scontent.fsgn2-2.fna&oh=5ed5cffcac6655dbb25f45c152fed96b&oe=5ED73346"
+                                    alt="Han Solo"
+                                />
+                            }
+                            content={item.content}
+                            datetime={
+                                <span>
+                                    {moment(item.createdAt).format("LLL")}
+                                </span>
+                            }
+                        />
+                        {/* <div className="list-comment-container__list-item__user-name">
                             {item.userName}
                         </div>
                         <TextField
@@ -146,7 +234,7 @@ const ListComment = (props) => {
                                     ""
                                 ),
                             }}
-                        />
+                        /> */}
                     </div>
                 );
             });

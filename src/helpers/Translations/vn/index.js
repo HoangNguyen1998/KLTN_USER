@@ -31,7 +31,15 @@ export default {
     CreateCourseError: "Tạo khoá học thất bại",
     Create: "Tạo",
     CreateNewCard: "Tạo thẻ mới",
-    "RememberCard": "Thẻ ghi nhớ",
+    RememberCard: "Thẻ ghi nhớ",
+    NewWord: "Từ mới",
+    MeanWord: "Nghĩa",
+    DeleteCard: "Xoá thẻ này",
+    Test: "Kiểm tra",
+    Delete: "Xoá",
+    FlashCard: "Thẻ ghi nhớ",
+    Write: "Viết",
+    Listen: "Nghe",
 
     // AppBar
     UserInfor: "Thông tin cá nhân",
@@ -43,7 +51,8 @@ export default {
     AreYouSure: "Bạn cho chắc không?",
     OK: "Xoá",
     Cancel: "Không",
-    BlankCourses: "Bạn không có khoá học nào, vui lòng tạo một khoá học để tiếp tục.",
+    BlankCourses:
+        "Bạn không có khoá học nào, vui lòng tạo một khoá học để tiếp tục.",
 
     // Challenges
     Question: "Câu",
@@ -51,5 +60,14 @@ export default {
     YourComment: "Để lại bình luận của bạn",
     Close: "Đóng",
 
-};
+    // Topics
+    NumberOfLesson: "Bài học",
 
+    // Navigator
+    Courses: "Khoá học",
+    Topics: "Chủ đề từ vựng",
+    Challenges: "Thử thách",
+    Alphabet: "Bảng chữ cái",
+    Video: "Video",
+    Chat: "Tin nhắn",
+};

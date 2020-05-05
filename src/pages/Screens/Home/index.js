@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
 import "styles/global.scss";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,8 +14,13 @@ const Home = (props) => {
     const dispatch = useDispatch();
     const {classes} = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const getMeRedux = useSelector((state) => state.GetMe.user);
+    console.log("trong trang chu: ", getMeRedux);
     useEffect(() => {
-        dispatch(Get_Me_Request());
+        if (!getMeRedux) {
+            console.log("get api ne")
+            dispatch(Get_Me_Request());
+        }
     }, []);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);

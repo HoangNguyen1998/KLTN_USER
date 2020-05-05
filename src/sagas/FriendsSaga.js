@@ -17,7 +17,6 @@ function* Get_List_Friends_Request() {
 function* Get_List_Users_Request() {
   while (true) {
     try {
-      console.log('Hello')
       const action = yield take(FriendsConstants.GET_LIST_USERS_REQUEST);
       const res = yield call(CallApi, "users/notFriend", "GET", null);
       const { data } = res;
@@ -31,7 +30,6 @@ function* Get_List_Users_Request() {
 function* Get_List_Add_Friend_Request() {
   while (true) {
     try {
-      console.log('Hello')
       const action = yield take(FriendsConstants.GET_LIST_ADD_FRIEND_REQUEST);
       const res = yield call(CallApi, "users/senderAddFriend", "GET", null);
       const { data } = res;
@@ -45,7 +43,6 @@ function* Get_List_Add_Friend_Request() {
 function* Get_List_Request_Friend_Request() {
   while (true) {
     try {
-      console.log('Hello')
       const action = yield take(FriendsConstants.GET_LIST_ADD_FRIEND_REQUEST);
       const res = yield call(CallApi, "users/requestAddFriend", "GET", null);
       const { data } = res;

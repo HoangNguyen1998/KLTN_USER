@@ -5,14 +5,14 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import * as CoursesActions from 'actions/Courses'
+import * as CoursesActions from "actions/Courses";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const RememberCard = () => {
     const [activeWord, setActiveWord] = useState(0);
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
     const [isRotate, setIsRotate] = useState(false);
     const courseRedux = useSelector((state) => state.Courses.course);
     const {contents} = courseRedux;
@@ -20,9 +20,11 @@ const RememberCard = () => {
         await setIsRotate(isRotate + 1);
     };
     const onNextActiveWord = () => {
+        setIsRotate(false)
         setActiveWord((prevState) => prevState + 1);
     };
     const onBackActiveWord = () => {
+        setIsRotate(false)
         setActiveWord((prevState) => prevState - 1);
     };
     // useEffect(() => {
@@ -43,7 +45,7 @@ const RememberCard = () => {
         } else {
             xhtml = (
                 <React.Fragment>
-                    {isRotate ? (
+                    {/* {isRotate ? (
                         <div
                             onClick={() => setIsRotate(!isRotate)}
                             className={`remember-card-container__card`}
@@ -52,19 +54,37 @@ const RememberCard = () => {
                                 {contents[activeWord].mean}
                             </div>
                         </div>
-                    ) : (
+                    ) : ( */}
+                    <div>
                         <div
                             onClick={() => setIsRotate(!isRotate)}
-                            className="remember-card-container__card"
+                            className={`remember-card-container__card remember-card-container__card-text ${
+                                isRotate
+                                    ? "remember-card-container__card-text-rotate"
+                                    : ""
+                            }`}
                         >
                             <div className="font-text">
-                                {contents[activeWord].text}
+                                {isRotate?"":contents[activeWord].text}
                             </div>
                         </div>
-                    )}
+                        <div
+                            onClick={() => setIsRotate(!isRotate)}
+                            className={`remember-card-container__card ${
+                                isRotate
+                                    ? "remember-card-container__card-mean-rotate"
+                                    : "remember-card-container__card-mean"
+                            }`}
+                        >
+                            <div className="font-text">
+                                {isRotate?contents[activeWord].mean:""}
+                            </div>
+                        </div>
+                    </div>
+                    {/* )} */}
                     <div className="remember-card-container__stepper">
                         <MobileStepper
-                            variant="progress"
+                            variant="text"
                             steps={contents ? contents.length : ""}
                             position="static"
                             activeStep={activeWord}

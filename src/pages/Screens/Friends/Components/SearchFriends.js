@@ -8,6 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
+import {isEmpty} from "lodash";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Paper from "@material-ui/core/Paper";
 import CallApi from "helpers/ApiCaller";
@@ -19,11 +20,11 @@ const SearchFriends = (props) => {
     const [txtSearch, setTxtSearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
     const [isSearch, setIsSearch] = useState(false);
-    const socket = useSelector((state) => state.Socket.socket);
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const usersRedux = useSelector((state) => state.Friends.listUsers);
+    const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
-        if (socket) {
+        if (!isEmpty(socket)) {
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -43,7 +44,8 @@ const SearchFriends = (props) => {
             });
             return () => socket.removeEventListener("emitAddFriend");
         }
-    }, [usersRedux]);
+    });
+
     useEffect(() => {
         getListNotFriend();
     }, []);
@@ -75,7 +77,8 @@ const SearchFriends = (props) => {
         setListUsers(data);
     };
     const addFriend = (username, id) => {
-        if (socket) {
+        console.log("username: ", username, " ", id);
+        if (!isEmpty(socket)) {
             socket.emit(
                 "onAddFriend",
                 {receiverId: id, receiverName: username},
@@ -162,7 +165,7 @@ const SearchFriends = (props) => {
         <Grid item xs={12} lg={4}>
             <div className="col2">
                 <div className="col2__search-friend-header">
-                    Nhung nguoi ban co the biet
+                    Bạn có thể biết?
                 </div>
                 <div className="col2__search-container">
                     <TextField

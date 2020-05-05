@@ -83,24 +83,22 @@ const Course = props => {
                                 onClick={onShowModal(0)}
                                 className="general-color"
                                 size="small"
-                                color="secondary"
                             >
-                                Learn
+                                {t("Learn")}
                             </Button>
                             <Button
                                 onClick={onShowModal(1)}
                                 className="general-color"
                                 size="small"
-                                color="secondary"
                             >
-                                Test
+                                {t("Test")}
                             </Button>
                             <div style={{marginLeft: "auto"}}>
                                 <Button
                                     onClick={onShowModalDelete}
                                     size="small"
                                 >
-                                    Delete
+                                    {t("Delete")}
                                 </Button>
                             </div>
                         </CardActions>

@@ -83,7 +83,7 @@ const CourseList = (props) => {
     if (courses.length !== 0) {
         console.log("deooo hieu")
         return (
-            <div className="courses-list-container">
+            <div className="container">
                 {/* Nut tao khoa hoc */}
                 <div className="button">
                     <Button
@@ -162,7 +162,7 @@ const CourseList = (props) => {
         );
     } else
         return (
-            <div className="courses-list-container">
+            <div className="container">
                 <div className="button">
                     <Button
                         variant="contained"

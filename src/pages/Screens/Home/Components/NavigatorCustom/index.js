@@ -3,6 +3,7 @@ import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import Divider from "@material-ui/core/Divider";
+import {useTranslation} from "react-i18next";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -22,7 +23,7 @@ import LandscapeIcon from "@material-ui/icons/Landscape";
 import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
@@ -38,7 +39,7 @@ const categories = [
             {id: "Topics", icon: <MenuBookIcon />},
             {id: "Challenges", icon: <LandscapeIcon />},
             {id: "Alphabet", icon: <TranslateIcon />},
-            {id: "Video", icon: <VideoLibraryIcon/>}
+            {id: "Video", icon: <VideoLibraryIcon />},
         ],
     },
     {
@@ -52,6 +53,7 @@ const categories = [
 
 const NavigatorCustom = (props) => {
     const {history, classes, ...other} = props;
+    const {i18n, t} = useTranslation("translation");
     useEffect(() => {
         categories.map(({id, children}) => {
             children.map(({id: childId}) => {
@@ -101,11 +103,10 @@ const NavigatorCustom = (props) => {
                     )}
                 >
                     <HomeIcon style={{fontSize: 30, marginRight: 20}} />
-                    Hello
+                    Japan
                 </ListItem>
                 {categories.map(({id, children}) => (
                     <React.Fragment key={id}>
-                        <p className="text-navigation">{id}</p>
                         {children.map(({id: childId, icon, active}) => (
                             <ListItem
                                 key={childId}
@@ -125,7 +126,7 @@ const NavigatorCustom = (props) => {
                                         primary: classes.itemPrimary,
                                     }}
                                 >
-                                    {childId}
+                                    {t(`${childId}`)}
                                 </ListItemText>
                             </ListItem>
                         ))}

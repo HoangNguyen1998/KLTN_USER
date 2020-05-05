@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import * as FriendsActions from "actions/Friends";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MessageIcon from "@material-ui/icons/Message";
+import {isEmpty} from "lodash";
 import CloseIcon from "@material-ui/icons/Close";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -18,9 +19,10 @@ const ListRequest = (props) => {
     const listFriendsRedux = useSelector((state) => state.Friends.listFriends);
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const socket = useSelector((state) => state.Socket.socket);
+    console.log(socket);
     useEffect(() => {
-        if (socket) {
-            console.log("hello mother fucker: ", socket.id);
+        if (!isEmpty(socket)) {
+            console.log("fuck you");
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -28,11 +30,10 @@ const ListRequest = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("emitAcceptAddFriend", (res) => {
-                console.log("ccccccccccc:", res.userSender);
+                console.log("lang nghe: ", getMeRedux);
                 if (getMeRedux) {
-                    console.log("huhuhuhuhuhuhuhu: ", getMeRedux._id);
-                }
-                if (getMeRedux) {
+                    console.log("id trang local: ", getMeRedux._id);
+                    console.log("id tra ve tu socket: ", res.userSender);
                     if (getMeRedux._id !== res.userSender) {
                         console.log("Vao duoc day");
                         dispatch(
@@ -44,24 +45,25 @@ const ListRequest = (props) => {
                 }
             });
             return () => {
+                console.log("componentunmount")
                 socket.removeEventListener("emitAcceptAddFriend");
             };
         }
-    }, [listRequestRedux]);
+    });
     // FUNC
     const acceptFriend = (username, id) => () => {
-        if (socket) {
+        if (!isEmpty(socket)) {
             socket.emit(
                 "onAcceptAddFriend",
                 {senderId: id, senderName: username},
                 () => {
+                    console.log("accept success");
                     dispatch(FriendsActions.On_Accept_Add_Friend(id));
                 }
             );
         }
     };
     const renderListAdd = (data) => {
-        console.log(data);
         if (!data) {
             return (
                 <div className="loading-container">
@@ -71,7 +73,6 @@ const ListRequest = (props) => {
         }
         if (data) {
             if (data.length !== 0) {
-                console.log("Hellooo");
                 return data.map((item, index) => {
                     return (
                         <div className="col2__list-user-container">
@@ -103,7 +104,7 @@ const ListRequest = (props) => {
     };
     return (
         <Grid item xs={12} lg={4}>
-            <div className=" list-friend-header">Danh sach loi moi ket ban</div>
+            <div className=" list-friend-header">Lời mời kết bạn</div>
             {renderListAdd(listRequestRedux)}
         </Grid>
     );

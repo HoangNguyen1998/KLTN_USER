@@ -5,6 +5,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 import * as FriendsActions from "actions/Friends";
 import DeleteIcon from "@material-ui/icons/Delete";
+import {isEmpty} from "lodash";
 import MessageIcon from "@material-ui/icons/Message";
 import CloseIcon from "@material-ui/icons/Close";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
@@ -19,18 +20,16 @@ const ListFriends = (props) => {
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
-        if (socket) {
+        if (!isEmpty(socket)) {
             // console.log("hello mother fucker ")
             socket.on("authenticate", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
             socket.on("validation", (data) => {
-                console.log(data);
                 alert(JSON.stringify(data));
             });
             socket.on("emitRejectAddFriend", (res) => {
-                console.log("ccccccccccccccccc", res.userSender)
+                console.log("ccccccccccccccccc", res.userSender);
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
                         dispatch(
@@ -43,17 +42,16 @@ const ListFriends = (props) => {
             });
             return () => socket.removeEventListener("emitRejectAddFriend");
         }
-    }, [usersRedux]);
+    });
     // FUNC
     const rejectFriend = (id) => () => {
-        if (socket) {
+        if (!isEmpty(socket)) {
             socket.emit("onRejectAddFriend", {receiverId: id}, () => {
                 dispatch(FriendsActions.Reject_Add_Friend_Request(id));
             });
         }
     };
     const renderListAdd = (data) => {
-        console.log(data);
         if (!data) {
             return (
                 <div className="loading-container">
@@ -63,7 +61,6 @@ const ListFriends = (props) => {
         }
         if (data) {
             if (data.length !== 0) {
-                console.log("Hellooo");
                 return data.map((item, index) => {
                     return (
                         <div className="col2__list-user-container">
@@ -93,7 +90,7 @@ const ListFriends = (props) => {
     return (
         <Grid item xs={12} lg={4}>
             <div className=" list-friend-header">
-                Danh sach gui loi moi ket ban
+                Danh sách gửi lời mời kết bạn
             </div>
             {renderListAdd(listAddRedux)}
         </Grid>

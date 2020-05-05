@@ -78,7 +78,7 @@ const AddCourseModal = props => {
                     <CardHeader
                         title={index + 1}
                         action={
-                            <Tooltip title="Xoa the nay">
+                            <Tooltip title={t("DeleteCard")}>
                                 <IconButton onClick={() => onDeleteCard(index)}>
                                     <DeleteIcon style={{fontSize: 25}} />
                                 </IconButton>
@@ -97,7 +97,7 @@ const AddCourseModal = props => {
                                         style={{margin: "1%"}}
                                         fullWidth
                                         id="standard-textarea"
-                                        label="New Word"
+                                        label={t("NewWord")}
                                         placeholder="Enter your new word at here"
                                         multiline
                                         margin="normal"
@@ -115,7 +115,7 @@ const AddCourseModal = props => {
                                         style={{margin: "1%"}}
                                         fullWidth
                                         id="standard-textarea"
-                                        label="Mean Of Word"
+                                        label={t("MeanWord")}
                                         placeholder="Enter mean of word you just entered"
                                         multiline
                                         margin="normal"

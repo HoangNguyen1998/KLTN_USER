@@ -9,7 +9,7 @@ import Friends from "pages/Screens/Friends";
 import Alphabet from "pages/Screens/Alphabet";
 import Video from 'pages/Screens/Video'
 import VideoDetail from 'pages/Screens/VideoDetail'
-import TopicDetail from 'pages/Screens/TopicDetail'
+import TopicDetail from 'pages/Screens/Topics/Components/TopicDetail'
 
 const routes = [
     {
