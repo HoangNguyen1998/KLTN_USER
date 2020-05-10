@@ -59,6 +59,10 @@ export default {
     Conversation: "Speak conversation",
     YourComment: "Comment here",
     Close: "Close",
+    ListComment: "Comments",
+    Report: "Report",
+    EditCmt: "Edit your comment",
+    Post: "Post",
 
     // Topics
     NumberOfLesson: "Lesson",
@@ -70,4 +74,5 @@ export default {
     Alphabet: "Alphabet",
     Video: "Video",
     Chat: "Chat",
+
 };

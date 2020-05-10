@@ -9,6 +9,7 @@ import {Tabs} from "antd";
 import Grid from "@material-ui/core/Grid";
 import AlphabetItem from "./Components/AlphabetItem";
 import AlphabetDetail from "./Components/AlphabetDetail";
+import Media from "react-media";
 import Speech from "speak-tts";
 
 import "./styles.scss";
@@ -37,7 +38,7 @@ const Alphabet = (props) => {
     }, []);
     // FUNC
     const changeWord = (id) => {
-        setIsLoading(true)
+        setIsLoading(true);
         dispatch(AlphabetActions.Get_Alphabet_Detail_Request(id, setIsLoading));
     };
     const onSpeak = (word) => {
@@ -71,40 +72,111 @@ const Alphabet = (props) => {
     if (isWaiting) return <Loading />;
     return (
         <div className="container">
-            <Tabs
-                style={{marginBottom: "1rem"}}
-                onChange={(activeKey) => setValueTab(activeKey)}
-                defaultActiveKey="1"
-            >
-                <TabPane tab="Hiragana" key="1">
-                    <Grid container spacing={3}>
-                        <Grid spacing={3} container item xs={12} lg={9}>
-                            {renderAlphabet(alphabetRedux)}
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <AlphabetDetail
-                                isLoading={isLoading}
-                                onSpeak={onSpeak}
-                                valueTab={valueTab}
-                            />
-                        </Grid>
-                    </Grid>
-                </TabPane>
-                <TabPane tab="Katakana" key="2">
-                    <Grid container spacing={3}>
-                        <Grid spacing={3} container item xs={12} lg={9}>
-                            {renderAlphabet(alphabetRedux)}
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                            <AlphabetDetail
-                                isLoading={isLoading}
-                                valueTab={valueTab}
-                                onSpeak={onSpeak}
-                            />
-                        </Grid>
-                    </Grid>
-                </TabPane>
-            </Tabs>
+            <Media
+                query="(max-width: 768px)"
+                render={() => (
+                    <Tabs
+                        style={{marginBottom: "1rem"}}
+                        onChange={(activeKey) => setValueTab(activeKey)}
+                        defaultActiveKey="1"
+                    >
+                        <TabPane tab="Hiragana" key="1">
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <AlphabetDetail
+                                        isLoading={isLoading}
+                                        onSpeak={onSpeak}
+                                        valueTab={valueTab}
+                                    />
+                                </Grid>
+                                <Grid
+                                    spacing={3}
+                                    container
+                                    item
+                                    xs={12}
+                                >
+                                    {renderAlphabet(alphabetRedux)}
+                                </Grid>
+                            </Grid>
+                        </TabPane>
+                        <TabPane tab="Katakana" key="2">
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <AlphabetDetail
+                                        isLoading={isLoading}
+                                        valueTab={valueTab}
+                                        onSpeak={onSpeak}
+                                    />
+                                </Grid>
+                                <Grid
+                                    spacing={3}
+                                    container
+                                    item
+                                    xs={12}
+
+                                >
+                                    {renderAlphabet(alphabetRedux)}
+                                </Grid>
+                            </Grid>
+                        </TabPane>
+                    </Tabs>
+                )}
+            />
+            <Media
+                query="(min-width: 769px)"
+                render={() => (
+                    <Tabs
+                        style={{marginBottom: "1rem"}}
+                        onChange={(activeKey) => setValueTab(activeKey)}
+                        defaultActiveKey="1"
+                    >
+                        <TabPane tab="Hiragana" key="1">
+                            <Grid container spacing={3}>
+                                <Grid
+                                    spacing={3}
+                                    container
+                                    item
+                                    xs={12}
+                                    md={9}
+                                    sm={9}
+                                    lg={9}
+                                >
+                                    {renderAlphabet(alphabetRedux)}
+                                </Grid>
+                                <Grid item xs={12} lg={3}>
+                                    <AlphabetDetail
+                                        isLoading={isLoading}
+                                        onSpeak={onSpeak}
+                                        valueTab={valueTab}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </TabPane>
+                        <TabPane tab="Katakana" key="2">
+                            <Grid container spacing={3}>
+                                <Grid
+                                    spacing={3}
+                                    container
+                                    item
+                                    xs={12}
+                                    md={9}
+                                    sm={9}
+                                    lg={9}
+                                >
+                                    {renderAlphabet(alphabetRedux)}
+                                </Grid>
+                                <Grid item xs={12} lg={3}>
+                                    <AlphabetDetail
+                                        isLoading={isLoading}
+                                        valueTab={valueTab}
+                                        onSpeak={onSpeak}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </TabPane>
+                    </Tabs>
+                )}
+            />
         </div>
     );
 };

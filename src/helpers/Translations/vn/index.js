@@ -59,6 +59,10 @@ export default {
     Conversation: "Nói đoạn hội thoại",
     YourComment: "Để lại bình luận của bạn",
     Close: "Đóng",
+    ListComment: "Bình luận",
+    Report: "Báo cáo vi phạm",
+    EditCmt: "Chỉnh sửa bình luận",
+    Post: "Đăng",
 
     // Topics
     NumberOfLesson: "Bài học",
@@ -70,4 +74,5 @@ export default {
     Alphabet: "Bảng chữ cái",
     Video: "Video",
     Chat: "Tin nhắn",
+
 };

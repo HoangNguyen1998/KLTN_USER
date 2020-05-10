@@ -157,13 +157,13 @@ const ListComment = (props) => {
             <span>
                 {userRedux ? (
                     userRedux === item.idUser ? (
-                        <Tooltip title="Chinh sua">
+                        <Tooltip title={t("EditCmt")}>
                             {createElement(EditOutlined, {
                                 onClick: onOpenModalUpdateCmt(item._id),
                             })}
                         </Tooltip>
                     ) : (
-                        <Tooltip title="Bao cao vi pham">
+                        <Tooltip title={t("Report")}>
                             {createElement(WarningOutlined, {
                                 onClick: onOpenModalReport(item._id),
                             })}
@@ -171,7 +171,7 @@ const ListComment = (props) => {
                     )
                 ) : (
                     ""
-                )}
+                )}             
             </span>,
         ];
         return actions;
@@ -257,7 +257,7 @@ const ListComment = (props) => {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle id="alert-dialog-slide-title">
-                    Bao cao vi pham
+                    {t("Report")}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
@@ -278,10 +278,10 @@ const ListComment = (props) => {
                         onClick={() => setOpenReport(false)}
                         color="primary"
                     >
-                        Cancel
+                        {t("Cancel")}
                     </Button>
                     <Button onClick={onReportUser} color="primary">
-                        OK
+                    {t("OK")}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -296,7 +296,7 @@ const ListComment = (props) => {
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle id="alert-dialog-slide-title">
-                    Chinh sua comment
+                {t("EditCmt")}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
@@ -317,10 +317,10 @@ const ListComment = (props) => {
                         onClick={() => setOpenUpdateCmt(false)}
                         color="primary"
                     >
-                        Cancel
+                        {t("Cancel")}
                     </Button>
                     <Button onClick={onUpdateCmt} color="primary">
-                        OK
+                    {t("OK")}
                     </Button>
                 </DialogActions>
             </Dialog>

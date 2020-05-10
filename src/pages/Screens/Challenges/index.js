@@ -16,7 +16,6 @@ import * as SocketActions from "actions/Socket";
 import getToken from "helpers/GetToken";
 import whyDidYouRender from "@welldone-software/why-did-you-render";
 
-
 whyDidYouRender(React, {
     onlyLogs: true,
     titleColor: "green",
@@ -106,11 +105,13 @@ const Challenges = (props) => {
                 >
                     {renderListItem(ChallengesRedux.challenges)}
                 </Grid>
+                <Grid item xs={12} lg={12}>
+                    <ListComment
+                        ChallengeDetail={ChallengesRedux.challengeDetail}
+                        // socket={socket}
+                    />
+                </Grid>
             </Grid>
-            <ListComment
-                ChallengeDetail={ChallengesRedux.challengeDetail}
-                // socket={socket}
-            />
         </div>
     );
 };

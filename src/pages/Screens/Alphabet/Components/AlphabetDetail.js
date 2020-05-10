@@ -97,7 +97,7 @@ const AlphabetDetail = (props) => {
             );
         }
         if (data) {
-            console.log(data)
+            console.log(data);
             return (
                 <div className="alphabet-detail-container__card-detail">
                     <IconButton onClick={() => onSpeak(renderSpeak(data))}>

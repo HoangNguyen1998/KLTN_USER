@@ -218,7 +218,7 @@ const ChallengeDetail = (props) => {
                     </div>
                 </Box>
                 <Divider className="col1__divider" />
-                <CardMedia className="col1__card-media" image={image} />
+                <CardMedia style={{backgroundSize: "auto"}} className="col1__card-media" image={image} />
                 <Typography style={{margin: "2% 0"}}>
                     {question ? question.replace(/&quot;/g, '"') : ""}
                 </Typography>
