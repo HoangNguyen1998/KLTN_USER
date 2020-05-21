@@ -28,10 +28,10 @@ export const Add_Word = (data, title) => {
   };
 };
 
-export const Add_Course_Request = (data, history, enqueueSnackbar, t, onHideCreateCourse) => {
+export const Add_Course_Request = (data, history, enqueueSnackbar, t) => {
   return {
     type: CoursesConstants.ADD_COURSE_REQUEST,
-    payload: {data, history, enqueueSnackbar, t, onHideCreateCourse}
+    payload: {data, history, enqueueSnackbar, t}
   };
 }; 
 

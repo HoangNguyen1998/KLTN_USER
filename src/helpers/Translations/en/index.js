@@ -75,4 +75,6 @@ export default {
     Video: "Video",
     Chat: "Chat",
 
+    Friend: "Friends",
+    CreatedAt: "Created At"
 };

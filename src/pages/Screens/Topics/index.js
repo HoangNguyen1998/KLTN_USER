@@ -13,10 +13,11 @@ import {Tooltip, Button} from "@material-ui/core";
 import Loading from "pages/Components/Loading";
 import Paper from "@material-ui/core/Paper";
 import {Link} from "react-router-dom";
+// import translate, {parseMultiple} from "google-translate-open-api";
 import {Pagination} from "antd";
 import * as TopicsActions from "actions/Topics";
 // import translate from "translate";
-import TopicDetail from './Components/TopicDetail'
+import TopicDetail from "./Components/TopicDetail";
 
 import "./styles.scss";
 
@@ -55,11 +56,33 @@ const Topics = (props) => {
         // setOpenModal(true)
         // dispatch(TopicsActions.gettopicdetailsRequest(id));
     };
-    // const translateApi = (word) => {
-    //     translate(word, {from: "ja", to: "vi"}).then((text) => {
-    //         console.log(text); // Hola mundo
-    //     });
-    // };
+    const translateApi = async (word) => {
+        // const translate = require('google-translate-open-api').default;
+        // const result = await translate("Hello", {
+        //     tld: "cn",
+        //     to: "zh-CN",
+        // });
+        // console.log(result.data[0]);
+        const {
+            getAllLanguage,
+            getAllCode,
+            isSupport,
+        } = require("google-translate-open-api");
+        const translate = require("google-translate-open-api").default;
+        async function run() {
+            const result = await translate("I'm fine.", {
+                tld: "cn",
+                to: "ja",
+            });
+            const result2 = await translate("Hoàng còn non lắm", {
+                tld: "vi",
+                to: "ja",
+            });
+            const data = result.data[0];
+            console.log(data, result2.data[0]);
+        }
+        run();
+    };
     const renderTopic = (data) => {
         if (data) {
             return data.map((item, index) => {
@@ -100,6 +123,7 @@ const Topics = (props) => {
             <Grid className="topic-item-container" container spacing={3}>
                 {renderTopic(topics)}
             </Grid>
+            <Button onClick={() => translateApi()}>Translate</Button>
             <Pagination
                 className="panigation flex-row"
                 pageSize={pageSize}

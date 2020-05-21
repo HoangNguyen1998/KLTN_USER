@@ -10,8 +10,25 @@ import Alphabet from "pages/Screens/Alphabet";
 import Video from 'pages/Screens/Video'
 import VideoDetail from 'pages/Screens/VideoDetail'
 import TopicDetail from 'pages/Screens/Topics/Components/TopicDetail'
+import CreateCourse from 'pages/Screens/CreateCourse'
+import LearnCourse from 'pages/Screens/CourseList/Components/LearnCourseModal'
 
 const routes = [
+    {
+        path: "/courses/:id/test",
+        exact: false,
+        main: ()=>(CheckAuthen()?<LearnCourse/>:<SignIn/>)
+    },
+    {
+        path: "/courses/:id/learn",
+        exact: false,
+        main: ()=>(CheckAuthen()?<LearnCourse/>:<SignIn/>)
+    },
+    {
+        path: "/courses/create",
+        exact: false,
+        main: ()=>(CheckAuthen()?<CreateCourse/>:<SignIn/>)
+    },
     {
         path: "/video/:id",
         exact: false,

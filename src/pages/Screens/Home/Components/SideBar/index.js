@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -9,6 +10,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import {makeStyles} from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 // import PeopleIcon from "@material-ui/icons/People";
 // import DnsRoundedIcon from "@material-ui/icons/DnsRounded";
@@ -19,17 +21,42 @@ import HomeIcon from "@material-ui/icons/Home";
 // import TimerIcon from "@material-ui/icons/Timer";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import TranslateIcon from "@material-ui/icons/Translate";
+import Toolbar from "@material-ui/core/Toolbar";
+import MailIcon from "@material-ui/icons/Mail";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
 import LandscapeIcon from "@material-ui/icons/Landscape";
 import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import Avatar from "@material-ui/core/Avatar";
+import styles from "./styles";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
-
-import styles from "./styles";
-import "./styles.scss";
+const drawerWidth = 240;
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    drawerContainer: {
+        overflow: "auto",
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
+}));
 
 const categories = [
     {
@@ -52,7 +79,7 @@ const categories = [
 ];
 
 const NavigatorCustom = (props) => {
-    const {history, classes, ...other} = props;
+    const {history, classes, variant, ...other} = props;
     const {i18n, t} = useTranslation("translation");
     useEffect(() => {
         categories.map(({id, children}) => {
@@ -65,6 +92,7 @@ const NavigatorCustom = (props) => {
             });
         });
     });
+    const userRedux = useSelector((state) => state.GetMe.user);
     const [category, setCategory] = useState("Authentication");
     const _useListItem = (childId) => {
         let checkPathname = "";
@@ -86,39 +114,52 @@ const NavigatorCustom = (props) => {
         setCategory();
     };
 
+    const onShowUser = () => {
+        history.push("/getme");
+    };
     return (
-        <Drawer variant="temporary" {...other}>
-            <List disablePadding>
-                {categories.map(({id, children}) => (
-                    <React.Fragment key={id}>
-                        {children.map(({id: childId, icon, active}) => (
-                            <ListItem
-                                key={childId}
-                                button
-                                onClick={() => _useListItem(childId)}
-                                className={clsx(
-                                    classes.item,
-                                    category === childId &&
-                                        classes.itemActiveItem
-                                )}
-                            >
-                                <ListItemIcon className={classes.itemIcon}>
-                                    {icon}
-                                </ListItemIcon>
-                                <ListItemText
-                                    classes={{
-                                        primary: classes.itemPrimary,
-                                    }}
+        <Drawer
+            variant={variant}
+            {...other}
+            classes={{paper: classes.drawerPaper}}
+            className={classes.drawer}
+        >
+            <Toolbar />
+            <div onClick={onShowUser} className="user-container">
+                <Avatar
+                    className="user-container__avatar"
+                    alt="User"
+                    src="https://picsum.photos/200"
+                />
+                <div className="user-container__name">{userRedux?userRedux.username:""}</div>
+            </div>
+            <Divider style={{backgroundColor: "#eeeeee"}} variant="middle"/>
+            <div className={classes.drawerContainer}>
+                <List>
+                    {categories.map(({id, children}) => (
+                        <React.Fragment key={id}>
+                            {children.map(({id: childId, icon, active}) => (
+                                <ListItem
+                                    key={childId}
+                                    button
+                                    onClick={() => _useListItem(childId)}
+                                    className={`${
+                                        props.history.location === childId
+                                            ? "item-active"
+                                            : ""
+                                    }`}
                                 >
-                                    {t(`${childId}`)}
-                                </ListItemText>
-                            </ListItem>
-                        ))}
+                                    <ListItemIcon style={{minWidth: "3rem"}}>{icon}</ListItemIcon>
+                                    <ListItemText>
+                                        {t(`${childId}`)}
+                                    </ListItemText>
+                                </ListItem>
+                            ))}
 
-                        <Divider className={classes.divider} />
-                    </React.Fragment>
-                ))}
-            </List>
+                        </React.Fragment>
+                    ))}
+                </List>
+            </div>
         </Drawer>
     );
 };

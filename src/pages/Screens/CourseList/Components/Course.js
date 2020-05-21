@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {withRouter} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -19,13 +20,14 @@ import * as CoursesActions from "actions/Courses";
 
 const Course = props => {
     const [showModalDelete, setShowModalDelete] = useState(false);
-    const {item, index, onShowCourse} = props;
+    const {item, index, onShowCourse, history} = props;
     const dispatch = useDispatch();
     const {i18n, t} = useTranslation("translation");
     const coursesRedux = useSelector(state => state);
     const circularRedux = useSelector(state => state.Loading.showCircular);
     const {isLoading} = coursesRedux;
     const onShowModal = type => () => {
+        history.push('/courses/learn')
         console.log("Tai bai hoc")
         dispatch(CoursesActions.Get_Course_Request(item._id));
         onShowCourse(type);
@@ -42,6 +44,9 @@ const Course = props => {
     const onHideModalDelete = () => {
         setShowModalDelete(false);
     };
+    const onLearn=(id)=>()=>{
+        history.push(`/courses/${id}/learn`)
+    }
     return (
         <Grid item xs={12} lg={4} key={index}>
             <div className="paper-container" onClick={onShowModal}>
@@ -80,9 +85,12 @@ const Course = props => {
                     ) : (
                         <CardActions>
                             <Button
-                                onClick={onShowModal(0)}
-                                className="general-color"
+                                // onClick={onShowModal(0)}
+                                onClick={onLearn(item._id)}
                                 size="small"
+                                variant="contained"
+                                color="primary"
+                                style={{color: "white !important"}}
                             >
                                 {t("Learn")}
                             </Button>
@@ -90,6 +98,7 @@ const Course = props => {
                                 onClick={onShowModal(1)}
                                 className="general-color"
                                 size="small"
+                                variant="outlined"
                             >
                                 {t("Test")}
                             </Button>
@@ -137,4 +146,4 @@ const Course = props => {
     );
 };
 
-export default Course;
+export default withRouter(Course);

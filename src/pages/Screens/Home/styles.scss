@@ -1,0 +1,28 @@
+.list-item-active {
+    color: #4fc3f7 !important
+}
+
+.user-container{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        cursor: pointer;
+    }
+    &__avatar{
+        width: 6rem !important;
+        height: 6rem !important;
+    }
+    &__name{
+        padding: 1rem 0rem;
+        font-size: 1.6rem;
+    }
+}
+
+.hover{
+    &:hover{
+        cursor: pointer;
+    }
+}

@@ -19,7 +19,7 @@ function* Get_All_Courses_Request() {
 }
 
 function* Add_Course_Request(dataCourse) {
-  const { data, history, enqueueSnackbar, t, onHideCreateCourse } = dataCourse.payload;
+  const { data, history, enqueueSnackbar, t } = dataCourse.payload;
   for (var i = 0; i < data.content.length; i++) {
     if (data.content[i].text === "" || data.content[i].mean === "") {
       data.content.splice(i, 1);
@@ -34,7 +34,7 @@ function* Add_Course_Request(dataCourse) {
     yield put(CoursesActions.Create_New_Course(res.data.result))
     yield put(CoursesActions.Show_Modal_Add_Course(false))
     yield put(LoadingActions.HideCirCular())
-    onHideCreateCourse(false)
+    history.goBack()
   } catch (err) {
     enqueueSnackbar(t("CreateCourseError"), { variant: "error" });
     yield put(LoadingActions.HideCirCular())

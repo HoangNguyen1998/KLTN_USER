@@ -25,7 +25,7 @@ let theme = createMuiTheme({
     },
     mixins: {
         toolbar: {
-            minHeight: 48
+            minHeight: 50
         }
     }
 });
@@ -45,7 +45,7 @@ theme = {
         },
         MuiDrawer: {
             paper: {
-                backgroundColor: "#18202c"
+                backgroundColor: "#ffffff"
             }
         },
         MuiTypography: {
@@ -96,7 +96,8 @@ theme = {
         },
         MuiTooltip: {
             tooltip: {
-                borderRadius: 4
+                borderRadius: 4,
+                fontSize: 14
             }
         },
         MuiDivider: {

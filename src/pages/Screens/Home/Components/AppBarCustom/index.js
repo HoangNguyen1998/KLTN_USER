@@ -38,15 +38,15 @@ import checkAuthen from "helpers/GetToken";
 import * as GetMeActions from "actions/GetMe";
 import {useEffect} from "react";
 
-const AppBarCustom = props => {
-    const [age, setAge]=useState(20)
+const AppBarCustom = (props) => {
+    const [age, setAge] = useState(20);
     const {i18n, t} = useTranslation("translation");
-    const UserInformation = useSelector(state => {
+    const UserInformation = useSelector((state) => {
         return state.GetMe;
     });
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log(UserInformation)
+        console.log(UserInformation);
         // if (_.isEmpty(UserInformation)) {
         //     dispatch(GetMeActions.Get_Me_Request());
         // }
@@ -54,7 +54,7 @@ const AppBarCustom = props => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {classes, onDrawerToggle, history} = props;
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -71,13 +71,9 @@ const AppBarCustom = props => {
     const openMenu = Boolean(anchorEl);
     return (
         <React.Fragment>
-            <AppBar
-                color="primary"
-                position="sticky"
-                elevation={0}
-                className="test"
-            >
+            <AppBar color="primary" elevation={0} className="test">
                 <Toolbar>
+                    <div>Learn JP</div>
                     <Grid container spacing={1} alignItems="center">
                         <Hidden smUp>
                             <Grid item>
@@ -102,7 +98,7 @@ const AppBarCustom = props => {
                                         style={{
                                             fontSize: 25,
                                             color: "white",
-                                            marginRight: 5
+                                            marginRight: 5,
                                         }}
                                     />
                                 </IconButton>
@@ -124,20 +120,20 @@ const AppBarCustom = props => {
                     </Grid>
                 </Toolbar>
             </AppBar>
-
-            <Switch>
-                {IndexRoutes.map((prop, key) => {
-                    return (
-                        <Route
-                            path={prop.path}
-                            exact={prop.exact}
-                            component={prop.main}
-                            key={key}
-                        />
-                    );
-                })}
-            </Switch>
-
+            <div style={{marginTop: "50px"}}>
+                {/* <Switch>
+                    {IndexRoutes.map((prop, key) => {
+                        return (
+                            <Route
+                                path={prop.path}
+                                exact={prop.exact}
+                                component={prop.main}
+                                key={key}
+                            />
+                        );
+                    })}
+                </Switch> */}
+            </div>
             <Popover
                 // id={id}
                 open={openMenu}
@@ -145,11 +141,11 @@ const AppBarCustom = props => {
                 onClose={handleClose}
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "center"
+                    horizontal: "center",
                 }}
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "center"
+                    horizontal: "center",
                 }}
             >
                 <div className="pop-over">
@@ -175,7 +171,7 @@ const AppBarCustom = props => {
 
 AppBarCustom.propTypes = {
     classes: PropTypes.object.isRequired,
-    onDrawerToggle: PropTypes.func.isRequired
+    onDrawerToggle: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(withRouter(AppBarCustom));

@@ -75,4 +75,9 @@ export default {
     Video: "Video",
     Chat: "Tin nhắn",
 
+    Friend: "Bạn bè",
+    CreatedAt: "Ngày tạo",
+    ReceiveRequest: "Lời mời kết bạn",
+    SendRequest: "Lời mời kết bạn đã gửi",
+     User: "Người dùng"
 };

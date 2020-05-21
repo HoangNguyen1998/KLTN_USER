@@ -1,87 +1,107 @@
 import React, {useEffect, useState} from "react";
 import Paper from "@material-ui/core/Paper";
+import * as FriendsActions from "actions/Friends";
 import Grid from "@material-ui/core/Grid";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {withSnackbar} from "notistack";
+import {Tabs, Radio} from "antd";
 import {withRouter} from "react-router-dom";
+import * as SocketActions from "actions/Socket";
+import SearchFriends from "./Components/SearchFriends";
+import ListSend from "./Components/ListSend";
+import ListReceive from "./Components/ListReceive";
+import ListFriends from './Components/ListFriends'
+import {isEmpty} from 'lodash'
 
 import "./styles.scss";
+import moment from "moment";
 
-const UserInformation = props => {
+const {TabPane} = Tabs;
+
+const UserInformation = (props) => {
     const {i18n, t} = useTranslation("translation");
-    const user = useSelector(state => {
+    const user = useSelector((state) => {
         return state.GetMe.user;
     });
+    const socket = useSelector((state) => state.Socket.socket);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(FriendsActions.Get_List_Users_Request());
+        dispatch(FriendsActions.Get_List_Add_Friend_Request());
+    }, []);
+    useEffect(() => {
+        if(isEmpty(socket)){
+            console.log("Hello")
+            dispatch(SocketActions.Connect_Socket());
+        }
+        return ()=>{
+            // console.log("Helooooooo")
+            // if(socket){
+            //     socket.removeAllListeners();
+            // }
+            
+        }
+    },[]);
     console.log(user);
     return (
         <div className="container">
-            <Grid container spacing={6}>
-                <Grid item xs={12} lg={4} className="col-avatar">
-                    <Paper elevation={3} className="col-avatar__image">
-                        <div />
+            <Grid container spacing={3}>
+                <Grid item xs={12} lg={4}>
+                    <Paper elevation={3} className="col-avatar">
+                        <div className="col-avatar__image">
+                            <img src="https://picsum.photos/200" alt="Hihi" />
+                        </div>
+                        <div className="col-avatar__info">
+                            <div>{t("UserName")}</div>
+                            <div className="col-avatar__info__detail">
+                                {user ? user.username : ""}
+                            </div>
+                        </div>
+                        <div className="col-avatar__info">
+                            <div>{t("Email")}</div>
+                            <div className="col-avatar__info__detail">
+                                {user ? user.email : ""}
+                            </div>
+                        </div>
+                        <div className="col-avatar__info">
+                            <div>{t("Friend")}</div>
+                            <div className="col-avatar__info__detail">
+                                {user ? user.friends.length : ""}
+                            </div>
+                        </div>
+                        <div className="col-avatar__info">
+                            <div>{t("Courses")}</div>
+                            <div className="col-avatar__info__detail">
+                                {user ? user.courses.length : ""}
+                            </div>
+                        </div>
+                        <div className="col-avatar__info">
+                            <div>{t("CreatedAt")}</div>
+                            <div className="col-avatar__info__detail">
+                                {user
+                                    ? moment(user.createdAt).format("LLL")
+                                    : ""}
+                            </div>
+                        </div>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} lg={8} className="col-user">
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={0} className="col-user__item">
-                        <Grid container className="col-user__item__detail">
-                            <Grid item xs={4}>
-                                {t("UserName")}
-                            </Grid>
-                            <Grid item xs={8}>
-                                {user ? user.username : ""}
-                            </Grid>
-                        </Grid>
+                    <Paper elevation={3} className="col-info">
+                        <Tabs defaultActiveKey="1" type="card">
+                            <TabPane tab={t("Friend")} key="1">
+                                <ListFriends/>
+                            </TabPane>
+                            <TabPane tab={t("ReceiveRequest")} key="2">
+                                <ListReceive />
+                            </TabPane>
+                            <TabPane tab={t("SendRequest")} key="3">
+                                <ListSend />
+                            </TabPane>
+                            <TabPane tab={t("User")} key="4">
+                                <SearchFriends />
+                            </TabPane>
+                        </Tabs>
                     </Paper>
                 </Grid>
             </Grid>

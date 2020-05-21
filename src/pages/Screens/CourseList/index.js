@@ -13,7 +13,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import Loading from "./Components/Loading";
 import * as CoursesActions from "actions/Courses";
-import AddCourseModal from "./Components/AddCourseModal";
+// import AddCourseModal from "./Components/AddCourseModal";
 import Course from "./Components/Course";
 import LearnCourseModal from './Components/LearnCourseModal/index'
 
@@ -60,7 +60,8 @@ const CourseList = (props) => {
         return null;
     };
     const onShowCreateCourse = () => {
-        setOpenModalCreateCourse(true);
+        // setOpenModalCreateCourse(true);
+        history.push("/courses/create")
     };
     const onHideCreateCourse = () => {
         setOpenModalCreateCourse(false);
@@ -117,26 +118,6 @@ const CourseList = (props) => {
                         {t("LoadMore")}
                     </Button>
                 </div>
-                {/* Hien thi Dialog tao khoa hoc */}
-                <Dialog
-                    onClose={onHideCreateCourse}
-                    fullScreen
-                    open={openModalCreateCourse}
-                >
-                    <div className="modal-create-course">
-                        <Tooltip className="modal-create-course__icon-close">
-                            <IconButton onClick={onHideCreateCourse}>
-                                <CloseIcon style={{fontSize: 25}} />
-                            </IconButton>
-                        </Tooltip>
-                        <AddCourseModal
-                            onHideCreateCourse={onHideCreateCourse}
-                            history={history}
-                            enqueueSnackbar={enqueueSnackbar}
-                            t={t}
-                        />
-                    </div>
-                </Dialog>
                 {/* Hien thi modal hoc va kiem tra khoa hoc */}
                 <Dialog
                     onClose={onHideCourse}
@@ -176,25 +157,6 @@ const CourseList = (props) => {
                 <div className="courses-list-container__blank-courses">
                     <p>{t("BlankCourses")}</p>
                 </div>
-                <Dialog
-                    onClose={onHideCreateCourse}
-                    fullScreen
-                    open={openModalCreateCourse}
-                >
-                    <div className="modal-create-course">
-                        <Tooltip className="modal-create-course__icon-close">
-                            <IconButton onClick={onHideCreateCourse}>
-                                <CloseIcon style={{fontSize: 25}} />
-                            </IconButton>
-                        </Tooltip>
-                        <AddCourseModal
-                            onHideCreateCourse={onHideCreateCourse}
-                            history={history}
-                            enqueueSnackbar={enqueueSnackbar}
-                            t={t}
-                        />
-                    </div>
-                </Dialog>
             </div>
         );
 };
