@@ -8,6 +8,7 @@ import Topics from "pages/Screens/Topics";
 import Friends from "pages/Screens/Friends";
 import Alphabet from "pages/Screens/Alphabet";
 import Video from "pages/Screens/Video";
+import Messages from 'pages/Screens/Message'
 import VideoDetail from "pages/Screens/VideoDetail";
 import TopicDetail from "pages/Screens/Topics/Components/TopicDetail";
 import CreateCourse from "pages/Screens/CreateCourse";
@@ -116,11 +117,11 @@ const routes = [
         exact: false,
         main: () => (CheckAuthen() ? <Topics /> : <SignIn />),
     },
-    // {
-    //     path: "/challenges",
-    //     exact: false,
-    //     main: () => (CheckAuthen() ? <Challenges /> : <SignIn />),
-    // },
+    {
+        path: "/messages",
+        exact: false,
+        main: () => (CheckAuthen() ? <Messages /> : <SignIn />),
+    },
     {
         path: "/challenges/:id",
         exact: false,

@@ -12,12 +12,12 @@ import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ListSend = (props) => {
-    // const {socket} = props;
+    const {socket} = props;
     const dispatch = useDispatch();
     const listAddRedux = useSelector((state) => state.Friends.listAdd);
     const usersRedux = useSelector((state) => state.Friends.listUsers);
     const getMeRedux = useSelector((state) => state.GetMe.user);
-    const socket = useSelector((state) => state.Socket.socket);
+    // const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
         if (!isEmpty(socket)) {
             // console.log("hello mother fucker ")
@@ -50,7 +50,7 @@ const ListSend = (props) => {
             });
         }
     };
-    const renderListAdd = (data) => {
+    const renderListSend = (data) => {
         if (!data) {
             return (
                 <div className="loading-container">
@@ -88,7 +88,7 @@ const ListSend = (props) => {
     };
     return (
         <Grid item xs={12} lg={12}>
-            {renderListAdd(listAddRedux)}
+            {renderListSend(listAddRedux)}
         </Grid>
     );
 };

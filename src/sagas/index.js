@@ -8,7 +8,9 @@ import TopicsSaga from "./TopicsSaga";
 import FriendsSaga from './FriendsSaga'
 import VideoSaga from './VideoSaga'
 import AlphabetSaga from './AlphabetSaga'
+import MessagesSaga from './MessagesSaga'
 import { all } from "redux-saga/effects";
+import Message from "pages/Screens/Message";
 function* rootSaga() {
   yield all([
     SignUpSaga(),
@@ -21,7 +23,8 @@ function* rootSaga() {
     ChallengesSaga(),
     FriendsSaga(),
     AlphabetSaga(),
-    VideoSaga()
+    VideoSaga(),
+    MessagesSaga()
   ]);
 }
 export default rootSaga;

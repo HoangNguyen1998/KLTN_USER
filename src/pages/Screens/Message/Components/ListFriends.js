@@ -7,17 +7,18 @@ import * as FriendsActions from "actions/Friends";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MessageIcon from "@material-ui/icons/Message";
 import {isEmpty} from "lodash";
+import * as GetMeActions from 'actions/GetMe'
 import CloseIcon from "@material-ui/icons/Close";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 const list = [{name: "Hoang"}, {name: "Lam"}];
 
 const ListFriends = (props) => {
-    const {socket} = props;
+    // const {socket} = props;
     const dispatch = useDispatch();
     const listRequestRedux = useSelector((state) => state.Friends.listRequest);
     const getMeRedux = useSelector((state) => state.GetMe.user);
-    // const socket = useSelector((state) => state.Socket.socket);
+    const socket = useSelector((state) => state.Socket.socket);
     console.log(socket);
     useEffect(() => {
         if (!isEmpty(socket)) {
@@ -58,6 +59,7 @@ const ListFriends = (props) => {
                 () => {
                     console.log("accept success");
                     dispatch(FriendsActions.On_Accept_Add_Friend(id));
+                    dispatch(GetMeActions.Get_Me_Success());
                 }
             );
         }

@@ -10,7 +10,8 @@ import FriendsReducer from "./Friends";
 import SocketReducer from "./Socket";
 import VideoReducer from "./Video";
 import AlphabetReducer from "./Alphabet";
-import TimerReducer from "./Timer.js";
+import TimerReducer from "./Timer";
+import MessagesReducer from './Messages'
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     Alphabet: AlphabetReducer,
     Video: VideoReducer,
     Timer: TimerReducer,
+    Messages: MessagesReducer
 });
 
 export default rootReducer;

@@ -28,7 +28,7 @@ const ListenCourse = (props) => {
     // Thong bao het khoa hoc
     const [endLearn, setEndLearn] = useState(false);
     // Cau tra loi cua nguoi dung
-    const [wrongAnswer, setWrongAnswer] = useState(null);
+    const [wrongAnswer, setWrongAnswer] = useState("");
     // Hien thi phan giai thich sau khi tra loi sai
     const [activeExplain, setActiveExplain] = useState(false);
     // Hien thi cau tra loi hien tai
@@ -52,40 +52,6 @@ const ListenCourse = (props) => {
         speech.speak({
             text: `${word}`,
         });
-    };
-    const renderAnswers = (data) => {
-        if (data.length !== 0) {
-            return data.map((item, index) => {
-                return (
-                    <div
-                        onClick={checkAnswer(index, item)}
-                        className={` ${
-                            result === index
-                                ? "write-course-container__body__result"
-                                : "write-course-container__body__answer"
-                        }`}
-                    >
-                        {result === index ? (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    color: "white",
-                                }}
-                            >
-                                <SentimentVerySatisfiedOutlinedIcon
-                                    style={{color: "#fdca47"}}
-                                    fontSize="large"
-                                />{" "}
-                                {t("Correct")}{" "}
-                            </div>
-                        ) : (
-                            `${index + 1}. ${item}`
-                        )}
-                    </div>
-                );
-            });
-        }
     };
     const checkAnswer = (answer) => () => {
         console.log(answer);
@@ -123,8 +89,8 @@ const ListenCourse = (props) => {
     };
     const renderWrongResult = () => {
         return (
-            <div className="write-course-container__body__wrong-result-container">
-                <div className="write-course-container__body__wrong-result-row1">
+            <div className="listen-course-container__body__wrong-result-container">
+                <div className="listen-course-container__body__wrong-result-row1">
                     <SentimentVeryDissatisfiedOutlinedIcon
                         style={{marginRight: "1rem"}}
                         color="secondary"
@@ -133,41 +99,39 @@ const ListenCourse = (props) => {
                     {t("IncorrectAnswer")}
                 </div>
                 <Divider />
-                <div className="write-course-container__body__wrong-result-row">
+                <div className="listen-course-container__body__wrong-result-row">
                     <div>{t("Define")}</div>
                     <div
                         style={{color: "#009be5"}}
-                        className="write-course-container__body__wrong-result-row__define"
+                        className="listen-course-container__body__wrong-result-row__define"
                     >
                         {LearnCourseRedux[activeQuestion].question}
                     </div>
                 </div>
                 <Divider />
-                <div className="write-course-container__body__wrong-result-row">
+                <div className="listen-course-container__body__wrong-result-row">
                     <div>{t("CorrectAnswer")}</div>
                     <div
                         style={{color: "#23b26d"}}
-                        className="write-course-container__body__wrong-result-row__define"
+                        className="listen-course-container__body__wrong-result-row__define"
                     >
                         {
-                            LearnCourseRedux[activeQuestion].answers[
-                                LearnCourseRedux[activeQuestion].answer_id
-                            ]
+                            LearnCourseRedux[activeQuestion].question
                         }
                     </div>
                 </div>
                 <Divider />
-                <div className="write-course-container__body__wrong-result-row">
+                <div className="listen-course-container__body__wrong-result-row">
                     <div>{t("YourAnswer")}</div>
                     <div
                         style={{color: "#f50057"}}
-                        className="write-course-container__body__wrong-result-row__define"
+                        className="listen-course-container__body__wrong-result-row__define"
                     >
                         {wrongAnswer}
                     </div>
                 </div>
                 <Button
-                    className="write-course-container__body__button-continue"
+                    className="listen-course-container__body__button-continue"
                     onClick={() => {
                         setActiveQuestion(activeQuestion);
                         setActiveExplain(false);
@@ -189,12 +153,12 @@ const ListenCourse = (props) => {
             return (
                 <React.Fragment>
                     {endLearn ? (
-                        <div className="write-course-container__end-learn">
+                        <div className="listen-course-container__end-learn">
                             <Grid container>
                                 <Grid
                                     item
                                     lg={6}
-                                    className="write-course-container__end-learn__right-answers"
+                                    className="listen-course-container__end-learn__right-answers"
                                 >
                                     {t("CorrectPercent")}
                                     <div>
@@ -211,7 +175,7 @@ const ListenCourse = (props) => {
                                 <Grid
                                     item
                                     lg={6}
-                                    className="write-course-container__end-learn__wrong-answers"
+                                    className="listen-course-container__end-learn__wrong-answers"
                                 >
                                     {t("IncorrectPercent")}
                                     <div>
@@ -227,7 +191,7 @@ const ListenCourse = (props) => {
                                 </Grid>
                             </Grid>
                             <Button
-                                className="write-course-container__body__button-continue"
+                                className="listen-course-container__body__button-continue"
                                 onClick={() => {
                                     setActiveQuestion(0);
                                     setActiveExplain(false);
@@ -243,7 +207,7 @@ const ListenCourse = (props) => {
                             </Button>
                         </div>
                     ) : (
-                        <div className="write-course-container__body">
+                        <div className="listen-course-container__body">
                             {activeExplain ? (
                                 renderWrongResult()
                             ) : (
@@ -255,7 +219,7 @@ const ListenCourse = (props) => {
                                     </div>
                                     <Grid
                                         container
-                                        className="write-course-container__body__answer-container"
+                                        className="listen-course-container__body__answer-container"
                                     >
                                         <Grid item xs={12} lg={8}>
                                             <TextField
@@ -265,21 +229,22 @@ const ListenCourse = (props) => {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="write-course-container__body__answer-container__text-field"
+                                                className="listen-course-container__body__answer-container__text-field"
                                                 label={t("YourAnswer")}
-                                                helperText={t("EnterMeaning")}
+                                                helperText={t("EnterWhatYouListen")}
                                             />
                                         </Grid>
                                         <Grid xs={0} lg={1} />
                                         <Grid item xs={12} lg={3}>
                                             <Button
+                                                disabled={wrongAnswer===""}
                                                 onClick={checkAnswer(
                                                     wrongAnswer
                                                 )}
                                                 className={`${
                                                     result
-                                                        ? "write-course-container__body__answer-container__show-result"
-                                                        : "write-course-container__body__answer-container__button-answer"
+                                                        ? "listen-course-container__body__answer-container__show-result"
+                                                        : "listen-course-container__body__answer-container__button-answer"
                                                 }`}
                                             >
                                                 {result ? (
@@ -314,8 +279,9 @@ const ListenCourse = (props) => {
             );
         } else {
             return (
-                <div className="write-course-container__loading">
+                <div className="listen-course-container__loading">
                     <CircularProgress />
+                    <div>{t("EnterWhatYouListen")}</div>
                 </div>
             );
         }
@@ -331,7 +297,7 @@ const ListenCourse = (props) => {
                     }}
                     percent={percent}
                 />
-                <Paper className="write-course-container">
+                <Paper className="listen-course-container">
                     {renderLearn()}
                 </Paper>
             </Grid>

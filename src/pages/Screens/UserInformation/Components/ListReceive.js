@@ -13,12 +13,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const list = [{name: "Hoang"}, {name: "Lam"}];
 
 const ListReceive = (props) => {
-    // const {socket} = props;
+    const {socket} = props;
     const dispatch = useDispatch();
     const listRequestRedux = useSelector((state) => state.Friends.listRequest);
     const listFriendsRedux = useSelector((state) => state.Friends.listFriends);
     const getMeRedux = useSelector((state) => state.GetMe.user);
-    const socket = useSelector((state) => state.Socket.socket);
+    // const socket = useSelector((state) => state.Socket.socket);
     console.log(socket);
     useEffect(() => {
         if (!isEmpty(socket)) {

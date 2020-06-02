@@ -9,6 +9,7 @@ import {
 } from "redux-saga/effects";
 import * as GetMeConstants from "constants/GetMe";
 import * as GetMeActions from "actions/GetMe";
+import * as FriendsConstants from "../constants/Friends";
 import * as LoadingActions from "actions/GlobalLoading";
 import deleteToken from "helpers/DeleteCookies";
 import CallApi from "helpers/ApiCaller";
@@ -36,8 +37,24 @@ function* Get_Me_Request(){
         }
     }
 }
+// function* Accept_New_Friend(){
+//     while(true){
+//         try{
+//         yield take(FriendsConstants.ON_ACCEPT_ADD_FRIEND)
+//         console.log("saga")
+//         // yield put(LoadingActions.ShowLoading());
+//         const res=yield call(CallApi, "users/me", "GET", null)
+//         yield put(GetMeActions.Get_Me_Success(res.data.result))
+//         // yield delay(1000)
+//         // yield put(LoadingActions.HideLoading());
+//         } catch(err){
+//             console.log("Hello")
+//         }
+//     }
+// }
 function* homeWatcher() {
     yield fork(Get_Me_Request);
+    // yield fork(Accept_New_Friend)
     yield takeLatest(GetMeConstants.SIGN_OUT, Sign_Out_Request);
 }
 export default homeWatcher;

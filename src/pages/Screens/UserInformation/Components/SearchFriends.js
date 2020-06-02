@@ -15,14 +15,14 @@ import CallApi from "helpers/ApiCaller";
 
 const SearchFriends = (props) => {
     const dispatch = useDispatch();
-    // const {socket} = props;
+    const {socket} = props;
     const [listNotFriend, setListNotFriend] = useState([]);
     const [txtSearch, setTxtSearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
     const [isSearch, setIsSearch] = useState(false);
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const usersRedux = useSelector((state) => state.Friends.listUsers);
-    const socket = useSelector((state) => state.Socket.socket);
+    // const socket = useSelector((state) => state.Socket.socket);
     useEffect(() => {
         if (!isEmpty(socket)) {
             socket.on("authenticate", (data) => {
