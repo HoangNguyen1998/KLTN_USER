@@ -3,3 +3,27 @@
 .container {
     margin: 2rem;
 }
+
+.video-left-side-container {
+    min-height: 67rem;
+}
+
+.right-side-container {
+    min-height: 90rem;
+    max-height: 90rem;
+    overflow: scroll;
+    &__detail {
+        display: flex;
+        margin-bottom: 1rem;
+        flex-direction: column;
+        padding: 1rem;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.play-video{
+    height: 67rem;
+    width: 100%;
+}

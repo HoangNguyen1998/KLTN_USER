@@ -30,11 +30,16 @@ import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import Avatar from "@material-ui/core/Avatar";
+import AvTimerIcon from "@material-ui/icons/AvTimer";
+import * as TimerAction from "actions/Timer";
 import styles from "./styles";
+import './styles.scss'
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
 const drawerWidth = 240;
+var totalSeconds = 0;
+var hours, seconds, minutes;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -72,7 +77,6 @@ const categories = [
     {
         id: "Chat",
         children: [
-            {id: "Friends", icon: <PeopleAltIcon />},
             {id: "Messages", icon: <MessageIcon />},
         ],
     },
@@ -81,6 +85,12 @@ const categories = [
 const NavigatorCustom = (props) => {
     const {history, classes, variant, ...other} = props;
     const {i18n, t} = useTranslation("translation");
+    const dispatch = useDispatch();
+    const timerReducer = useSelector((state) => state.Timer);
+    const [hours1, setHours] = useState(0);
+    const [minutes1, setMinutes] = useState(0);
+    const [seconds1, setSeconds] = useState(0);
+    const [totalSeconds1, setTotalSeconds] = useState(0);
     useEffect(() => {
         categories.map(({id, children}) => {
             children.map(({id: childId}) => {
@@ -117,6 +127,7 @@ const NavigatorCustom = (props) => {
     const onShowUser = () => {
         history.push("/getme");
     };
+
     return (
         <Drawer
             variant={variant}
@@ -131,9 +142,11 @@ const NavigatorCustom = (props) => {
                     alt="User"
                     src="https://picsum.photos/200"
                 />
-                <div className="user-container__name">{userRedux?userRedux.username:""}</div>
+                <div className="user-container__name">
+                    {userRedux ? userRedux.username : ""}
+                </div>
             </div>
-            <Divider style={{backgroundColor: "#eeeeee"}} variant="middle"/>
+            <Divider style={{backgroundColor: "#eeeeee"}} variant="middle" />
             <div className={classes.drawerContainer}>
                 <List>
                     {categories.map(({id, children}) => (
@@ -149,16 +162,31 @@ const NavigatorCustom = (props) => {
                                             : ""
                                     }`}
                                 >
-                                    <ListItemIcon style={{minWidth: "3rem"}}>{icon}</ListItemIcon>
+                                    <ListItemIcon style={{minWidth: "3rem"}}>
+                                        {icon}
+                                    </ListItemIcon>
                                     <ListItemText>
                                         {t(`${childId}`)}
                                     </ListItemText>
                                 </ListItem>
                             ))}
-
                         </React.Fragment>
                     ))}
                 </List>
+            </div>
+            <Divider/>
+            <div style={{textAlign: 'center', marginTop: "1rem"}}>
+                <AvTimerIcon style={{fontSize: "3rem"}}/>
+                <div className="timer-container">
+                    <div className="timer-container__left-side">
+                        {timerReducer ? timerReducer.hours : ""}
+                        <div>hours</div>
+                    </div>
+                    <div className="timer-container__right-side">
+                        {timerReducer ? timerReducer.minutes : ""}
+                        <div>minutes</div>
+                    </div>
+                </div>
             </div>
         </Drawer>
     );

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../styles.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Paper} from "@material-ui/core";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import Speech from "speak-tts";
 import {withSnackbar} from "notistack";
@@ -42,13 +42,13 @@ const TopicDetail = (props) => {
             return data.map((item, index) => {
                 return (
                     <Grid item xs={12} md={6} lg={6} className="flex-row" style={{justifyContent:"center", padding: "1rem"}}>
-                        <div className="item-detail-container">
+                        <Paper className="item-detail-container">
                             <div>{item.text}</div>
                             <div>{item.vocabulary_meaning}</div>
                             <IconButton onClick={() => onSpeak(item.text)}>
                                 <VolumeDownIcon style={{fontSize: 25}} />
                             </IconButton>
-                        </div>
+                        </Paper>
                     </Grid>
                 );
             });

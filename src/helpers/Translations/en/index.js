@@ -76,5 +76,23 @@ export default {
     Chat: "Chat",
 
     Friend: "Friends",
-    CreatedAt: "Created At"
+    CreatedAt: "Created At",
+
+    ChangePw: "Change password",
+    OldPw: "Old password",
+    NewPw: "New password",
+    ConfirmPw: "Confirm new password",
+
+    IncorrectAnswer: "Your answer is incorrect",
+    Define: "Define",
+    CorrectAnswer: "Correct answer",
+    YourAnswer: "Your answer",
+    Continue: "Continue",
+    Correct: "Correct",
+    RepeatLesson: "Do you want to repeat this lesson?",
+    CorrectPercent: "Percent correct",
+    IncorrectPercent: "Percent incorrect",
+    Answer: "Answer",
+    EnterMeaning: "Enter meaning of the word",
+    EnterWhatYouListen: "Enter what you listen",
 };

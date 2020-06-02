@@ -79,5 +79,24 @@ export default {
     CreatedAt: "Ngày tạo",
     ReceiveRequest: "Lời mời kết bạn",
     SendRequest: "Lời mời kết bạn đã gửi",
-     User: "Người dùng"
+    User: "Người dùng",
+
+    ChangePw: "Đổi mật khẩu",
+    OldPw: "Mật khẩu cũ",
+    NewPw: "Mật khẩu mới",
+    ConfirmPw: "Xác nhận mật khẩu mới",
+
+    IncorrectAnswer: "Bạn trả lời sai rồi",
+    Define: "Định nghĩa",
+    CorrectAnswer: "Đáp án đúng",
+    YourAnswer: "Đáp án của bạn",
+    Continue: "Tiếp tục nào",
+    Correct: "Chính xác",
+    RepeatLesson: "Bạn có muốn học lại khoá học không?",
+    CorrectPercent: "Phần trăm chính xác",
+    IncorrectPercent: "Phần trăm chưa chính xác",
+    Answer: "Đáp án",
+    EnterMeaning: "Nhập nghĩa của từ",
+    EnterWhatYouListen: "Hãy nhập những gì mà bạn nghe được nha.",
+
 };

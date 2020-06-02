@@ -7,8 +7,7 @@ import Loading from "pages/Components/Loading";
 import * as VideoActions from "actions/Video";
 
 import "./styles.scss";
-import {Grid} from "@material-ui/core";
-const markdown = require("markdown").markdown;
+import {Grid, Paper, Divider} from "@material-ui/core";
 const Video = (props) => {
     // STATE
     const [isWaiting, setIsWaiting] = useState(true);
@@ -37,9 +36,8 @@ const Video = (props) => {
         if (data) {
             return data.map((item, index) => {
                 return (
-                    <Grid item xs={12} lg={4}>
-                        <div style={{display: "flex", flexDirection: "column"}} onClick={()=>getVideoDetail(item._id)}>
-                            <div>{item.name}</div>
+                    <Grid item xs={12} lg={3}>
+                        <Paper className="video-item-container" onClick={()=>getVideoDetail(item._id)}>
                             {/* <iframe
                                 title="Hello"
                                 src={item.embeb}
@@ -48,7 +46,9 @@ const Video = (props) => {
                                 allowFullScreen
                             ></iframe> */}
                             <img height="250px" src={item.thumbnailLink} alt="Khong tai duoc anh" />
-                        </div>
+                            <Divider style={{marginTop: "0.5rem"}}></Divider>
+                            <div style={{textAlign: "center"}}>{item.name}</div>
+                        </Paper>
                     </Grid>
                 );
             });

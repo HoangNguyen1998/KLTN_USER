@@ -1,0 +1,1 @@
+export const INCREASE_SECONDS = "INCREASE_SECONDS";

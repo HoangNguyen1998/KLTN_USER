@@ -5,7 +5,7 @@ import {useTranslation} from "react-i18next";
 import {withSnackbar} from "notistack";
 import _ from "lodash";
 import {withRouter} from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
+import {Grid, Paper} from "@material-ui/core";
 import * as ChallengesActions from "actions/Challenges";
 import ChallengeItem from "./Components/ChallengeItem";
 import Loading from "./Components/Loading";
@@ -93,19 +93,21 @@ const Challenges = (props) => {
                         setValueComment={setValueComment}
                     />
                 </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    lg={4}
-                    style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "flex-start",
-                    }}
-                >
-                    {renderListItem(ChallengesRedux.challenges)}
+                <Grid item xs={12} lg={4}>
+                    <Paper
+                        elevation={3}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "flex-start",
+                        }}
+                    >
+                        {renderListItem(ChallengesRedux.challenges)}
+                    </Paper>
                 </Grid>
-                <Grid item xs={12} lg={12}>
+                <Grid item xs={12} lg={12} style={{marginTop: "1rem"}}>
                     <ListComment
                         ChallengeDetail={ChallengesRedux.challengeDetail}
                         // socket={socket}

@@ -45,6 +45,7 @@ const Course = props => {
         setShowModalDelete(false);
     };
     const onLearn=(id)=>()=>{
+        dispatch(CoursesActions.Get_Course_Request(id));
         history.push(`/courses/${id}/learn`)
     }
     return (

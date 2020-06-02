@@ -7,37 +7,90 @@ import Challenges from "pages/Screens/Challenges";
 import Topics from "pages/Screens/Topics";
 import Friends from "pages/Screens/Friends";
 import Alphabet from "pages/Screens/Alphabet";
-import Video from 'pages/Screens/Video'
-import VideoDetail from 'pages/Screens/VideoDetail'
-import TopicDetail from 'pages/Screens/Topics/Components/TopicDetail'
-import CreateCourse from 'pages/Screens/CreateCourse'
-import LearnCourse from 'pages/Screens/CourseList/Components/LearnCourseModal'
+import Video from "pages/Screens/Video";
+import VideoDetail from "pages/Screens/VideoDetail";
+import TopicDetail from "pages/Screens/Topics/Components/TopicDetail";
+import CreateCourse from "pages/Screens/CreateCourse";
+import LearnCourse from "pages/Screens/CourseList/Components/LearnCourse";
+import FlashCard from "pages/Screens/CourseList/Components/FlashCard";
+import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
+import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
+
+const categories = [
+    {
+        id: "FlashCard",
+        name: "flash-card",
+        render: <FlashCard />,
+    },
+    {
+        id: "Learn",
+        name: "learn",
+        render: <FlashCard />,
+    },
+    {
+        id: "Write",
+        name: "write",
+        render: <WriteCourse />,
+    },
+    {
+        id: "Listen",
+        name: "listen",
+        render: <FlashCard />,
+    },
+    {
+        id: "Test",
+        name: "test",
+        render: <FlashCard />,
+    },
+];
+
+// const renderCoursePath = () => {
+//     console.log("Hello")
+//     categories.forEach((item)=>{
+//         if(item.name==)
+//     })
+// };
 
 const routes = [
     {
-        path: "/courses/:id/test",
+        path: "/courses/:id/listen",
         exact: false,
-        main: ()=>(CheckAuthen()?<LearnCourse/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <ListenCourse /> : <SignIn />),
+    },
+    {
+        path: "/courses/:id/write",
+        exact: false,
+        main: () => (CheckAuthen() ? <WriteCourse /> : <SignIn />),
     },
     {
         path: "/courses/:id/learn",
         exact: false,
-        main: ()=>(CheckAuthen()?<LearnCourse/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <LearnCourse /> : <SignIn />),
+    },
+    {
+        path: "/courses/:id/flash-card",
+        exact: true,
+        main: () => (CheckAuthen() ? <FlashCard /> : <SignIn />),
+    },
+    {
+        path: "/courses/:id/:type",
+        exact: false,
+        main: () => (CheckAuthen() ? <LearnCourse /> : <SignIn />),
     },
     {
         path: "/courses/create",
         exact: false,
-        main: ()=>(CheckAuthen()?<CreateCourse/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <CreateCourse /> : <SignIn />),
     },
     {
         path: "/video/:id",
         exact: false,
-        main: ()=>(CheckAuthen()?<VideoDetail/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <VideoDetail /> : <SignIn />),
     },
     {
         path: "/video",
         exact: false,
-        main: ()=>(CheckAuthen()?<Video/>:<SignIn/>)
+        main: () => (CheckAuthen() ? <Video /> : <SignIn />),
     },
     {
         path: "/alphabet/:id",

@@ -1,0 +1,151 @@
+@import "../../../../../styles/global.scss";
+
+// Learn course
+.font-text {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+// .remember-card-container {
+//     &__card {
+//         max-width: 80rem;
+//         min-height: 50rem;
+//         box-shadow: 0.1rem 0.1rem 0.5rem 0.6rem rgba(0, 0, 0, 0.1);
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//     }
+//     &__stepper {
+//         margin-top: 1rem;
+//         max-width: 80rem;
+//         font-size: 1.6rem;
+//     }
+//     &__card-text{
+//         position: absolute;
+//         width: 100%;
+//         transition: 0.5s;
+//         transform: rotateY(360deg);
+//     }
+//     &__card-mean{
+//         // position: absolute;
+//         transition: 0.5s;
+//         transform: rotateY(180deg);
+//         backface-visibility: hidden;
+//     }
+//     &__card-text-rotate {
+//         transition: 0.5s;
+//         transform: rotateY(180deg);
+//         backface-visibility: hidden;
+//     }
+//     &__card-mean-rotate {
+//         transition: 0.5s;
+//         transform: rotateY(360deg);
+//         // backface-visibility: hidden;
+//     }
+// }
+
+.write-course-container {
+    padding: 2rem;
+    &__loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50rem;
+        max-height: 60rem;
+    }
+    &__end-learn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        min-height: 50rem;
+        max-height: 60rem;
+        &__right-answers {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            &__item {
+            }
+            &__container {
+                padding: 1rem;
+                display: flex;
+            }
+        }
+        &__wrong-answers {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            &__container {
+                padding: 1rem;
+                display: flex;
+            }
+        }
+    }
+    &__body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 30rem;
+        &__button-continue{
+            width: 100%;
+            &:hover{
+                background-color: #009be5 !important;
+                color: #fff
+            }
+        }
+        &__answer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &__text-field{
+                width: 100%;
+            }
+            &__button-answer{
+                background-color: rgb(0, 155, 229) !important;
+                width: 80% !important;
+            }
+            &__show-result{
+                background-color: #23b26d !important;
+                width: 80%;
+                color: #fff;
+            }
+        }
+        &__answer {
+            min-width: 5rem;
+            border: 0.3rem dashed rgb(0, 155, 229);
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        &__result {
+            min-width: 5rem;
+            background-color: #23b26d;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+        &__wrong-result-container {
+            min-height: inherit;
+            display: flex;
+            max-height: inherit;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        &__wrong-result-row1 {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+        }
+        &__wrong-result-row {
+            padding: 1rem;
+            &__define {
+                font-weight: bold;
+            }
+        }
+    }
+}

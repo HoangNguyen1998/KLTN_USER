@@ -122,7 +122,7 @@ const ChallengeDetail = (props) => {
     }, []);
     const comment = () => {
         if (socket) {
-        setValueComment("");
+            setValueComment("");
             socket.emit(
                 "createComment",
                 {comment: valueComment, room: _id},
@@ -205,7 +205,7 @@ const ChallengeDetail = (props) => {
         <div className="col1">
             <Paper
                 elevation={3}
-                style={{minHeight: "20vh", padding: "5px", textAlign: "center"}}
+                style={{height: "100%", padding: "5px", textAlign: "center"}}
             >
                 <Box style={{display: "flex", justifyContent: "space-between"}}>
                     <div className="font-custom16">
@@ -218,7 +218,11 @@ const ChallengeDetail = (props) => {
                     </div>
                 </Box>
                 <Divider className="col1__divider" />
-                <CardMedia style={{backgroundSize: "auto"}} className="col1__card-media" image={image} />
+                <CardMedia
+                    style={{backgroundSize: "auto"}}
+                    className="col1__card-media"
+                    image={image}
+                />
                 <Typography style={{margin: "2% 0"}}>
                     {question ? question.replace(/&quot;/g, '"') : ""}
                 </Typography>
@@ -274,23 +278,23 @@ const ChallengeDetail = (props) => {
                         </IconButton>
                     </Tooltip>
                 </Box>
+                <div className="col1__comment-container">
+                    <TextField
+                        placeholder={t("YourComment")}
+                        value={valueComment}
+                        onChange={(e) => setValueComment(e.target.value)}
+                        variant="outlined"
+                        multiline
+                        rows={5}
+                    />
+                    <Button
+                        className="col1__comment-container__button-post"
+                        onClick={comment}
+                    >
+                        {t("Post")}
+                    </Button>
+                </div>
             </Paper>
-            <div className="col1__comment-container">
-                {t("YourComment")}
-                <TextField
-                    value={valueComment}
-                    onChange={(e) => setValueComment(e.target.value)}
-                    variant="outlined"
-                    multiline
-                    rows={5}
-                />
-                <Button
-                    className="col1__comment-container__button-post"
-                    onClick={comment}
-                >
-                    {t("Post")}
-                </Button>
-            </div>
             <Dialog
                 open={showExplan}
                 onClose={onShowExplan}

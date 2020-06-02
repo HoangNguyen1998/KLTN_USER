@@ -8,8 +8,9 @@ import ChallengesReducer from "./Challenges";
 import TopicsReducer from "./Topics";
 import FriendsReducer from "./Friends";
 import SocketReducer from "./Socket";
-import VideoReducer from './Video'
+import VideoReducer from "./Video";
 import AlphabetReducer from "./Alphabet";
+import TimerReducer from "./Timer.js";
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     Socket: SocketReducer,
     Alphabet: AlphabetReducer,
     Video: VideoReducer,
+    Timer: TimerReducer,
 });
 
 export default rootReducer;

@@ -12,11 +12,12 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Dialog from "@material-ui/core/Dialog";
 import Loading from "./Components/Loading";
+import * as TimerActions from "actions/Timer";
 import * as CoursesActions from "actions/Courses";
 // import AddCourseModal from "./Components/AddCourseModal";
 import Course from "./Components/Course";
-import LearnCourseModal from './Components/LearnCourseModal/index'
-
+import LearnCourse from "./Components/LearnCourse";
+var timeVar;
 const CourseList = (props) => {
     const [listCourse, setListCourse] = useState([]);
     const [isWaiting, setIsWaiting] = useState(true);
@@ -36,9 +37,14 @@ const CourseList = (props) => {
         if (courses.length === 0) {
             dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
         }
-        if(courses.length!==0){
-            setIsWaiting(false)
+        if (courses.length !== 0) {
+            setIsWaiting(false);
+            timeVar = setInterval(function () {
+                console.log("Hello");
+                dispatch(TimerActions.Increase_Second())
+            }, 1000);
         }
+        return ()=>{clearInterval(timeVar)}
     }, [courses.length, dispatch]);
     const renderCourses = (courses) => {
         if (courses.length !== 0) {
@@ -59,9 +65,15 @@ const CourseList = (props) => {
         }
         return null;
     };
+    const cc = () => {
+        dispatch(TimerActions.Increase_Second());
+    };
+    const countTime = () => {
+        timeVar = setInterval(cc(), 1000);
+    };
     const onShowCreateCourse = () => {
         // setOpenModalCreateCourse(true);
-        history.push("/courses/create")
+        history.push("/courses/create");
     };
     const onHideCreateCourse = () => {
         setOpenModalCreateCourse(false);
@@ -73,16 +85,15 @@ const CourseList = (props) => {
     const onHideCourse = () => {
         setOpenModalCourse(false);
         setTypeOfModalCourse(null);
-        dispatch(CoursesActions.Reset_Course_Modal())
+        dispatch(CoursesActions.Reset_Course_Modal());
     };
     const onLoadCourses = () => {
         setPage(page + 1);
     };
-    if(isWaiting){
-        return <Loading/>
+    if (isWaiting) {
+        return <Loading />;
     }
     if (courses.length !== 0) {
-        console.log("deooo hieu")
         return (
             <div className="container">
                 {/* Nut tao khoa hoc */}
@@ -130,7 +141,7 @@ const CourseList = (props) => {
                                 <CloseIcon style={{fontSize: 25}} />
                             </IconButton>
                         </Tooltip>
-                        <LearnCourseModal
+                        <LearnCourse
                             openModalCourse={openModalCourse}
                             history={history}
                             enqueueSnackbar={enqueueSnackbar}

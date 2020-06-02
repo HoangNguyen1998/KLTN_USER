@@ -53,6 +53,11 @@ theme = {
                 fontSize: "1.6rem"
             }
         },
+        MuiFormHelperText:{
+            root: {
+                fontSize: "1rem"
+            }
+        },
         MuiFormLabel: {root: {fontSize: "1.6rem"}},
         MuiButton: {
             label: {

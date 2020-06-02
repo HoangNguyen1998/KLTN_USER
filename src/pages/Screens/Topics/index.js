@@ -97,7 +97,7 @@ const Topics = (props) => {
                             className="flex-row"
                             style={{justifyContent: "center"}}
                         >
-                            <div
+                            <Paper
                                 className="item-container"
                                 onClick={onGetTopicDetail(item._id)}
                             >
@@ -105,7 +105,7 @@ const Topics = (props) => {
                                     {t("NumberOfLesson")} {item.number}{" "}
                                 </div>
                                 <div>{item.title}</div>
-                            </div>
+                            </Paper>
                         </Grid>
                     );
                 }
@@ -123,7 +123,6 @@ const Topics = (props) => {
             <Grid className="topic-item-container" container spacing={3}>
                 {renderTopic(topics)}
             </Grid>
-            <Button onClick={() => translateApi()}>Translate</Button>
             <Pagination
                 className="panigation flex-row"
                 pageSize={pageSize}

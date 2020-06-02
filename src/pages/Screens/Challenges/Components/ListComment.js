@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import {useTranslation} from "react-i18next";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
+import {Tooltip, Paper} from "@material-ui/core";
 import moment from "moment";
 import DialogActions from "@material-ui/core/DialogActions";
 import Modal from "@material-ui/core/Modal";
@@ -241,6 +241,7 @@ const ListComment = (props) => {
         }
     };
     return (
+        <Paper elevation={3} style={{marginBottom: "1rem", padding: "1rem"}}>
         <div className="list-comment-container">
             <div className=" font-custom18 list-comment-container__header">
                 {t("ListComment")}
@@ -330,6 +331,7 @@ const ListComment = (props) => {
                 height={480}
             /> */}
         </div>
+        </Paper>
     );
 };
 

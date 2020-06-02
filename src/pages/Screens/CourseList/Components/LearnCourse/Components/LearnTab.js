@@ -46,23 +46,13 @@ const LearnTab = () => {
     const renderAnswer = data =>{
         console.log(data)
         data.answer.map((item, index)=>{
-            
         })
     }
 
     //render
     return (
         <div className="learn-tab-container">
-            {/* {!isReady ? (
-                <div className="learn-tab-container__ready">
-                    <div className="font-custom16">Ban da san sang?</div>
-                    <Button onClick={onCheckReady}>Yes</Button>
-                    <Button>No</Button>
-                    <div>{countDown}</div>
-                </div>
-            ) : ( */}
             {renderQuestion(courseRedux)}
-            {/* )} */}
         </div>
     );
 };

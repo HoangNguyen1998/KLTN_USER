@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Paper from "@material-ui/core/Paper";
 import * as FriendsActions from "actions/Friends";
-import Grid from "@material-ui/core/Grid";
+import {Grid, TextField, Button} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {withSnackbar} from "notistack";
@@ -11,8 +11,8 @@ import * as SocketActions from "actions/Socket";
 import SearchFriends from "./Components/SearchFriends";
 import ListSend from "./Components/ListSend";
 import ListReceive from "./Components/ListReceive";
-import ListFriends from './Components/ListFriends'
-import {isEmpty} from 'lodash'
+import ListFriends from "./Components/ListFriends";
+import {isEmpty} from "lodash";
 
 import "./styles.scss";
 import moment from "moment";
@@ -25,24 +25,23 @@ const UserInformation = (props) => {
         return state.GetMe.user;
     });
     const socket = useSelector((state) => state.Socket.socket);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(FriendsActions.Get_List_Users_Request());
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
     useEffect(() => {
-        if(isEmpty(socket)){
-            console.log("Hello")
+        if (isEmpty(socket)) {
+            console.log("Hello");
             dispatch(SocketActions.Connect_Socket());
         }
-        return ()=>{
+        return () => {
             // console.log("Helooooooo")
             // if(socket){
             //     socket.removeAllListeners();
             // }
-            
-        }
-    },[]);
+        };
+    }, []);
     console.log(user);
     return (
         <div className="container">
@@ -86,11 +85,11 @@ const UserInformation = (props) => {
                         </div>
                     </Paper>
                 </Grid>
-                <Grid item xs={12} lg={8} className="col-user">
+                <Grid item xs={12} lg={4} className="col-user">
                     <Paper elevation={3} className="col-info">
                         <Tabs defaultActiveKey="1" type="card">
                             <TabPane tab={t("Friend")} key="1">
-                                <ListFriends/>
+                                <ListFriends />
                             </TabPane>
                             <TabPane tab={t("ReceiveRequest")} key="2">
                                 <ListReceive />
@@ -102,6 +101,62 @@ const UserInformation = (props) => {
                                 <SearchFriends />
                             </TabPane>
                         </Tabs>
+                    </Paper>
+                </Grid>
+                <Grid
+                    style={{display: "flex", flexDirection: "column", justifyContent:"space-between"}}
+                    item
+                    xs={12}
+                    lg={4}
+                    className="col-user"
+                >
+                    <Paper elevation={3} className="col-change-pw">
+                        <div>{t("ChangePw")}</div>
+                        <div className="col-change-pw__text-input-container">
+                            <TextField
+                                id="outlined-basic"
+                                label={t("OldPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label={t("NewPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label={t("ConfirmPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                        </div>
+                        <div className="col-change-pw__button">Accept</div>
+                    </Paper>
+                    <Paper elevation={3} className="col-change-pw">
+                        <div>{t("ChangePw")}</div>
+                        <div className="col-change-pw__text-input-container">
+                            <TextField
+                                id="outlined-basic"
+                                label={t("OldPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label={t("NewPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                            <TextField
+                                id="outlined-basic"
+                                label={t("ConfirmPw")}
+                                variant="outlined"
+                                className="col-change-pw__text-input-container__text-input"
+                            />
+                        </div>
+                        <div className="col-change-pw__button">Accept</div>
                     </Paper>
                 </Grid>
             </Grid>
