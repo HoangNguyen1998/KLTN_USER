@@ -15,8 +15,9 @@ import SentimentVerySatisfiedOutlinedIcon from "@material-ui/icons/SentimentVery
 import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined";
 import SideBarRight from "../SideBarRight";
 import {Progress} from "antd";
+import * as TimerActions from "actions/Timer";
 import "./styles.scss";
-
+var timeVar;
 const WriteCourse = (props) => {
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -25,7 +26,7 @@ const WriteCourse = (props) => {
     // Thong bao het khoa hoc
     const [endLearn, setEndLearn] = useState(false);
     // Cau tra loi cua nguoi dung
-    const [wrongAnswer, setWrongAnswer] = useState(null);
+    const [wrongAnswer, setWrongAnswer] = useState("");
     // Hien thi phan giai thich sau khi tra loi sai
     const [activeExplain, setActiveExplain] = useState(false);
     // Hien thi cau tra loi hien tai
@@ -39,6 +40,15 @@ const WriteCourse = (props) => {
         if (LearnCourseRedux && LearnCourseRedux.length === 0) {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
+    }, []);
+    useEffect(() => {
+        timeVar = setInterval(function () {
+            console.log("Hello");
+            dispatch(TimerActions.Increase_Second());
+        }, 1000);
+        return () => {
+            clearInterval(timeVar);
+        };
     }, []);
     const renderAnswers = (data) => {
         if (data.length !== 0) {
@@ -91,11 +101,11 @@ const WriteCourse = (props) => {
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
-                    setPercent(percent + 100/LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnCourseRedux.length);
                     setResult(null);
                     setWrongAnswer("");
                 } else {
-                    setPercent(percent + 100/LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnCourseRedux.length);
                     setEndLearn(true);
                 }
             }, 2000);
@@ -106,7 +116,7 @@ const WriteCourse = (props) => {
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
-            setPercent(percent + 100/LearnCourseRedux.length);
+            setPercent(percent + 100 / LearnCourseRedux.length);
             setActiveExplain(true);
         }
     };
@@ -264,6 +274,7 @@ const WriteCourse = (props) => {
                                         <Grid xs={0} lg={1} />
                                         <Grid item xs={12} lg={3}>
                                             <Button
+                                                disabled={wrongAnswer===""}
                                                 onClick={checkAnswer(
                                                     wrongAnswer
                                                 )}
@@ -306,8 +317,9 @@ const WriteCourse = (props) => {
         } else {
             return (
                 <div className="write-course-container__loading">
-                    <CircularProgress />
-                </div>
+                <CircularProgress />
+                <div>{t("EnterWhatYouListen")}</div>
+            </div>
             );
         }
     };

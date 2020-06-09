@@ -11,7 +11,7 @@ function* Get_All_Courses_Request() {
       const res = yield call(CallApi, "courses", "GET", null);
       const { data } = res;
       yield put(CoursesActions.Get_All_Courses_Success(data.result));
-      action.payload(false)
+      if(action) action.payload(false)
     } catch (err) {
       yield put(CoursesActions.Get_All_Courses_Error);
     }
@@ -44,6 +44,7 @@ function* Add_Course_Request(dataCourse) {
 function* Get_Course_Request(action){
   const {payload}=action
   try{
+  console.log(payload)
   const res = yield call(CallApi, `courses/${payload}`, "GET", null)
   const resLearn = yield call(CallApi, `courses/${payload}/learn`, "GET", null)
   yield put(CoursesActions.Get_Course_Success(res.data.result, resLearn.data.result))

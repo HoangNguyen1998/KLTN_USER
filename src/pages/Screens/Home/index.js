@@ -39,12 +39,19 @@ import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MessageIcon from "@material-ui/icons/Message";
+import * as SocketActions from "actions/Socket";
+import * as TimerActions from "actions/Timer";
+import {isEmpty} from "lodash";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
-
 import IndexRoutes from "routes/IndexRoutes";
 import * as GetMeActions from "actions/GetMe";
 import styles from "./styles";
+import GetToken from "helpers/GetToken";
+import callApi from "helpers/ApiCaller";
+import moment from "moment";
 const drawerWidth = 250;
+
+var date = new Date();
 // const useStyles = makeStyles((theme) => ({
 //     root: {
 //         display: "flex",
@@ -92,15 +99,57 @@ const Home = (props) => {
     const {history} = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const getMeRedux = useSelector((state) => state.GetMe.user);
+    const socket = useSelector((state) => state.Socket.socket);
+    const timerReducer = useSelector((state) => state.Timer);
     console.log("trong trang chu: ", getMeRedux);
     useEffect(() => {
+        if (isEmpty) {
+            dispatch(SocketActions.Connect_Socket());
+        }
         if (!getMeRedux) {
             console.log("get api ne");
             dispatch(Get_Me_Request());
         }
+        const d = date.getDate();
+        const m = date.getMonth() + 1;
+        dispatch(
+            TimerActions.Get_Times_Online_Request(
+                moment(date).format("DD/MM/YYYY")
+            )
+        );
+        window.addEventListener("unload", event=>{
+            sendTimes()
+        });
     }, []);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
+    };
+    const sendTimes = async () => {
+        var xhr = new XMLHttpRequest();
+        const minute = timerReducer
+            ? timerReducer.hours * 60 + timerReducer.minutes - timerReducer.old
+            : "";
+        // let body = {minute, date};
+        // let headers = {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${GetToken()}`,
+        // };
+        // await callApi("/timeOnline", "POST", {minute, date});
+        // let blob = new Blob(body, headers);
+        // navigator.sendBeacon(
+        //     "https://learn-jp-kltn.herokuapp.com/api/timeOnline",
+        //     blob
+        // );
+        localStorage.setItem("testunload", "chan");
+
+        xhr.open(
+            "POST",
+            "https://learn-jp-kltn.herokuapp.com/api/timeOnline",
+            true
+        );
+        xhr.setRequestHeader("Authorization", `Bearer ${GetToken()}`);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({minute, date}));
     };
     const {i18n, t} = useTranslation("translation");
     useEffect(() => {
@@ -163,7 +212,11 @@ const Home = (props) => {
                                 </IconButton>
                             </Grid>
                         </Hidden>
-                        <div onClick={goHome} className="hover" style={{flexGrow: 1, fontSize: "2rem"}}>
+                        <div
+                            onClick={goHome}
+                            className="hover"
+                            style={{flexGrow: 1, fontSize: "2rem"}}
+                        >
                             Learn JP
                         </div>
                         <Grid
@@ -199,11 +252,13 @@ const Home = (props) => {
                                     className={classes.iconButtonAvatar}
                                     onClick={onSignOut}
                                 >
-                                    <ExitToAppIcon  style={{
-                                                fontSize: 25,
-                                                color: "white",
-                                                marginRight: 5,
-                                            }}/>
+                                    <ExitToAppIcon
+                                        style={{
+                                            fontSize: 25,
+                                            color: "white",
+                                            marginRight: 5,
+                                        }}
+                                    />
                                 </IconButton>
                             </Grid>
                         </Grid>

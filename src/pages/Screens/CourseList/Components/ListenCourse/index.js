@@ -19,7 +19,8 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import Speech from "speak-tts";
 import {Progress} from "antd";
 import "./styles.scss";
-
+import * as TimerActions from "actions/Timer";
+var timeVar
 const ListenCourse = (props) => {
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -53,6 +54,13 @@ const ListenCourse = (props) => {
             text: `${word}`,
         });
     };
+    useEffect(() => {
+        timeVar = setInterval(function () {
+            console.log("Hello");
+            dispatch(TimerActions.Increase_Second())
+        }, 1000);
+    return ()=>{clearInterval(timeVar)}
+}, []);
     const checkAnswer = (answer) => () => {
         console.log(answer);
         if (
@@ -213,8 +221,8 @@ const ListenCourse = (props) => {
                             ) : (
                                 <React.Fragment>
                                     <div>
-                                        <IconButton onClick={onSpeak(LearnCourseRedux[activeQuestion].question)}>
-                                          <VolumeUpIcon />
+                                        <IconButton  onClick={onSpeak(LearnCourseRedux[activeQuestion].question)}>
+                                          <VolumeUpIcon style={{fontSize: 30}}/>
                                          </IconButton>
                                     </div>
                                     <Grid

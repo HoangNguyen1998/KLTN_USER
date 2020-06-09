@@ -16,6 +16,7 @@ import LearnCourse from "pages/Screens/CourseList/Components/LearnCourse";
 import FlashCard from "pages/Screens/CourseList/Components/FlashCard";
 import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
 import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
+import Draw from 'pages/Screens/Draw'
 
 const categories = [
     {
@@ -53,6 +54,11 @@ const categories = [
 // };
 
 const routes = [
+    {
+        path: "/draw",
+        exact: false,
+        main: () => (CheckAuthen() ? <Draw /> : <SignIn />),
+    },
     {
         path: "/courses/:id/listen",
         exact: false,

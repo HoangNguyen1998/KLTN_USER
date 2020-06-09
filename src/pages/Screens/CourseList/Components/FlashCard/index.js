@@ -5,24 +5,54 @@ import {withRouter} from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import {useTranslation} from "react-i18next";
 import {Button, Grid, Paper} from "@material-ui/core";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import * as CoursesActions from "actions/Courses";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import MobileStepper from "@material-ui/core/MobileStepper";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import SideBarRight from "pages/Screens/CourseList/Components/SideBarRight";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {Tabs, Carousel} from "antd";
+import {EditOutlined, BarChartOutlined} from "@ant-design/icons";
 import Skeleton from "@material-ui/lab/Skeleton";
-
+import History from "./Components/History";
+import RecentCourses from "./Components/RecentCourses";
+import EditCourse from "./Components/EditCourse";
+import * as TimerActions from "actions/Timer";
+var timeVar
+const {TabPane} = Tabs;
 const FlashCard = (props) => {
     const {history} = props;
+    const [isWaiting, setIsWaiting] = useState(true);
+    const {t} = useTranslation("translation");
     const [activeWord, setActiveWord] = useState(0);
     const dispatch = useDispatch();
     const [isRotate, setIsRotate] = useState(false);
     const courseRedux = useSelector((state) => state.Courses.course);
+    const coursesRedux = useSelector((state) => state.Courses.courses);
     const {contents} = courseRedux;
     useEffect(() => {
         console.log("Check url: ", props);
+        if (coursesRedux.length === 0) {
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
+        }
+        if(contents.length===0){
+            dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
+}
+        // if (contents.length === 0) {
+        //     dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
+        // }
+    }, []);
+    useEffect(() => {
+            timeVar = setInterval(function () {
+                console.log("Hello");
+                dispatch(TimerActions.Increase_Second())
+            }, 1000);
+        return ()=>{
+            clearInterval(timeVar)
+        }
     }, []);
     const onChangeRotate = async () => {
         await setIsRotate(isRotate + 1);
@@ -45,7 +75,7 @@ const FlashCard = (props) => {
     const renderCard = () => {
         let xhtml = null;
         if (contents.length === 0) {
-            dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
+            // dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
             xhtml = (
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <Skeleton
@@ -63,6 +93,7 @@ const FlashCard = (props) => {
                 <div>
                     <div style={{display: "flex", justifyContent: "center"}}>
                         <Paper
+                            elevation={0}
                             onClick={() => setIsRotate(!isRotate)}
                             className={`remember-card-container__card remember-card-container__card-text ${
                                 isRotate
@@ -75,6 +106,7 @@ const FlashCard = (props) => {
                             </div>
                         </Paper>
                         <Paper
+                            elevation={0}
                             onClick={() => setIsRotate(!isRotate)}
                             className={`remember-card-container__card ${
                                 isRotate
@@ -123,17 +155,58 @@ const FlashCard = (props) => {
         }
         return xhtml;
     };
+    const renderRecentCourses = (data) => {
+        if (data) {
+            return data.map((item, index) => {
+                return (
+                    <Grid item xs={12} lg={6}>
+                        <Paper
+                            onClick={() => {
+                                history.push(`/courses/${item._id}/flash-card`);
+                                dispatch(
+                                    CoursesActions.Get_Course_Request(item._id)
+                                );
+                                window.scrollTo(0, 0);
+                            }}
+                            className="recent-courses-container__item-container"
+                            elevation={3}
+                        >
+                            <div
+                                style={{fontWeight: "bolder", fontSize: "2rem"}}
+                            >
+                                {item.title}
+                            </div>
+                            <div>
+                                {item.contents.length} {t("Word")}
+                            </div>
+                            {props.match.params.id === item._id ? (
+                                <div
+                                    style={{
+                                        borderRadius: "1rem",
+                                        height: "2rem",
+                                        backgroundColor: "#009be5",
+                                    }}
+                                ></div>
+                            ) : (
+                                ""
+                            )}
+                        </Paper>
+                    </Grid>
+                );
+            });
+        }
+    };
     return (
         <div className="remember-card-container">
             <Grid container spacing={2} className="container">
-                <Grid item lg={2} />
+                <Grid item lg={2} xs={0} />
                 <Grid
                     style={{
                         display: "flex",
                         justifyContent: "center",
                         // width: "100%",
                         // height: "100%",
-                        // minHeight: "100%",
+                        minHeight: "50rem",
                     }}
                     item
                     xs={12}
@@ -141,16 +214,59 @@ const FlashCard = (props) => {
                 >
                     {renderCard()}
                 </Grid>
-                <Grid item xs={12} lg={2}>
+                <Grid style={{minHeight: "50rem"}} item xs={12} lg={2}>
                     <SideBarRight
                         history={props.history}
                         idURL={props.match.params.id}
                         typeURL={props.match.path}
                     />
                 </Grid>
-                <Grid item lg={2} />
-                <Grid item lg={12}>
-                    <Paper>Hello</Paper>
+                <Grid item lg={2} xs={0} />
+                <Grid item lg={6}>
+                    <Paper className="edit-course-container" elevation={0}>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <BarChartOutlined />
+                                        Your History
+                                    </span>
+                                }
+                                key="1"
+                            >
+                                <History />
+                            </TabPane>
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <EditOutlined />
+                                        Edit Courses
+                                    </span>
+                                }
+                                key="2"
+                            >
+                                <EditCourse />
+                            </TabPane>
+                        </Tabs>
+                    </Paper>
+                </Grid>
+                <Grid item lg={6}>
+                    <Paper elevation={0} className="recent-courses-container">
+                        <div
+                            style={{
+                                marginBottom: "2rem",
+                                fontWeight: "bold",
+                                textTransform: "uppercase",
+                            }}
+                        >
+                            {t("RecentCourses")}
+                        </div>
+                        <div>
+                            <Grid container spacing={2}>
+                                {renderRecentCourses(coursesRedux)}
+                            </Grid>
+                        </div>
+                    </Paper>
                 </Grid>
             </Grid>
         </div>

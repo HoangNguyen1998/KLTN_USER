@@ -98,5 +98,11 @@ export default {
     Answer: "Đáp án",
     EnterMeaning: "Nhập nghĩa của từ",
     EnterWhatYouListen: "Hãy nhập những gì mà bạn nghe được nha.",
+    WordsNotMaster: "Những từ bạn chưa nắm vững",
+    WordsMaster: "Những từ bạn nắm vững",
+    Edit1Word: "Chỉnh sửa từ vựng này",
+    Speak: "Phát âm",
+    RecentCourses: 'Khoá học gần đây',
+    Word: "Thuật ngữ"
 
 };

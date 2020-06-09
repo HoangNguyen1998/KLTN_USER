@@ -46,14 +46,13 @@ const AppBarCustom = (props) => {
     });
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log(UserInformation);
+        console.log("thanh app bar ne");
         // if (_.isEmpty(UserInformation)) {
         //     dispatch(GetMeActions.Get_Me_Request());
         // }
     }, []);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {classes, onDrawerToggle, history} = props;
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

@@ -17,7 +17,8 @@ import LearnTab from "./Components/LearnTab";
 import SideBarRight from "../SideBarRight";
 import {Progress} from "antd";
 import "./styles.scss";
-
+import * as TimerActions from "actions/Timer";
+var timeVar
 const LearnCourse = (props) => {
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -41,6 +42,13 @@ const LearnCourse = (props) => {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
     }, []);
+    useEffect(() => {
+        timeVar = setInterval(function () {
+            console.log("Hello");
+            dispatch(TimerActions.Increase_Second())
+        }, 1000);
+    return ()=>{clearInterval(timeVar)}
+}, []);
     const renderAnswers = (data) => {
         if (data.length !== 0) {
             return data.map((item, index) => {

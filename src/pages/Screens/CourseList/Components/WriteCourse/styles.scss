@@ -48,10 +48,11 @@
     padding: 2rem;
     &__loading {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 50rem;
-        max-height: 60rem;
+        min-height: 30rem;
+        max-height: 50rem;
     }
     &__end-learn {
         display: flex;

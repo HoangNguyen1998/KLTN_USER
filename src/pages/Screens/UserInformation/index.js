@@ -9,12 +9,13 @@ import {Tabs, Radio} from "antd";
 import {withRouter} from "react-router-dom";
 import * as SocketActions from "actions/Socket";
 import SearchFriends from "./Components/SearchFriends";
-import * as GetMeActions from 'actions/GetMe'
+import * as GetMeActions from "actions/GetMe";
 import ListSend from "./Components/ListSend";
 import ListReceive from "./Components/ListReceive";
 import ListFriends from "./Components/ListFriends";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {Line} from "react-chartjs-2";
 import {isEmpty} from "lodash";
 import CallApi from "helpers/ApiCaller";
 
@@ -22,6 +23,32 @@ import "./styles.scss";
 import moment from "moment";
 
 const {TabPane} = Tabs;
+const data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: "butt",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: "miter",
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 40],
+        },
+    ],
+};
 
 const UserInformation = (props) => {
     const {i18n, t} = useTranslation("translation");
@@ -94,7 +121,7 @@ const UserInformation = (props) => {
                 () => {
                     console.log("accept success");
                     dispatch(FriendsActions.On_Accept_Add_Friend(id));
-                    dispatch(GetMeActions.Get_Me_Request())
+                    dispatch(GetMeActions.Get_Me_Request());
                 }
             );
         }
@@ -159,7 +186,7 @@ const UserInformation = (props) => {
                                 res.userSender
                             )
                         );
-                        dispatch(GetMeActions.Get_Me_Request())
+                        dispatch(GetMeActions.Get_Me_Request());
                     }
                 }
             });
@@ -178,7 +205,7 @@ const UserInformation = (props) => {
                 () => {
                     console.log("accept success");
                     dispatch(FriendsActions.On_Accept_Add_Friend(id));
-                    dispatch(GetMeActions.Get_Me_Request())
+                    dispatch(GetMeActions.Get_Me_Request());
                 }
             );
         }
@@ -576,6 +603,11 @@ const UserInformation = (props) => {
                             />
                         </div>
                         <div className="col-change-pw__button">Accept</div>
+                    </Paper>
+                </Grid>
+                <Grid item lg={12}>
+                    <Paper>
+                        <Line width={"100%"} height={"50%"} data={data} />
                     </Paper>
                 </Grid>
             </Grid>

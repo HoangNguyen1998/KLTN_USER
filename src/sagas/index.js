@@ -10,21 +10,20 @@ import VideoSaga from './VideoSaga'
 import AlphabetSaga from './AlphabetSaga'
 import MessagesSaga from './MessagesSaga'
 import { all } from "redux-saga/effects";
-import Message from "pages/Screens/Message";
+import TimerSaga from './TimerSaga'
 function* rootSaga() {
   yield all([
     SignUpSaga(),
     SignInSaga(),
     CoursesSaga(),
     GetMeSaga(),
-    // homeSaga(),
-    // coursesSaga(),
     TopicsSaga(),
     ChallengesSaga(),
     FriendsSaga(),
     AlphabetSaga(),
     VideoSaga(),
-    MessagesSaga()
+    MessagesSaga(),
+    TimerSaga()
   ]);
 }
 export default rootSaga;

@@ -95,4 +95,10 @@ export default {
     Answer: "Answer",
     EnterMeaning: "Enter meaning of the word",
     EnterWhatYouListen: "Enter what you listen",
+    WordsNotMaster: "Words you have not mastered yet",
+    WordsMaster: "Words you mastered",
+    Edit1Word: "Edit this word",
+    Speak: "Speak",
+    RecentCourses: 'Recently courses',
+    Word: "words"
 };

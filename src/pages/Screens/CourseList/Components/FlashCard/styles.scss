@@ -39,3 +39,50 @@
         // backface-visibility: hidden;
     }
 }
+
+.edit-course-container{
+    padding: 1rem;
+}
+
+.history-container{
+    &__word-container{
+        &--wrong-header{
+            color: map-get($color, "red") !important;
+        }
+        &--correct-header{
+            color: map-get($color, "green") !important;
+        }
+        &__list-word{
+
+        }
+        &__word{
+            display: flex;
+            justify-content: space-between;
+            // background-color: red !important;
+            padding: 2rem;
+            margin: 1rem 0;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+    }
+    &__correct-word-container{
+
+    }
+}
+
+.recent-courses-container{
+    padding: 1rem;
+    &__item-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        min-height: 15rem;
+        padding: 1rem;
+        &:hover{
+            cursor: pointer;
+        }
+        // &:active{
+        //     justify-content: space-between;
+        // }
+    }
+}

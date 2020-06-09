@@ -14,6 +14,7 @@ import ListComment from "./Components/ListComment";
 import socketIOClient from "socket.io-client";
 import * as SocketActions from "actions/Socket";
 import getToken from "helpers/GetToken";
+import {isEmpty} from "lodash";
 import whyDidYouRender from "@welldone-software/why-did-you-render";
 
 whyDidYouRender(React, {
@@ -23,6 +24,7 @@ whyDidYouRender(React, {
 });
 
 const Challenges = (props) => {
+    const socket = useSelector((state) => state.Socket.socket);
     const {id} = props.match.params;
     const [isWaiting, setIsWaiting] = useState(true);
     const [position, setPosition] = useState(0);
@@ -34,7 +36,9 @@ const Challenges = (props) => {
     });
     const {t} = useTranslation("translation");
     useEffect(() => {
-        dispatch(SocketActions.Connect_Socket());
+        if (isEmpty(socket)) {
+            dispatch(SocketActions.Connect_Socket());
+        }
     }, []);
     useEffect(() => {
         console.log("Hello");

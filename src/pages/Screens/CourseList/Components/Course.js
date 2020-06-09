@@ -48,6 +48,10 @@ const Course = props => {
         dispatch(CoursesActions.Get_Course_Request(id));
         history.push(`/courses/${id}/learn`)
     }
+    const onRememberCard=(id)=>()=>{
+        dispatch(CoursesActions.Get_Course_Request(id));
+        history.push(`/courses/${id}/flash-card`)
+    }
     return (
         <Grid item xs={12} lg={4} key={index}>
             <div className="paper-container" onClick={onShowModal}>
@@ -87,21 +91,21 @@ const Course = props => {
                         <CardActions>
                             <Button
                                 // onClick={onShowModal(0)}
-                                onClick={onLearn(item._id)}
+                                onClick={onRememberCard(item._id)}
                                 size="small"
                                 variant="contained"
                                 color="primary"
                                 style={{color: "white !important"}}
                             >
-                                {t("Learn")}
+                                {t("RememberCard")}
                             </Button>
                             <Button
-                                onClick={onShowModal(1)}
+                                onClick={onLearn(item._id)}
                                 className="general-color"
                                 size="small"
                                 variant="outlined"
                             >
-                                {t("Test")}
+                                {t("Learn")}
                             </Button>
                             <div style={{marginLeft: "auto"}}>
                                 <Button

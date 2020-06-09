@@ -11,6 +11,7 @@ import { SnackbarProvider } from "notistack";
 import i18Config from "helpers/Translations/i18";
 import ConfigStore from "helpers/ReduxConfig";
 import AuthenRoutes from "routes/AuthenRoutes";
+import CanvasDraw from "react-canvas-draw";
 import CheckAuthen from "helpers/GetToken";
 import GlobalLoading from "pages/Components/GlobalLoading";
 import theme from "helpers/ThemeCustom";

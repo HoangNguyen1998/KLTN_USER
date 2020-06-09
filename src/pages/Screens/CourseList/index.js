@@ -39,12 +39,12 @@ const CourseList = (props) => {
         }
         if (courses.length !== 0) {
             setIsWaiting(false);
-            timeVar = setInterval(function () {
-                console.log("Hello");
-                dispatch(TimerActions.Increase_Second())
-            }, 1000);
+            // timeVar = setInterval(function () {
+            //     console.log("Hello");
+            //     dispatch(TimerActions.Increase_Second())
+            // }, 1000);
         }
-        return ()=>{clearInterval(timeVar)}
+        // return ()=>{clearInterval(timeVar)}
     }, [courses.length, dispatch]);
     const renderCourses = (courses) => {
         if (courses.length !== 0) {
@@ -67,9 +67,6 @@ const CourseList = (props) => {
     };
     const cc = () => {
         dispatch(TimerActions.Increase_Second());
-    };
-    const countTime = () => {
-        timeVar = setInterval(cc(), 1000);
     };
     const onShowCreateCourse = () => {
         // setOpenModalCreateCourse(true);
