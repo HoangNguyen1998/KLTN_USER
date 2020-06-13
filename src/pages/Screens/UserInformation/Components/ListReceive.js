@@ -22,7 +22,6 @@ const ListReceive = (props) => {
     console.log(socket);
     useEffect(() => {
         if (!isEmpty(socket)) {
-            console.log("fuck you");
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -35,7 +34,7 @@ const ListReceive = (props) => {
                     console.log("id trang local: ", getMeRedux._id);
                     console.log("id tra ve tu socket: ", res.userSender);
                     if (getMeRedux._id !== res.userSender) {
-                        console.log("Vao duoc day");
+                        console.log("Vao duoc day de push thong bao");
                         dispatch(
                             FriendsActions.Emit_Accept_Add_Friend(
                                 res.userSender

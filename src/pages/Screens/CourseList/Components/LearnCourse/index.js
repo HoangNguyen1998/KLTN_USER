@@ -18,7 +18,8 @@ import SideBarRight from "../SideBarRight";
 import {Progress} from "antd";
 import "./styles.scss";
 import * as TimerActions from "actions/Timer";
-var timeVar
+import callApi from "helpers/ApiCaller";
+var timeVar;
 const LearnCourse = (props) => {
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -45,10 +46,12 @@ const LearnCourse = (props) => {
     useEffect(() => {
         timeVar = setInterval(function () {
             console.log("Hello");
-            dispatch(TimerActions.Increase_Second())
+            dispatch(TimerActions.Increase_Second());
         }, 1000);
-    return ()=>{clearInterval(timeVar)}
-}, []);
+        return () => {
+            clearInterval(timeVar);
+        };
+    }, []);
     const renderAnswers = (data) => {
         if (data.length !== 0) {
             return data.map((item, index) => {
@@ -83,11 +86,17 @@ const LearnCourse = (props) => {
             });
         }
     };
-    const checkAnswer = (index, answer) => () => {
+    const checkAnswer = (index, answer) => async () => {
         console.log(wrongAnswers);
         console.log("---------------");
         console.log(rightAnswers);
         if (LearnCourseRedux[activeQuestion].answer_id === index) {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "learn", answer: true}
+            );
+            console.log("kiem tra dap an ne: ", res.data);
             setResult(index);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -98,21 +107,27 @@ const LearnCourse = (props) => {
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
-                    setPercent(percent + 100/LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnCourseRedux.length);
                     setResult(null);
                 } else {
-                    setPercent(percent + 100/LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnCourseRedux.length);
                     setEndLearn(true);
                 }
             }, 2000);
         } else {
             // if (wrongAnswers.find((item) => item !== index)) {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "learn", answer: false}
+            );
+            console.log("kiem tra dap an ne: ", res.data);
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
-            setPercent(percent + 100/LearnCourseRedux.length);
+            setPercent(percent + 100 / LearnCourseRedux.length);
             setWrongAnswer(answer);
             setActiveExplain(true);
         }
@@ -170,9 +185,8 @@ const LearnCourse = (props) => {
                         setWrongAnswer(null);
                         if (activeQuestion + 1 < LearnCourseRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
-                        }
-                        else {
-                            setEndLearn(true)
+                        } else {
+                            setEndLearn(true);
                         }
                     }}
                 >
@@ -245,11 +259,11 @@ const LearnCourse = (props) => {
                                     setActiveQuestion(0);
                                     setActiveExplain(false);
                                     setWrongAnswer(null);
-                                    setEndLearn(false)
-                                    setPercent(0)
-                                    setResult(null)
-                                    setWrongAnswers([])
-                                    setRightAnswers([])
+                                    setEndLearn(false);
+                                    setPercent(0);
+                                    setResult(null);
+                                    setWrongAnswers([]);
+                                    setRightAnswers([]);
                                 }}
                             >
                                 {t("RepeatLesson")}

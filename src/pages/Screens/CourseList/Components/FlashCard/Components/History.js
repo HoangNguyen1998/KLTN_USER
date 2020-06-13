@@ -27,33 +27,12 @@ import Speech from "speak-tts";
 import {EditOutlined, BarChartOutlined} from "@ant-design/icons";
 import Skeleton from "@material-ui/lab/Skeleton";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import {HelpOutline, VolumeUp} from "@material-ui/icons";
 import callApi from "helpers/ApiCaller";
 const {TabPane} = Tabs;
 
 var date = new Date();
-const WrongWord = [
-    {
-        word: "Hello",
-        mean: "xin chao",
-    },
-    {
-        word: "Work",
-        mean: "lam viec",
-    },
-    {
-        word: "Work",
-        mean: "lam viec",
-    },
-    {
-        word: "Work",
-        mean: "lam viec",
-    },
-    {
-        word: "Work",
-        mean: "lam viec",
-    },
-];
 
 const History = (props) => {
     const [indexWrong, setIndexWrong] = useState(null);
@@ -80,73 +59,186 @@ const History = (props) => {
     const [isRotate, setIsRotate] = useState(false);
     const courseRedux = useSelector((state) => state.Courses.course);
     const {contents} = courseRedux;
+    // api update details content
+    const updateContent = (id, type) => async () => {
+        console.log("vao ham update: ", id, "------", type);
+        if (type === "wrong") {
+            const data = {
+                id: id,
+                text: editWrongWord,
+                mean: editWrongMean,
+            };
+            // const res = await callApi(`content/${id}`, "PUT", {
+            //     text: editWrongWord,
+            //     mean: editWrongMean,
+            // });
+            dispatch(CoursesActions.Update_Detail_One_Request(data));
+            setIndexWrong(null);
+            setEditWrongWord(null);
+            setEditWrongMean(null);
+        }
+        if (type === "correct") {
+            const data = {
+                id: id,
+                text: editCorrectWord,
+                mean: editCorrectMean,
+            };
+            dispatch(CoursesActions.Update_Detail_One_Request(data));
+            setIndexCorrect(null);
+            setEditCorrectWord(null);
+            setEditCorrectMean(null);
+        }
+    };
     const renderWrongWord = (data) => {
-        if (data) {
+        if (data.length !== 0) {
             return data.map((item, index) => {
-                return (
-                    <Paper
-                        elevation={3}
-                        className="history-container__word-container__word"
-                    >
-                        {indexWrong === index ? (
-                            <div>
-                                <TextField
-                                    value={editWrongWord}
-                                    onChange={(e) =>
-                                        setEditWrongWord(e.target.value)
-                                    }
-                                />
-                            </div>
-                        ) : (
-                            <div>{item.word}</div>
-                        )}
-                        {indexWrong === index ? (
-                            <div>
-                                <TextField
-                                    value={editWrongMean}
-                                    onChange={(e) =>
-                                        setEditWrongMean(e.target.value)
-                                    }
-                                />
-                            </div>
-                        ) : (
-                            <div>{item.mean}</div>
-                        )}
-                        <div>
-                            <Tooltip title={t("Speak")}>
-                                <IconButton onClick={onSpeak(item.word)}>
-                                    <VolumeUpIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {indexWrong !== index ? (
-                                <Tooltip title={t("Edit1Word")}>
-                                    <IconButton
-                                        onClick={() => {
-                                            setIndexWrong(index);
-                                            setEditWrongWord(item.word);
-                                            setEditWrongMean(item.mean);
-                                        }}
-                                    >
-                                        <EditOutlined />
-                                    </IconButton>
-                                </Tooltip>
+                if (!item.masterContent) {
+                    return (
+                        <Paper
+                            elevation={3}
+                            className="history-container__word-container__word"
+                        >
+                            {indexWrong === index ? (
+                                <div>
+                                    <TextField
+                                        value={editWrongWord}
+                                        onChange={(e) =>
+                                            setEditWrongWord(e.target.value)
+                                        }
+                                    />
+                                </div>
                             ) : (
-                                <Tooltip title={t("Edit1Word")}>
-                                    <IconButton
-                                        onClick={() => {
-                                            setIndexWrong(null);
-                                            setEditWrongWord(null);
-                                            setEditWrongMean(null);
-                                        }}
-                                    >
-                                        <SaveIcon />
+                                <div>{item.text}</div>
+                            )}
+                            {indexWrong === index ? (
+                                <div>
+                                    <TextField
+                                        value={editWrongMean}
+                                        onChange={(e) =>
+                                            setEditWrongMean(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            ) : (
+                                <div>{item.mean}</div>
+                            )}
+                            <div>
+                                <Tooltip title={t("Speak")}>
+                                    <IconButton onClick={onSpeak(item.text)}>
+                                        <VolumeUpIcon />
                                     </IconButton>
                                 </Tooltip>
-                            )}
-                        </div>
-                    </Paper>
-                );
+                                {indexWrong !== index ? (
+                                    <Tooltip title={t("Edit1Word")}>
+                                        <IconButton
+                                            onClick={() => {
+                                                setIndexWrong(index);
+                                                setEditWrongWord(item.text);
+                                                setEditWrongMean(item.mean);
+                                            }}
+                                        >
+                                            <EditOutlined />
+                                        </IconButton>
+                                    </Tooltip>
+                                ) : (
+                                    <Tooltip title={t("Edit1Word")}>
+                                        <IconButton
+                                            onClick={updateContent(
+                                                item._id,
+                                                "wrong"
+                                            )}
+                                        >
+                                            <SaveIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </div>
+                        </Paper>
+                    );
+                }
             });
+        } else {
+            return (
+                <div style={{textAlign: "center", padding: "1rem"}}>
+                    <CircularProgress />
+                </div>
+            );
+        }
+    };
+    const renderCorrectWord = (data) => {
+        if (data.length !== 0) {
+            return data.map((item, index) => {
+                if (item.masterContent) {
+                    return (
+                        <Paper
+                            elevation={3}
+                            className="history-container__word-container__word"
+                        >
+                            {indexCorrect === index ? (
+                                <div>
+                                    <TextField
+                                        value={editCorrectWord}
+                                        onChange={(e) =>
+                                            setEditCorrectWord(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            ) : (
+                                <div>{item.text}</div>
+                            )}
+                            {indexCorrect === index ? (
+                                <div>
+                                    <TextField
+                                        value={editCorrectMean}
+                                        onChange={(e) =>
+                                            setEditCorrectMean(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            ) : (
+                                <div>{item.mean}</div>
+                            )}
+                            <div>
+                                <Tooltip title={t("Speak")}>
+                                    <IconButton onClick={onSpeak(item.text)}>
+                                        <VolumeUpIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                {indexCorrect !== index ? (
+                                    <Tooltip title={t("Edit1Word")}>
+                                        <IconButton
+                                            onClick={() => {
+                                                setIndexCorrect(index);
+                                                setEditCorrectWord(item.text);
+                                                setEditCorrectMean(item.mean);
+                                            }}
+                                        >
+                                            <EditOutlined />
+                                        </IconButton>
+                                    </Tooltip>
+                                ) : (
+                                    <Tooltip title={t("Edit1Word")}>
+                                        <IconButton
+                                            onClick={updateContent(
+                                                item._id,
+                                                "correct"
+                                            )}
+                                        >
+                                            <SaveIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </div>
+                        </Paper>
+                    );
+                }
+            });
+        } else {
+            return (
+                <div style={{textAlign: "center", padding: "1rem"}}>
+                    <CircularProgress />
+                </div>
+            );
         }
     };
     return (
@@ -156,7 +248,7 @@ const History = (props) => {
                     {t("WordsNotMaster")}
                 </div>
                 <div className="history-container__word-container__list-word">
-                    {renderWrongWord(WrongWord)}
+                    {renderWrongWord(contents)}
                 </div>
             </div>
             <div className="history-container__word-container">
@@ -164,16 +256,21 @@ const History = (props) => {
                     {t("WordsMaster")}
                 </div>
                 <div className="history-container__word-container__list-word">
-                    {renderWrongWord(WrongWord)}
+                    {renderCorrectWord(contents)}
                 </div>
             </div>
             <Button
                 onClick={async () => {
                     const minute = timerReducer
-                        ? timerReducer.hours * 60 + timerReducer.minutes - timerReducer.old
+                        ? timerReducer.hours * 60 +
+                          timerReducer.minutes -
+                          timerReducer.old
                         : "";
-                    const res = await callApi("/timeOnline", "POST", {minute, date});
-                    console.log("res tra ve", res)
+                    const res = await callApi("/timeOnline", "POST", {
+                        minute,
+                        date,
+                    });
+                    console.log("res tra ve", res);
                 }}
             >
                 Hello

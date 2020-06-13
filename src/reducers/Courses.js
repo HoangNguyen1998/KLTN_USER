@@ -4,6 +4,7 @@ import * as GetMeConstants from "constants/GetMe";
 
 const reducer = (
     state = {
+        history: [],
         courses: [],
         course: {title: "", contents: []},
         isLoading: true,
@@ -68,6 +69,24 @@ const reducer = (
                 course: {title: "", contents: []},
                 isLoading: true,
                 courseLearn: [],
+            };
+        case CoursesConstants.SAVE_ANSWER_HISTORY:
+            return {...state};
+        case CoursesConstants.UPDATE_DETAIL_ONE_SUCCESS:
+            const data = [...state.course.contents];
+            console.log(data);
+            console.log("reducer: ", action.payload);
+            const {_id, text, mean} = action.payload;
+            for (let i = 0; i < data.length; i++) {
+                if(data[i]._id===_id){
+                    console.log(data[i]);
+                    data[i].text=text
+                    data[i].mean=mean
+                }
+            }
+            return {
+                ...state,
+                course: {title: state.course.title, contents: [...data]},
             };
         default:
             return {...state};

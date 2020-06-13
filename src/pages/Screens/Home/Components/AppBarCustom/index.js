@@ -36,6 +36,7 @@ import MenuLanguages from "pages/Components/MenuLanguage";
 import CourseList from "pages/Screens/CourseList";
 import checkAuthen from "helpers/GetToken";
 import * as GetMeActions from "actions/GetMe";
+import Badge from '@material-ui/core/Badge';
 import {useEffect} from "react";
 
 const AppBarCustom = (props) => {
@@ -44,6 +45,7 @@ const AppBarCustom = (props) => {
     const UserInformation = useSelector((state) => {
         return state.GetMe;
     });
+    const NotificationsRedux = useSelector(state=> {return state.Notifications})
     const dispatch = useDispatch();
     useEffect(() => {
         console.log("thanh app bar ne");
@@ -93,6 +95,7 @@ const AppBarCustom = (props) => {
                         <Grid item>
                             <Tooltip title="Alerts • No alerts">
                                 <IconButton color="inherit">
+                                    <Badge badgeContent="2">
                                     <NotificationsIcon
                                         style={{
                                             fontSize: 25,
@@ -100,6 +103,7 @@ const AppBarCustom = (props) => {
                                             marginRight: 5,
                                         }}
                                     />
+                                    </Badge>
                                 </IconButton>
                             </Tooltip>
                         </Grid>

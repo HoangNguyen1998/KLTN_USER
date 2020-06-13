@@ -67,6 +67,15 @@ const SideBarRight = (props) => {
                 >
                     {t(`${item.id}`)}
                 </Button>
+                // <div
+                //     className={`learn-course-container__header__button ${[
+                //         typeURL.includes(item.name) ? "general-color" : "",
+                //     ]}`}
+                //     onClick={onChangeType(idURL, item.name)}
+                // >
+                //     <div>{item.icon}</div>
+                //     <div>{t(`${item.id}`)}</div>
+                // </div>
             );
         });
     };
@@ -74,7 +83,10 @@ const SideBarRight = (props) => {
         history.push(`/courses/${idURL}/${name}`);
     };
     return (
-        <Paper style={{minHeight:"100%", height: "100%"}} className="learn-course-container">
+        <Paper
+            style={{minHeight: "100%", height: "100%"}}
+            className="learn-course-container"
+        >
             <div className="learn-course-container__header">
                 {renderButton(categories, idURL)}
             </div>
@@ -82,4 +94,4 @@ const SideBarRight = (props) => {
     );
 };
 
-export default (SideBarRight);
+export default SideBarRight;

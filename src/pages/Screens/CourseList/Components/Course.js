@@ -18,17 +18,17 @@ import Button from "@material-ui/core/Button";
 import "../styles.scss";
 import * as CoursesActions from "actions/Courses";
 
-const Course = props => {
+const Course = (props) => {
     const [showModalDelete, setShowModalDelete] = useState(false);
     const {item, index, onShowCourse, history} = props;
     const dispatch = useDispatch();
     const {i18n, t} = useTranslation("translation");
-    const coursesRedux = useSelector(state => state);
-    const circularRedux = useSelector(state => state.Loading.showCircular);
+    const coursesRedux = useSelector((state) => state);
+    const circularRedux = useSelector((state) => state.Loading.showCircular);
     const {isLoading} = coursesRedux;
-    const onShowModal = type => () => {
-        history.push('/courses/learn')
-        console.log("Tai bai hoc")
+    const onShowModal = (type) => () => {
+        history.push("/courses/learn");
+        console.log("Tai bai hoc");
         dispatch(CoursesActions.Get_Course_Request(item._id));
         onShowCourse(type);
     };
@@ -44,18 +44,25 @@ const Course = props => {
     const onHideModalDelete = () => {
         setShowModalDelete(false);
     };
-    const onLearn=(id)=>()=>{
+    const onLearn = (id) => () => {
         dispatch(CoursesActions.Get_Course_Request(id));
-        history.push(`/courses/${id}/learn`)
-    }
-    const onRememberCard=(id)=>()=>{
+        history.push(`/courses/${id}/learn`);
+    };
+    const onRememberCard = (id) => () => {
         dispatch(CoursesActions.Get_Course_Request(id));
-        history.push(`/courses/${id}/flash-card`)
-    }
+        history.push(`/courses/${id}/flash-card`);
+    };
     return (
         <Grid item xs={12} lg={4} key={index}>
             <div className="paper-container" onClick={onShowModal}>
-                <Card>
+                <Card
+                    style={{
+                        minHeight: "41rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                    }}
+                >
                     <CardActionArea>
                         {isLoading ? (
                             <Skeleton
@@ -67,7 +74,7 @@ const Course = props => {
                             <CardMedia
                                 style={{
                                     height: "200px",
-                                    backgroundRepeat: "cover"
+                                    backgroundRepeat: "cover",
                                 }}
                                 image={`https://picsum.photos/500/200?x=${item._id}`}
                                 title="Contemplative Reptile"
@@ -77,7 +84,15 @@ const Course = props => {
                             <Skeleton animation="wave" height={50} />
                         ) : (
                             <CardContent>
-                                <h1 className="general-color">{item.title}</h1>
+                                <h2
+                                    style={{wordBreak: "break-word"}}
+                                    className="general-color"
+                                >
+                                    {item.title}
+                                </h2>
+                                <h4>
+                                    {item.contents.length} {t("Word")}
+                                </h4>
                             </CardContent>
                         )}
                     </CardActionArea>
@@ -137,7 +152,12 @@ const Course = props => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button disabled={circularRedux} onClick={onHideModalDelete}>{t("Cancel")}</Button>
+                    <Button
+                        disabled={circularRedux}
+                        onClick={onHideModalDelete}
+                    >
+                        {t("Cancel")}
+                    </Button>
                     <Button onClick={onDeleteCourse} color="primary">
                         {circularRedux ? (
                             <CircularProgress size={25} />

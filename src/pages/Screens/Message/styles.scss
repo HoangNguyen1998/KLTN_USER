@@ -1,38 +1,63 @@
-.col1{
-    &__text-field-container{
+@import "../../../styles/global.scss";
+.col1 {
+    &__text-field-container {
         margin-top: 1rem;
     }
 }
 
-.message-col1{
+.message-col1 {
     min-height: 100%;
     max-height: 100%;
     overflow-y: scroll;
 }
 
-.message-col2{
+.message-col2 {
     min-height: 100%;
     max-height: 100%;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    &__content{
+    &__content {
+        padding: 1rem;
+        overflow-y: scroll;
         display: flex;
         flex-direction: column;
-        &__left-side{
+        &__left-side {
             display: flex;
             justify-content: flex-start;
+            margin-bottom: 1rem;
         }
-        &__right-side{
+        &__right-side {
             display: flex;
             justify-content: flex-end;
+            margin-bottom: 1rem;
         }
     }
-    &__divider{
-        margin: 1rem 0 !important
+    &__right-side-style {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 1rem;
+        color: white;
+        background: map-get($color, "blue");
+        /* min-width: 50%; */
+        max-width: 50%;
+        word-break: break-word;
     }
-    &__text-field{
+    &__left-side-style {
+        border: 1px solid #f4f6f8;
+        border-radius: 10px;
+        padding: 1rem;
+        color: black;
+        background: #f4f6f8;
+        /* min-width: 50%; */
+        max-width: 50%;
+        word-break: break-word;
+    }
+    &__divider {
+        margin: 1rem 0 !important;
+    }
+    &__text-field {
         width: 100%;
     }
 }

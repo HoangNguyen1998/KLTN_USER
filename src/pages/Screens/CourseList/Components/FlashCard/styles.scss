@@ -16,13 +16,13 @@
         margin-top: 1rem;
         font-size: 1.6rem;
     }
-    &__card-text{
+    &__card-text {
         position: absolute;
         width: 100%;
         transition: 0.5s;
         transform: rotateY(360deg);
     }
-    &__card-mean{
+    &__card-mean {
         // position: absolute;
         transition: 0.5s;
         transform: rotateY(180deg);
@@ -40,22 +40,24 @@
     }
 }
 
-.edit-course-container{
+.edit-course-container {
     padding: 1rem;
+    min-height: 100rem;
+    max-height: 100rem;
+    overflow-y: scroll;
 }
 
-.history-container{
-    &__word-container{
-        &--wrong-header{
+.history-container {
+    &__word-container {
+        &--wrong-header {
             color: map-get($color, "red") !important;
         }
-        &--correct-header{
+        &--correct-header {
             color: map-get($color, "green") !important;
         }
-        &__list-word{
-
+        &__list-word {
         }
-        &__word{
+        &__word {
             display: flex;
             justify-content: space-between;
             // background-color: red !important;
@@ -65,20 +67,22 @@
             margin-bottom: 2rem;
         }
     }
-    &__correct-word-container{
-
+    &__correct-word-container {
     }
 }
 
-.recent-courses-container{
+.recent-courses-container {
     padding: 1rem;
-    &__item-container{
+    min-height: 100rem;
+    max-height: 100rem;
+    overflow-y: scroll;
+    &__item-container {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         min-height: 15rem;
         padding: 1rem;
-        &:hover{
+        &:hover {
             cursor: pointer;
         }
         // &:active{

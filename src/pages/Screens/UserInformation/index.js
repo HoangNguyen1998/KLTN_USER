@@ -16,11 +16,11 @@ import ListFriends from "./Components/ListFriends";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Line} from "react-chartjs-2";
+import moment from "moment";
 import {isEmpty} from "lodash";
 import CallApi from "helpers/ApiCaller";
-
+import * as NotifiActions from "actions/Notification";
 import "./styles.scss";
-import moment from "moment";
 
 const {TabPane} = Tabs;
 const data = {
@@ -84,7 +84,6 @@ const UserInformation = (props) => {
     console.log(user);
     useEffect(() => {
         if (!isEmpty(socket)) {
-            console.log("fuck you");
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -167,7 +166,6 @@ const UserInformation = (props) => {
     };
     useEffect(() => {
         if (!isEmpty(socket)) {
-            console.log("fuck you");
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -259,7 +257,6 @@ const UserInformation = (props) => {
                 alert(JSON.stringify(data));
             });
             socket.on("emitRejectAddFriend", (res) => {
-                console.log("ccccccccccccccccc", res.userSender);
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
                         dispatch(
@@ -328,6 +325,14 @@ const UserInformation = (props) => {
             socket.on("emitAddFriend", (res) => {
                 if (getMeRedux) {
                     if (getMeRedux._id !== res.userSender) {
+                        console.log("Hihi, bat dc roi nha", res.userSender);
+                        dispatch(
+                            NotifiActions.Add_Notifi({
+                                type: "ReceiveAddFriendRequest",
+                                id: res.userSender,
+                                listUser: usersRedux,
+                            })
+                        );
                         dispatch(
                             FriendsActions.Request_Friend_Request(
                                 res.userSender

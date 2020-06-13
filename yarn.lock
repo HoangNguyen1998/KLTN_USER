@@ -10218,6 +10218,13 @@ react-flip-move@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.4.tgz#261f66101fbc305f9b7b28959c5cf8236413ca74"
   integrity sha512-HyUVv9g3t/BS7Yz9HgrtYSWyRNdR2F81nkj+C5iRY675AwlqCLB5JU9mnZWg0cdVz7IM4iquoyZx70vzZv3Z8Q==
 
+react-hooks-svgdrawing@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-hooks-svgdrawing/-/react-hooks-svgdrawing-2.1.1.tgz#8fa00260fdb94bf12abbbfd70dcb429a0806ca64"
+  integrity sha512-SJS7iQqFhheYazjYhRJVNfhwbO5vtjTeaqTi8rzTg+EL6aX1cdZplG9vxcbj757oF/b2Jdd1d3YwIBUAAbnZtA==
+  dependencies:
+    svg-drawing "2.1.1"
+
 react-i18next@^11.3.3:
   version "11.3.3"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.3.3.tgz#a84dcc32e3ad013012964d836790d8c6afac8e88"
@@ -10388,6 +10395,15 @@ react@^16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
   integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+
+react@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -11750,6 +11766,11 @@ supports-color@^7.0.0:
   integrity sha512-oRSIpR8pxT1Wr2FquTNnGet79b3BWljqOuoW/h4oBhxJ/HUbX5nX6JSruTkvXDCFMwDPvsaTTbvMLKZWSy0R5g==
   dependencies:
     has-flag "^4.0.0"
+
+svg-drawing@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/svg-drawing/-/svg-drawing-2.1.1.tgz#26c5daa5f8fa644cb9de4ed19e9a18101046b2f0"
+  integrity sha512-OUNTDplkg2YcP1ktTE4sVQaRN8pGUzULj/x7ZEuvap/HQC9Fr9kq1DAk01ACeW/TS56MV5ZJraJI45zO1Wnwwg==
 
 svg-parser@^2.0.0:
   version "2.0.3"

@@ -13,9 +13,11 @@ import {
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import {isEmpty} from "lodash";
-import * as SocketActions from "actions/Socket";
 
+import * as SocketActions from "actions/Socket";
 import "./styles.scss";
+import callApi from "helpers/ApiCaller";
+import moment from "moment";
 
 const dummyData = [
     {id: 1, message: "Hello ban B"},
@@ -25,21 +27,129 @@ const dummyData = [
 ];
 
 const Message = (props) => {
-    // Noi dung tin nhan cua ban
-    const [yourMessage, setYourMessage] = useState("");
     const dispatch = useDispatch();
+    const {history} = props;
+    const {id} = props.match.params;
     const {t} = useTranslation("translation");
     const socket = useSelector((state) => state.Socket.socket);
     const user = useSelector((state) => {
         return state.GetMe.user;
     });
+    console.log(id);
+    // STATE
+    //noi dung tin nhan cua ban
+    const [yourMessage, setYourMessage] = useState("");
+    const [friendInfo, setFriendInfo] = useState(null);
+    const [messages, setMessages] = useState([]);
+    // USEEFFECT
+    useEffect(() => {
+        if (!id) {
+            if (user) {
+                if (user.friends.length !== 0) {
+                    history.push(`messages/${user.friends[0].userId}`);
+                }
+            }
+        }
+    });
+    useEffect(() => {
+        getInfoFriend();
+    }, [user]);
     useEffect(() => {
         if (isEmpty(socket)) {
             console.log("Hello");
             dispatch(SocketActions.Connect_Socket());
         }
-        return () => {};
-    }, []);
+    });
+    useEffect(() => {
+        console.log("render lai");
+        if (!isEmpty(socket)) {
+            socket.on("emitCreateMessage", (data) => {
+                console.log("Nhan tin nhan cua nguoi gui: ", data);
+                const {receiver, sender, message} = data._doc;
+                setMessages([
+                    ...messages,
+                    {receiver: receiver, sender: sender, message: message},
+                ]);
+            });
+            return () => socket.removeEventListener("emitCreateMessage");
+        }
+    });
+
+    // FUNC
+    const renderFriendInfo = () => {
+        if (friendInfo !== null) {
+            return (
+                <Paper elevation={3} className="col-avatar">
+                    <div className="col-avatar__image">
+                        <img src="https://picsum.photos/200" alt="Hihi" />
+                    </div>
+                    <div className="col-avatar__info">
+                        <div>{t("UserName")}</div>
+                        <div className="col-avatar__info__detail">
+                            {friendInfo ? friendInfo.username : ""}
+                        </div>
+                    </div>
+                    <div className="col-avatar__info">
+                        <div>{t("Email")}</div>
+                        <div className="col-avatar__info__detail">
+                            {friendInfo ? friendInfo.email : ""}
+                        </div>
+                    </div>
+                    <div className="col-avatar__info">
+                        <div>{t("Friend")}</div>
+                        <div className="col-avatar__info__detail">
+                            {friendInfo ? friendInfo.friends.length : ""}
+                        </div>
+                    </div>
+                    <div className="col-avatar__info">
+                        <div>{t("Courses")}</div>
+                        <div className="col-avatar__info__detail">
+                            {friendInfo ? friendInfo.courses.length : ""}
+                        </div>
+                    </div>
+                    <div className="col-avatar__info">
+                        <div>{t("CreatedAt")}</div>
+                        <div className="col-avatar__info__detail">
+                            {friendInfo
+                                ? moment(friendInfo.createdAt).format("LLL")
+                                : ""}
+                        </div>
+                    </div>
+                </Paper>
+            );
+        } else {
+            return (
+                <Paper
+                    elevation={3}
+                    style={{padding: "1rem", textAlign: "center"}}
+                >
+                    <CircularProgress />
+                </Paper>
+            );
+        }
+    };
+    const getInfoFriend = async () => {
+        console.log("lay thong tin nguoi dung", user);
+        if (user) {
+            console.log("lay thong tin nguoi dung");
+            if (user.friends.length !== 0) {
+                console.log("lay thong tin nguoi dung");
+                const res = await callApi(
+                    `users/${user.friends[0].userId}`,
+                    "GET",
+                    null
+                );
+                const resMess = await callApi(
+                    `messageChat/ofFriend?friend=${user.friends[0].userId}`,
+                    "GET"
+                );
+                console.log("Thong tin nguoi ban: ", res.data);
+                console.log("Tin nhan giua hai ng: ", resMess.data);
+                setFriendInfo(res.data.result);
+                setMessages(resMess.data.result);
+            }
+        }
+    };
     const renderListFriend = (data) => {
         if (!data) {
             return (
@@ -65,39 +175,49 @@ const Message = (props) => {
             }
         }
     };
-    useEffect(() => {
-        if (!isEmpty()) {
-            socket.on("emitCreateMessage", (data) => {
-                console.log(data);
-            });
-        }
-    });
     const sendMessage = (id) => {
+        console.log(`${id}`);
         console.log("hiihi");
         if (!isEmpty(socket)) {
             socket.emit(
                 "onCreateMessage",
-                {message: yourMessage, receiver: "5e5c87a41ed0fa0017369fab"},
+                {
+                    message: yourMessage,
+                    receiver: `${id}`,
+                },
                 () => {
+                    setMessages([
+                        ...messages,
+                        {
+                            receiver: friendInfo ? friendInfo.userId : "",
+                            sender: user ? user._id : "",
+                            message: yourMessage,
+                        },
+                    ]);
+                    setYourMessage("");
                     console.log("Gui tin nhan thanh cong");
                 }
             );
         }
     };
-    const renderMessage = (data) => {
-        console.log("render tin nhan nao")
-        if (data) {
-            return data.map((item, index) => {
-                if (index % 2 === 0) {
+    const renderMessage = () => {
+        console.log("render tin nhan nao");
+        if (messages) {
+            return messages.map((item, index) => {
+                if (item.sender === id) {
                     return (
                         <div className="message-col2__content__left-side">
-                            Ben trai
+                            <div className="message-col2__left-side-style">
+                                {item.message}
+                            </div>
                         </div>
                     );
                 } else {
                     return (
                         <div className="message-col2__content__right-side">
-                            Ben phai
+                            <div className="message-col2__right-side-style">
+                                {item.message}
+                            </div>
                         </div>
                     );
                 }
@@ -121,17 +241,17 @@ const Message = (props) => {
                         {renderListFriend(user)}
                     </Paper>
                 </Grid>
-                <Grid item xs={12} lg={6}>
+                <Grid item xs={12} lg={5}>
                     <Paper elevation={3} className="message-col2">
                         <div className="message-col2__content">
-                            {renderMessage(dummyData)}
+                            {renderMessage()}
                         </div>
                         <div>
                             <Divider className="message-col2__divider" />
                             <TextField
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
-                                        sendMessage();
+                                        sendMessage(id);
                                     }
                                 }}
                                 className="message-col2__text-field"
@@ -143,7 +263,7 @@ const Message = (props) => {
                                 InputProps={{
                                     endAdornment: (
                                         <IconButton
-                                            onClick={() => sendMessage()}
+                                            onClick={() => sendMessage(id)}
                                         >
                                             <SendIcon />
                                         </IconButton>
@@ -161,12 +281,10 @@ const Message = (props) => {
                     }}
                     item
                     xs={12}
-                    lg={3}
+                    lg={4}
                     className="col-user"
                 >
-                    <Paper elevation={3} className="col-change-pw">
-                        {renderListFriend(user)}
-                    </Paper>
+                    {renderFriendInfo()}
                 </Grid>
             </Grid>
         </div>

@@ -31,7 +31,7 @@ const AlphabetItem = (props) => {
     return (
         <React.Fragment>
             <Grid item xs={6} lg={2}>
-                <div
+                <Paper
                     onClick={() => {
                         changeWord(item._id);
                     }}
@@ -41,7 +41,7 @@ const AlphabetItem = (props) => {
                 >
                     <div>{renderWord(item)}</div>
                     <div>{item.romaji}</div>
-                </div>
+                </Paper>
             </Grid>
         </React.Fragment>
     );

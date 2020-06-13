@@ -11,8 +11,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const list = [{name: "Hoang"}, {name: "Lam"}];
 
 const ListFriends = () => {
+    // state
+
+    // useeffect
+
+    // redux
     const friendsRedux = useSelector((state) => state.GetMe.user);
-    //func
+
+    // func
     const renderListFriends = (data) => {
         console.log(data);
         if(!data){
@@ -161,7 +167,7 @@ const ListFriends = () => {
     return (
         <Grid item xs={12} lg={3}>
             <div className=" list-friend-header">Danh sach ban be</div>
-            {renderListFriends(friendsRedux)}
+            {/* {renderListFriends(friendsRedux)} */}
         </Grid>
     );
 };

@@ -31,9 +31,10 @@ import MessageIcon from "@material-ui/icons/Message";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import Avatar from "@material-ui/core/Avatar";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
+import GestureIcon from "@material-ui/icons/Gesture";
 import * as TimerAction from "actions/Timer";
 import styles from "./styles";
-import './styles.scss'
+import "./styles.scss";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
@@ -72,13 +73,12 @@ const categories = [
             {id: "Challenges", icon: <LandscapeIcon />},
             {id: "Alphabet", icon: <TranslateIcon />},
             {id: "Video", icon: <VideoLibraryIcon />},
+            {id: "Draw", icon: <GestureIcon />},
         ],
     },
     {
         id: "Chat",
-        children: [
-            {id: "Messages", icon: <MessageIcon />},
-        ],
+        children: [{id: "Messages", icon: <MessageIcon />}],
     },
 ];
 
@@ -90,6 +90,9 @@ const NavigatorCustom = (props) => {
     const [hours1, setHours] = useState(0);
     const [minutes1, setMinutes] = useState(0);
     const [seconds1, setSeconds] = useState(0);
+    const user = useSelector((state) => {
+        return state.GetMe.user;
+    });
     const [totalSeconds1, setTotalSeconds] = useState(0);
     useEffect(() => {
         categories.map(({id, children}) => {
@@ -112,6 +115,13 @@ const NavigatorCustom = (props) => {
         }
         if (childId === "Challenges") {
             checkPathname = `/${childId.toLowerCase()}/5dea0eeb1433d60e205f6a4b`;
+        }
+        if (childId === "Messages") {
+            if (user && user.friends.length !== 0) {
+                checkPathname = `/${childId.toLowerCase()}/${
+                    user.friends[0].userId
+                }`;
+            }
         }
         setCategory(childId);
         const {location} = history;
@@ -174,9 +184,9 @@ const NavigatorCustom = (props) => {
                     ))}
                 </List>
             </div>
-            <Divider/>
-            <div style={{textAlign: 'center', marginTop: "1rem"}}>
-                <AvTimerIcon style={{fontSize: "3rem"}}/>
+            <Divider />
+            <div style={{textAlign: "center", marginTop: "1rem"}}>
+                <AvTimerIcon style={{fontSize: "3rem"}} />
                 <div className="timer-container">
                     <div className="timer-container__left-side">
                         {timerReducer ? timerReducer.hours : ""}

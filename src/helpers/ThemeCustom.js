@@ -58,6 +58,9 @@ theme = {
                 fontSize: "1rem"
             }
         },
+        MuiMobileStepper:{
+            root: {backgroundColor: "#f3f6f8 !important"}
+        },
         MuiFormLabel: {root: {fontSize: "1.6rem"}},
         MuiButton: {
             label: {
@@ -69,6 +72,11 @@ theme = {
                 "&:active": {
                     boxShadow: "none"
                 }
+            }
+        },
+        MuiBadge:{
+            badge: {
+                fontSize: "1.75rem !important"
             }
         },
         MuiTabs: {

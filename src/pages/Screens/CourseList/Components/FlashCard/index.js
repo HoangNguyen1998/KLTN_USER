@@ -21,7 +21,7 @@ import History from "./Components/History";
 import RecentCourses from "./Components/RecentCourses";
 import EditCourse from "./Components/EditCourse";
 import * as TimerActions from "actions/Timer";
-var timeVar
+var timeVar;
 const {TabPane} = Tabs;
 const FlashCard = (props) => {
     const {history} = props;
@@ -38,22 +38,22 @@ const FlashCard = (props) => {
         if (coursesRedux.length === 0) {
             dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
         }
-        if(contents.length===0){
-            dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
-}
+        // if(contents.length===0){
+        dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
+        // }
         // if (contents.length === 0) {
         //     dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         // }
     }, []);
-    useEffect(() => {
-            timeVar = setInterval(function () {
-                console.log("Hello");
-                dispatch(TimerActions.Increase_Second())
-            }, 1000);
-        return ()=>{
-            clearInterval(timeVar)
-        }
-    }, []);
+    // useEffect(() => {
+    //         timeVar = setInterval(function () {
+    //             console.log("Hello");
+    //             dispatch(TimerActions.Increase_Second())
+    //         }, 1000);
+    //     return ()=>{
+    //         clearInterval(timeVar)
+    //     }
+    // }, []);
     const onChangeRotate = async () => {
         await setIsRotate(isRotate + 1);
     };
@@ -172,7 +172,11 @@ const FlashCard = (props) => {
                             elevation={3}
                         >
                             <div
-                                style={{fontWeight: "bolder", fontSize: "2rem"}}
+                                style={{
+                                    fontWeight: "bolder",
+                                    fontSize: "2rem",
+                                    wordBreak: "break-word",
+                                }}
                             >
                                 {item.title}
                             </div>
@@ -183,7 +187,7 @@ const FlashCard = (props) => {
                                 <div
                                     style={{
                                         borderRadius: "1rem",
-                                        height: "2rem",
+                                        height: "1rem",
                                         backgroundColor: "#009be5",
                                     }}
                                 ></div>

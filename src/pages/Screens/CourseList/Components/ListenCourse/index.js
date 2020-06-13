@@ -20,6 +20,7 @@ import Speech from "speak-tts";
 import {Progress} from "antd";
 import "./styles.scss";
 import * as TimerActions from "actions/Timer";
+import callApi from 'helpers/ApiCaller'
 var timeVar
 const ListenCourse = (props) => {
     // Set % cho progress
@@ -61,11 +62,16 @@ const ListenCourse = (props) => {
         }, 1000);
     return ()=>{clearInterval(timeVar)}
 }, []);
-    const checkAnswer = (answer) => () => {
+    const checkAnswer = (answer) =>async () => {
         console.log(answer);
         if (
             LearnCourseRedux[activeQuestion].question.toLowerCase() === answer.toLowerCase()
         ) {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "listen", answer: true}
+            );
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -85,6 +91,11 @@ const ListenCourse = (props) => {
                 }
             }, 2000);
         } else {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "listen", answer: false}
+            );
             // if (wrongAnswers.find((item) => item !== index)) {
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,

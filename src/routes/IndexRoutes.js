@@ -8,7 +8,7 @@ import Topics from "pages/Screens/Topics";
 import Friends from "pages/Screens/Friends";
 import Alphabet from "pages/Screens/Alphabet";
 import Video from "pages/Screens/Video";
-import Messages from 'pages/Screens/Message'
+import Messages from "pages/Screens/Message";
 import VideoDetail from "pages/Screens/VideoDetail";
 import TopicDetail from "pages/Screens/Topics/Components/TopicDetail";
 import CreateCourse from "pages/Screens/CreateCourse";
@@ -16,7 +16,7 @@ import LearnCourse from "pages/Screens/CourseList/Components/LearnCourse";
 import FlashCard from "pages/Screens/CourseList/Components/FlashCard";
 import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
 import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
-import Draw from 'pages/Screens/Draw'
+import Draw from "pages/Screens/Draw";
 
 const categories = [
     {
@@ -122,6 +122,11 @@ const routes = [
         path: "/topics",
         exact: false,
         main: () => (CheckAuthen() ? <Topics /> : <SignIn />),
+    },
+    {
+        path: "/messages/:id",
+        exact: false,
+        main: () => (CheckAuthen() ? <Messages /> : <SignIn />),
     },
     {
         path: "/messages",

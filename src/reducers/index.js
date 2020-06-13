@@ -12,6 +12,7 @@ import VideoReducer from "./Video";
 import AlphabetReducer from "./Alphabet";
 import TimerReducer from "./Timer";
 import MessagesReducer from './Messages'
+import NotificationReducer from './Notification'
 
 const rootReducer = combineReducers({
     SignIn: SignInReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     Alphabet: AlphabetReducer,
     Video: VideoReducer,
     Timer: TimerReducer,
-    Messages: MessagesReducer
+    Messages: MessagesReducer,
+    Notification: NotificationReducer
 });
 
 export default rootReducer;

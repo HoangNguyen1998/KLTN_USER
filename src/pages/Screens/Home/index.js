@@ -48,7 +48,11 @@ import * as GetMeActions from "actions/GetMe";
 import styles from "./styles";
 import GetToken from "helpers/GetToken";
 import callApi from "helpers/ApiCaller";
+import GestureIcon from '@material-ui/icons/Gesture';
+import Badge from "@material-ui/core/Badge";
 import moment from "moment";
+import * as NotifiActions from "actions/Notification";
+import * as FriendsActions from "actions/Friends";
 const drawerWidth = 250;
 
 var date = new Date();
@@ -99,9 +103,48 @@ const Home = (props) => {
     const {history} = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const getMeRedux = useSelector((state) => state.GetMe.user);
+    const usersRedux = useSelector((state) => state.Friends.listUsers);
     const socket = useSelector((state) => state.Socket.socket);
+    const NotificationsRedux = useSelector((state) => {
+        return state.Notification;
+    });
     const timerReducer = useSelector((state) => state.Timer);
     console.log("trong trang chu: ", getMeRedux);
+    // muc ban  be
+    useEffect(() => {
+        dispatch(FriendsActions.Get_List_Users_Request());
+        dispatch(FriendsActions.Get_List_Add_Friend_Request());
+    }, []);
+    useEffect(() => {
+        if (!isEmpty(socket)) {
+            socket.on("authenticate", (data) => {
+                alert(JSON.stringify(data));
+            });
+            socket.on("validation", (data) => {
+                alert(JSON.stringify(data));
+            });
+            socket.on("emitAddFriend", (res) => {
+                if (getMeRedux) {
+                    if (getMeRedux._id !== res.userSender) {
+                        console.log("Hihi, bat dc roi nha", res.userSender);
+                        dispatch(
+                            NotifiActions.Add_Notifi({
+                                type: "ReceiveAddFriendRequest",
+                                id: res.userSender,
+                                listUser: usersRedux ? usersRedux : "",
+                            })
+                        );
+                        dispatch(
+                            FriendsActions.Request_Friend_Request(
+                                res.userSender
+                            )
+                        );
+                    }
+                }
+            });
+            return () => socket.removeEventListener("emitAddFriend");
+        }
+    });
     useEffect(() => {
         if (isEmpty) {
             dispatch(SocketActions.Connect_Socket());
@@ -117,39 +160,38 @@ const Home = (props) => {
                 moment(date).format("DD/MM/YYYY")
             )
         );
-        window.addEventListener("unload", event=>{
-            sendTimes()
+        window.addEventListener("unload", (event) => {
+            sendTimes();
         });
     }, []);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
     const sendTimes = async () => {
-        var xhr = new XMLHttpRequest();
+        localStorage.setItem("testunload", "hihihahahuhu");
         const minute = timerReducer
             ? timerReducer.hours * 60 + timerReducer.minutes - timerReducer.old
             : "";
-        // let body = {minute, date};
-        // let headers = {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Bearer ${GetToken()}`,
-        // };
+        let body = {minute, date};
+        let headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${GetToken()}`,
+        };
         // await callApi("/timeOnline", "POST", {minute, date});
-        // let blob = new Blob(body, headers);
-        // navigator.sendBeacon(
-        //     "https://learn-jp-kltn.herokuapp.com/api/timeOnline",
-        //     blob
-        // );
-        localStorage.setItem("testunload", "chan");
-
-        xhr.open(
-            "POST",
-            "https://learn-jp-kltn.herokuapp.com/api/timeOnline",
-            true
+        let formdata = new FormData(JSON.stringify(body), headers);
+        navigator.sendBeacon(
+            "https://learn-jp-kltn.herokuapp.com/api/timeOnline"
         );
-        xhr.setRequestHeader("Authorization", `Bearer ${GetToken()}`);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify({minute, date}));
+        // localStorage.setItem("testunload", "huhu");
+
+        // xhr.open(
+        //     "POST",
+        //     "https://learn-jp-kltn.herokuapp.com/api/timeOnline",
+        //     true
+        // );
+        // xhr.setRequestHeader("Authorization", `Bearer ${GetToken()}`);
+        // xhr.setRequestHeader("Content-Type", "application/json");
+        // xhr.send(JSON.stringify({minute, date}));
     };
     const {i18n, t} = useTranslation("translation");
     useEffect(() => {
@@ -235,13 +277,22 @@ const Home = (props) => {
                                         color="inherit"
                                         onClick={handleClick}
                                     >
-                                        <NotificationsIcon
-                                            style={{
-                                                fontSize: 25,
-                                                color: "white",
-                                                marginRight: 5,
-                                            }}
-                                        />
+                                        <Badge
+                                            badgeContent={
+                                                NotificationsRedux &&
+                                                NotificationsRedux.Count !== 0
+                                                    ? NotificationsRedux.Count
+                                                    : 0
+                                            }
+                                            color="secondary"
+                                        >
+                                            <NotificationsIcon
+                                                style={{
+                                                    fontSize: 25,
+                                                    color: "white",
+                                                }}
+                                            />
+                                        </Badge>
                                     </IconButton>
                                 </Tooltip>
                             </Grid>

@@ -17,6 +17,7 @@ import SideBarRight from "../SideBarRight";
 import {Progress} from "antd";
 import * as TimerActions from "actions/Timer";
 import "./styles.scss";
+import callApi from "helpers/ApiCaller";
 var timeVar;
 const WriteCourse = (props) => {
     // Set % cho progress
@@ -84,13 +85,18 @@ const WriteCourse = (props) => {
             });
         }
     };
-    const checkAnswer = (answer) => () => {
+    const checkAnswer = (answer) => async () => {
         console.log(answer);
         if (
             LearnCourseRedux[activeQuestion].answers[
                 LearnCourseRedux[activeQuestion].answer_id
             ] === answer
         ) {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "write", answer: true}
+            );
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -110,6 +116,11 @@ const WriteCourse = (props) => {
                 }
             }, 2000);
         } else {
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "write", answer: false}
+            );
             // if (wrongAnswers.find((item) => item !== index)) {
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,
@@ -274,7 +285,7 @@ const WriteCourse = (props) => {
                                         <Grid xs={0} lg={1} />
                                         <Grid item xs={12} lg={3}>
                                             <Button
-                                                disabled={wrongAnswer===""}
+                                                disabled={wrongAnswer === ""}
                                                 onClick={checkAnswer(
                                                     wrongAnswer
                                                 )}
@@ -317,9 +328,9 @@ const WriteCourse = (props) => {
         } else {
             return (
                 <div className="write-course-container__loading">
-                <CircularProgress />
-                <div>{t("EnterWhatYouListen")}</div>
-            </div>
+                    <CircularProgress />
+                    <div>{t("EnterWhatYouListen")}</div>
+                </div>
             );
         }
     };
