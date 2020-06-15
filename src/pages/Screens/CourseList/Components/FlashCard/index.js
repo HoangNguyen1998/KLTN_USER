@@ -80,7 +80,7 @@ const FlashCard = (props) => {
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <Skeleton
                         variant="rect"
-                        className={`remember-card-container__card remember-card-container__card-text`}
+                        className={`remember-card-container__card`}
                     >
                         {/* <div className="font-text">
                             <Skeleton variant="text"/>
@@ -202,31 +202,51 @@ const FlashCard = (props) => {
     };
     return (
         <div className="remember-card-container">
-            <Grid container spacing={2} className="container">
-                <Grid item lg={2} xs={0} />
+            <SideBarRight
+                history={props.history}
+                idURL={props.match.params.id}
+                typeURL={props.match.path}
+            />
+            <div className="remember-card-content">
+                <div className="remember-card-content__title">
+                    <h1 style={{margin: 0, color: "#2C6694"}}>
+                        {t("Courses")}: {courseRedux ? courseRedux.title : ""}
+                    </h1>
+                </div>
+                <div className="remember-card-content__card">
+                    {renderCard()}
+                </div>
+                <div className="rememver-card-content__your-history-title">
+                    <h2 style={{margin: 0, color: "#2C6694"}}>
+                        {t("HistoryCourse")}
+                    </h2>
+                </div>
+                <History />
+            </div>
+            {/* <Grid container spacing={2} className="container">
                 <Grid
                     style={{
                         display: "flex",
                         justifyContent: "center",
                         // width: "100%",
                         // height: "100%",
-                        minHeight: "50rem",
+                        maxHeight: "50rem",
+                        backgroundColor: "white",
                     }}
                     item
                     xs={12}
-                    lg={6}
+                    lg={9}
                 >
                     {renderCard()}
                 </Grid>
-                <Grid style={{minHeight: "50rem"}} item xs={12} lg={2}>
+                <Grid item xs={12} lg={3}>
                     <SideBarRight
                         history={props.history}
                         idURL={props.match.params.id}
                         typeURL={props.match.path}
                     />
-                </Grid>
-                <Grid item lg={2} xs={0} />
-                <Grid item lg={6}>
+                </Grid> */}
+            {/* <Grid item lg={6}>
                     <Paper className="edit-course-container" elevation={0}>
                         <Tabs defaultActiveKey="1">
                             <TabPane
@@ -253,8 +273,8 @@ const FlashCard = (props) => {
                             </TabPane>
                         </Tabs>
                     </Paper>
-                </Grid>
-                <Grid item lg={6}>
+                </Grid> */}
+            {/* <Grid item lg={6}>
                     <Paper elevation={0} className="recent-courses-container">
                         <div
                             style={{
@@ -271,8 +291,8 @@ const FlashCard = (props) => {
                             </Grid>
                         </div>
                     </Paper>
-                </Grid>
-            </Grid>
+                </Grid> */}
+            {/* </Grid> */}
         </div>
     );
 };

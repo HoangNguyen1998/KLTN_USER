@@ -37,7 +37,12 @@ const WriteCourse = (props) => {
     const {t} = useTranslation("translation");
     const dispatch = useDispatch();
     const LearnCourseRedux = useSelector((state) => state.Courses.courseLearn);
+    const [isWaiting, setIsWaiting] = useState(true);
+    const coursesRedux = useSelector((state) => state.Courses.courses);
     useEffect(() => {
+        if (coursesRedux.length === 0) {
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
+        }
         if (LearnCourseRedux && LearnCourseRedux.length === 0) {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
@@ -51,52 +56,14 @@ const WriteCourse = (props) => {
             clearInterval(timeVar);
         };
     }, []);
-    const renderAnswers = (data) => {
-        if (data.length !== 0) {
-            return data.map((item, index) => {
-                return (
-                    <div
-                        onClick={checkAnswer(index, item)}
-                        className={` ${
-                            result === index
-                                ? "write-course-container__body__result"
-                                : "write-course-container__body__answer"
-                        }`}
-                    >
-                        {result === index ? (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    color: "white",
-                                }}
-                            >
-                                <SentimentVerySatisfiedOutlinedIcon
-                                    style={{color: "#fdca47"}}
-                                    fontSize="large"
-                                />{" "}
-                                {t("Correct")}{" "}
-                            </div>
-                        ) : (
-                            `${index + 1}. ${item}`
-                        )}
-                    </div>
-                );
-            });
-        }
-    };
-    const checkAnswer = (answer) => async () => {
+
+    const checkAnswer = async (answer) => {
         console.log(answer);
         if (
             LearnCourseRedux[activeQuestion].answers[
                 LearnCourseRedux[activeQuestion].answer_id
             ] === answer
         ) {
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "write", answer: true}
-            );
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -104,6 +71,11 @@ const WriteCourse = (props) => {
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "write", answer: true}
+            );
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
@@ -116,19 +88,18 @@ const WriteCourse = (props) => {
                 }
             }, 2000);
         } else {
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "write", answer: false}
-            );
             // if (wrongAnswers.find((item) => item !== index)) {
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
-            setPercent(percent + 100 / LearnCourseRedux.length);
             setActiveExplain(true);
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "write", answer: false}
+            );
         }
     };
     const renderWrongResult = () => {
@@ -184,7 +155,9 @@ const WriteCourse = (props) => {
                         setWrongAnswer(null);
                         if (activeQuestion + 1 < LearnCourseRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                         } else {
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                             setEndLearn(true);
                         }
                     }}
@@ -211,10 +184,10 @@ const WriteCourse = (props) => {
                                         <Progress
                                             type="circle"
                                             strokeColor="#87d068"
-                                            percent={
+                                            percent={(
                                                 (rightAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                 </Grid>
@@ -228,10 +201,10 @@ const WriteCourse = (props) => {
                                         <Progress
                                             strokeColor="#f50057"
                                             type="circle"
-                                            percent={
+                                            percent={(
                                                 (wrongAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                 </Grid>
@@ -271,6 +244,15 @@ const WriteCourse = (props) => {
                                     >
                                         <Grid item xs={12} lg={8}>
                                             <TextField
+                                                autoFocus
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        console.log("huhu");
+                                                        checkAnswer(
+                                                            wrongAnswer
+                                                        );
+                                                    }
+                                                }}
                                                 value={wrongAnswer}
                                                 onChange={(e) =>
                                                     setWrongAnswer(
@@ -286,9 +268,9 @@ const WriteCourse = (props) => {
                                         <Grid item xs={12} lg={3}>
                                             <Button
                                                 disabled={wrongAnswer === ""}
-                                                onClick={checkAnswer(
-                                                    wrongAnswer
-                                                )}
+                                                onClick={() =>
+                                                    checkAnswer(wrongAnswer)
+                                                }
                                                 className={`${
                                                     result
                                                         ? "write-course-container__body__answer-container__show-result"
@@ -335,29 +317,25 @@ const WriteCourse = (props) => {
         }
     };
     return (
-        <Grid container className="container" spacing={2}>
-            <Grid item lg={2} />
-            <Grid item xs={12} lg={6}>
+        <div className="remember-card-container">
+            <SideBarRight
+                history={props.history}
+                idURL={props.match.params.id}
+                typeURL={props.match.path}
+            />
+            <div className="remember-card-content">
                 <Progress
                     strokeColor={{
                         "0%": "#108ee9",
                         "100%": "#87d068",
                     }}
-                    percent={percent}
+                    percent={percent.toFixed(2)}
                 />
-                <Paper className="write-course-container">
+                <Paper className="learn-course-container">
                     {renderLearn()}
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={2}>
-                <SideBarRight
-                    history={props.history}
-                    idURL={props.match.params.id}
-                    typeURL={props.match.path}
-                />
-            </Grid>
-            <Grid item lg={2} />
-        </Grid>
+            </div>
+        </div>
     );
 };
 

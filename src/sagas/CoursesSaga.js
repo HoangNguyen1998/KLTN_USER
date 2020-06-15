@@ -8,9 +8,9 @@ function* Get_All_Courses_Request() {
     while (true) {
         try {
             const action = yield take(CoursesConstants.GET_ALL_COURSES_REQUEST);
-            const res = yield call(CallApi, "courses", "GET", null);
+            const res = yield call(CallApi, "users/get-courses-latest", "GET", null);
             const {data} = res;
-            yield put(CoursesActions.Get_All_Courses_Success(data.result));
+            yield put(CoursesActions.Get_All_Courses_Success(data.result.courses));
             if (action) action.payload(false);
         } catch (err) {
             yield put(CoursesActions.Get_All_Courses_Error);

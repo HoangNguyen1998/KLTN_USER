@@ -70,10 +70,10 @@ const UserInformation = (props) => {
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
     useEffect(() => {
-        if (isEmpty(socket)) {
-            console.log("Hello");
-            dispatch(SocketActions.Connect_Socket());
-        }
+        // if (isEmpty(socket)) {
+        //     console.log("Hello");
+        //     dispatch(SocketActions.Connect_Socket());
+        // }
         return () => {
             // console.log("Helooooooo")
             // if(socket){

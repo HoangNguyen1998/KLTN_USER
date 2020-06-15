@@ -1,10 +1,14 @@
+@import "../../../styles/global.scss";
+
 .list-item-active {
     color: #4fc3f7 !important
 }
 
 .user-container{
-    margin-top: 1rem;
+    margin: 1rem 3rem;
+    padding: 3rem 1rem;
     display: flex;
+    border-radius: 1rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -12,16 +16,27 @@
         cursor: pointer;
     }
     &__avatar{
-        width: 6rem !important;
-        height: 6rem !important;
+        width: 10rem !important;
+        height: 10rem !important;
     }
     &__name{
         padding: 1rem 0rem;
+        font-size: 2rem;
+    }
+    &__time-online{
         font-size: 1.6rem;
+        display: flex;
+        align-items: center;
     }
 }
 
 .hover{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.sign-out{
     &:hover{
         cursor: pointer;
     }

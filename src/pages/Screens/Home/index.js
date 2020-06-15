@@ -48,9 +48,11 @@ import * as GetMeActions from "actions/GetMe";
 import styles from "./styles";
 import GetToken from "helpers/GetToken";
 import callApi from "helpers/ApiCaller";
-import GestureIcon from '@material-ui/icons/Gesture';
+import GestureIcon from "@material-ui/icons/Gesture";
 import Badge from "@material-ui/core/Badge";
 import moment from "moment";
+import {socket as socketHelper} from "helpers/Socket";
+import * as socketConstants from "constants/Socket";
 import * as NotifiActions from "actions/Notification";
 import * as FriendsActions from "actions/Friends";
 const drawerWidth = 250;
@@ -112,6 +114,15 @@ const Home = (props) => {
     console.log("trong trang chu: ", getMeRedux);
     // muc ban  be
     useEffect(() => {
+        if (!isEmpty(socket)) {
+            socket.on(socketConstants.on_EmitFriendOnline, (data) =>
+                console.log("xem ban be co onlien ko? ", data)
+            );
+            return () =>
+                socket.removeEventListener(socketConstants.on_EmitFriendOnline);
+        }
+    });
+    useEffect(() => {
         dispatch(FriendsActions.Get_List_Users_Request());
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
@@ -146,7 +157,7 @@ const Home = (props) => {
         }
     });
     useEffect(() => {
-        if (isEmpty) {
+        if (isEmpty(socket)) {
             dispatch(SocketActions.Connect_Socket());
         }
         if (!getMeRedux) {
@@ -236,6 +247,9 @@ const Home = (props) => {
     const openMenu = Boolean(anchorEl);
     const onSignOut = () => {
         dispatch(GetMeActions.Sign_Out(history));
+        // if(!isEmpty(socket)){
+        //     socket
+        // }
     };
     return (
         <div className={classes.root}>
@@ -297,7 +311,7 @@ const Home = (props) => {
                                 </Tooltip>
                             </Grid>
 
-                            <Grid item>
+                            {/* <Grid item>
                                 <IconButton
                                     color="inherit"
                                     className={classes.iconButtonAvatar}
@@ -311,7 +325,7 @@ const Home = (props) => {
                                         }}
                                     />
                                 </IconButton>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Toolbar>
                 </AppBar>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {withSnackbar} from "notistack";
@@ -36,12 +36,20 @@ const Message = (props) => {
         return state.GetMe.user;
     });
     console.log(id);
+    // REF
+    const messagesEndRef = useRef(null);
+    const scrollToBottom = () => {
+        console.log("scroll toi bottom")
+        messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+    };
+
     // STATE
     //noi dung tin nhan cua ban
     const [yourMessage, setYourMessage] = useState("");
     const [friendInfo, setFriendInfo] = useState(null);
     const [messages, setMessages] = useState([]);
     // USEEFFECT
+    useEffect(scrollToBottom, [messages]);
     useEffect(() => {
         if (!id) {
             if (user) {
@@ -50,18 +58,16 @@ const Message = (props) => {
                 }
             }
         }
-    });
+    }, []);
     useEffect(() => {
         getInfoFriend();
     }, [user]);
+    // useEffect(() => {
+    //     if (isEmpty(socket)) {
+    //         dispatch(SocketActions.Connect_Socket());
+    //     }
+    // });
     useEffect(() => {
-        if (isEmpty(socket)) {
-            console.log("Hello");
-            dispatch(SocketActions.Connect_Socket());
-        }
-    });
-    useEffect(() => {
-        console.log("render lai");
         if (!isEmpty(socket)) {
             socket.on("emitCreateMessage", (data) => {
                 console.log("Nhan tin nhan cua nguoi gui: ", data);
@@ -134,13 +140,9 @@ const Message = (props) => {
             console.log("lay thong tin nguoi dung");
             if (user.friends.length !== 0) {
                 console.log("lay thong tin nguoi dung");
-                const res = await callApi(
-                    `users/${user.friends[0].userId}`,
-                    "GET",
-                    null
-                );
+                const res = await callApi(`users/${id}`, "GET", null);
                 const resMess = await callApi(
-                    `messageChat/ofFriend?friend=${user.friends[0].userId}`,
+                    `messageChat/ofFriend?friend=${id}`,
                     "GET"
                 );
                 console.log("Thong tin nguoi ban: ", res.data);
@@ -149,6 +151,21 @@ const Message = (props) => {
                 setMessages(resMess.data.result);
             }
         }
+        scrollToBottom()
+    };
+    const onChangeFriendChat = (userID) => async () => {
+        setMessages([]);
+        setFriendInfo(null);
+        history.push(`/messages/${userID}`);
+        const res = await callApi(`users/${userID}`, "GET", null);
+        const resMess = await callApi(
+            `messageChat/ofFriend?friend=${userID}`,
+            "GET"
+        );
+        console.log("Thong tin nguoi ban: ", res.data);
+        console.log("Tin nhan giua hai ng: ", resMess.data);
+        setFriendInfo(res.data.result);
+        setMessages(resMess.data.result);
     };
     const renderListFriend = (data) => {
         if (!data) {
@@ -162,7 +179,10 @@ const Message = (props) => {
             if (data.friends.length !== 0) {
                 return data.friends.map((item, index) => {
                     return (
-                        <div className="col2__list-user-container">
+                        <div
+                            onClick={onChangeFriendChat(item.userId)}
+                            className="col2__list-user-container"
+                        >
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image"></div>
@@ -177,31 +197,30 @@ const Message = (props) => {
     };
     const sendMessage = (id) => {
         console.log(`${id}`);
-        console.log("hiihi");
         if (!isEmpty(socket)) {
-            socket.emit(
-                "onCreateMessage",
-                {
-                    message: yourMessage,
-                    receiver: `${id}`,
-                },
-                () => {
-                    setMessages([
-                        ...messages,
-                        {
-                            receiver: friendInfo ? friendInfo.userId : "",
-                            sender: user ? user._id : "",
-                            message: yourMessage,
-                        },
-                    ]);
-                    setYourMessage("");
-                    console.log("Gui tin nhan thanh cong");
-                }
-            );
+            if (yourMessage !== "") {
+                socket.emit(
+                    "onCreateMessage",
+                    {
+                        message: yourMessage,
+                        receiver: `${id}`,
+                    },
+                    () => {
+                        setMessages([
+                            ...messages,
+                            {
+                                receiver: friendInfo ? friendInfo.userId : "",
+                                sender: user ? user._id : "",
+                                message: yourMessage,
+                            },
+                        ]);
+                        setYourMessage("");
+                    }
+                );
+            }
         }
     };
     const renderMessage = () => {
-        console.log("render tin nhan nao");
         if (messages) {
             return messages.map((item, index) => {
                 if (item.sender === id) {
@@ -222,6 +241,12 @@ const Message = (props) => {
                     );
                 }
             });
+        } else {
+            return (
+                <div>
+                    <CircularProgress />
+                </div>
+            );
         }
     };
     return (
@@ -243,12 +268,16 @@ const Message = (props) => {
                 </Grid>
                 <Grid item xs={12} lg={5}>
                     <Paper elevation={3} className="message-col2">
-                        <div className="message-col2__content">
+                        <div
+                            className="message-col2__content"
+                        >
                             {renderMessage()}
+                            <div ref={messagesEndRef} />
                         </div>
                         <div>
                             <Divider className="message-col2__divider" />
                             <TextField
+                                required
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
                                         sendMessage(id);

@@ -35,11 +35,11 @@ const Challenges = (props) => {
         return state.Challenges;
     });
     const {t} = useTranslation("translation");
-    useEffect(() => {
-        if (isEmpty(socket)) {
-            dispatch(SocketActions.Connect_Socket());
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (isEmpty(socket)) {
+    //         dispatch(SocketActions.Connect_Socket());
+    //     }
+    // }, []);
     useEffect(() => {
         console.log("Hello");
         dispatch(ChallengesActions.Get_All_Challenges_Request(setIsWaiting));

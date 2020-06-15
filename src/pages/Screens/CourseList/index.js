@@ -92,7 +92,7 @@ const CourseList = (props) => {
     }
     if (courses.length !== 0) {
         return (
-            <div className="container">
+            <div>
                 {/* Nut tao khoa hoc */}
                 <div className="button">
                     <Button

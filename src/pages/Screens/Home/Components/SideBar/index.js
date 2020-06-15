@@ -26,11 +26,13 @@ import MailIcon from "@material-ui/icons/Mail";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import LandscapeIcon from "@material-ui/icons/Landscape";
 import GolfCourseIcon from "@material-ui/icons/GolfCourse";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import MessageIcon from "@material-ui/icons/Message";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import Avatar from "@material-ui/core/Avatar";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
+import * as GetMeActions from "actions/GetMe";
 import GestureIcon from "@material-ui/icons/Gesture";
 import * as TimerAction from "actions/Timer";
 import styles from "./styles";
@@ -38,7 +40,7 @@ import "./styles.scss";
 // import SettingsIcon from "@material-ui/icons/Settings";
 // import PhonelinkSetupIcon from "@material-ui/icons/PhonelinkSetup";
 import {withStyles} from "@material-ui/core/styles";
-const drawerWidth = 240;
+const drawerWidth = 20;
 var totalSeconds = 0;
 var hours, seconds, minutes;
 const useStyles = makeStyles((theme) => ({
@@ -94,6 +96,7 @@ const NavigatorCustom = (props) => {
         return state.GetMe.user;
     });
     const [totalSeconds1, setTotalSeconds] = useState(0);
+    console.log(props.history.location);
     useEffect(() => {
         categories.map(({id, children}) => {
             children.map(({id: childId}) => {
@@ -129,6 +132,9 @@ const NavigatorCustom = (props) => {
             props.history.push(checkPathname);
         }
     };
+    const onSignOut = () => {
+        dispatch(GetMeActions.Sign_Out(history));
+    };
     const goHome = () => {
         history.push("/");
         setCategory();
@@ -155,6 +161,9 @@ const NavigatorCustom = (props) => {
                 <div className="user-container__name">
                     {userRedux ? userRedux.username : ""}
                 </div>
+                <div className="user-container__time-online">
+                    <AvTimerIcon /> Time Online: {1} hours {20} minutes
+                </div>
             </div>
             <Divider style={{backgroundColor: "#eeeeee"}} variant="middle" />
             <div className={classes.drawerContainer}>
@@ -163,14 +172,19 @@ const NavigatorCustom = (props) => {
                         <React.Fragment key={id}>
                             {children.map(({id: childId, icon, active}) => (
                                 <ListItem
+                                    style={{
+                                        paddingLeft: "3rem",
+                                        backgroundColor: `${
+                                            props.history.location.pathname.includes(
+                                                childId.toLowerCase()
+                                            )
+                                                ? "#429ADF"
+                                                : ""
+                                        }`,
+                                    }}
                                     key={childId}
                                     button
                                     onClick={() => _useListItem(childId)}
-                                    className={`${
-                                        props.history.location === childId
-                                            ? "item-active"
-                                            : ""
-                                    }`}
                                 >
                                     <ListItemIcon style={{minWidth: "3rem"}}>
                                         {icon}
@@ -184,19 +198,20 @@ const NavigatorCustom = (props) => {
                     ))}
                 </List>
             </div>
-            <Divider />
+            <Divider style={{backgroundColor: "#eeeeee"}} variant="middle" />
             <div style={{textAlign: "center", marginTop: "1rem"}}>
-                <AvTimerIcon style={{fontSize: "3rem"}} />
-                <div className="timer-container">
-                    <div className="timer-container__left-side">
-                        {timerReducer ? timerReducer.hours : ""}
-                        <div>hours</div>
-                    </div>
-                    <div className="timer-container__right-side">
-                        {timerReducer ? timerReducer.minutes : ""}
-                        <div>minutes</div>
-                    </div>
-                </div>
+                <List>
+                    <ListItem
+                        className="sign-out"
+                        onClick={onSignOut}
+                        style={{paddingLeft: "3rem"}}
+                    >
+                        <ListItemIcon style={{minWidth: "3rem"}}>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText>Sign out</ListItemText>
+                    </ListItem>
+                </List>
             </div>
         </Drawer>
     );

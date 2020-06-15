@@ -59,7 +59,7 @@ theme = {
             }
         },
         MuiMobileStepper:{
-            root: {backgroundColor: "#f3f6f8 !important"}
+            root: {backgroundColor: "white !important"}
         },
         MuiFormLabel: {root: {fontSize: "1.6rem"}},
         MuiButton: {

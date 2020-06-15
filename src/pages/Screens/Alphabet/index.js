@@ -89,12 +89,7 @@ const Alphabet = (props) => {
                                         valueTab={valueTab}
                                     />
                                 </Grid>
-                                <Grid
-                                    spacing={3}
-                                    container
-                                    item
-                                    xs={12}
-                                >
+                                <Grid spacing={3} container item xs={12}>
                                     {renderAlphabet(alphabetRedux)}
                                 </Grid>
                             </Grid>
@@ -108,13 +103,7 @@ const Alphabet = (props) => {
                                         onSpeak={onSpeak}
                                     />
                                 </Grid>
-                                <Grid
-                                    spacing={3}
-                                    container
-                                    item
-                                    xs={12}
-
-                                >
+                                <Grid spacing={3} container item xs={12}>
                                     {renderAlphabet(alphabetRedux)}
                                 </Grid>
                             </Grid>

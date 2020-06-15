@@ -25,6 +25,7 @@ import RightIcon from "@material-ui/icons/CheckCircle";
 import socketIOClient from "socket.io-client";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import WrongIcon from "@material-ui/icons/Cancel";
+import {useSvgDrawing} from "react-hooks-svgdrawing";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import * as ChallengesActions from "actions/Challenges";
 import getToken from "helpers/GetToken";
@@ -40,7 +41,12 @@ const AlphabetDetail = (props) => {
     // USEEFFECT
     useEffect(() => {}, []);
     // FUNC
-
+    const [renderRef, action] = useSvgDrawing({
+        penWidth: 5, // pen width
+        penColor: "#1890ff", // pen color
+        width: 300, // drawing area width
+        height: 300, // drawing area height
+    });
     const renderSpeak = (item) => {
         if (parseInt(valueTab) === 1) {
             return item.hira;
@@ -101,7 +107,7 @@ const AlphabetDetail = (props) => {
             return (
                 <div className="alphabet-detail-container__card-detail">
                     <IconButton onClick={() => onSpeak(renderSpeak(data))}>
-                        <VolumeDownIcon style={{fontSize: 25}} />
+                        <VolumeDownIcon style={{fontSize: 35}} />
                     </IconButton>
                     <div>
                         {renderWord(data).length === 2 ? (

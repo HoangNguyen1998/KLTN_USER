@@ -22,19 +22,19 @@ const Friend = (props) => {
     const socket = useSelector((state) => state.Socket.socket);
     console.log("check socket: ", socket)
     const dispatch = useDispatch();
-    useEffect(() => {
-        if(isEmpty(socket)){
-            console.log("Hello")
-            dispatch(SocketActions.Connect_Socket());
-        }
-        return ()=>{
-            // console.log("Helooooooo")
-            // if(socket){
-            //     socket.removeAllListeners();
-            // }
+    // useEffect(() => {
+    //     if(isEmpty(socket)){
+    //         console.log("Hello")
+    //         dispatch(SocketActions.Connect_Socket());
+    //     }
+    //     return ()=>{
+    //         // console.log("Helooooooo")
+    //         // if(socket){
+    //         //     socket.removeAllListeners();
+    //         // }
             
-        }
-    },[]);
+    //     }
+    // },[]);
     return (
         <div className="container">
             <Grid container spacing={1}>

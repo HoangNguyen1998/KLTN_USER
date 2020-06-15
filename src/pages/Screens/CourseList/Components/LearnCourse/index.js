@@ -21,6 +21,7 @@ import * as TimerActions from "actions/Timer";
 import callApi from "helpers/ApiCaller";
 var timeVar;
 const LearnCourse = (props) => {
+    const [isWaiting, setIsWaiting] = useState(true);
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
     const [rightAnswers, setRightAnswers] = useState([]);
@@ -38,7 +39,11 @@ const LearnCourse = (props) => {
     const {t} = useTranslation("translation");
     const dispatch = useDispatch();
     const LearnCourseRedux = useSelector((state) => state.Courses.courseLearn);
+    const coursesRedux = useSelector((state) => state.Courses.courses);
     useEffect(() => {
+        if (coursesRedux.length === 0) {
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
+        }
         if (LearnCourseRedux && LearnCourseRedux.length === 0) {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
@@ -91,12 +96,6 @@ const LearnCourse = (props) => {
         console.log("---------------");
         console.log(rightAnswers);
         if (LearnCourseRedux[activeQuestion].answer_id === index) {
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "learn", answer: true}
-            );
-            console.log("kiem tra dap an ne: ", res.data);
             setResult(index);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -104,6 +103,12 @@ const LearnCourse = (props) => {
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "learn", answer: true}
+            );
+            console.log("kiem tra dap an ne: ", res.data);
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
@@ -113,23 +118,22 @@ const LearnCourse = (props) => {
                     setPercent(percent + 100 / LearnCourseRedux.length);
                     setEndLearn(true);
                 }
-            }, 2000);
+            }, 1000);
         } else {
             // if (wrongAnswers.find((item) => item !== index)) {
+            setWrongAnswers((wrongAnswers) => [
+                ...wrongAnswers,
+                LearnCourseRedux[activeQuestion].question,
+            ]);
+            // }
+            setWrongAnswer(answer);
+            setActiveExplain(true);
             const res = await callApi(
                 `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
                 "PUT",
                 {type: "learn", answer: false}
             );
             console.log("kiem tra dap an ne: ", res.data);
-            setWrongAnswers((wrongAnswers) => [
-                ...wrongAnswers,
-                LearnCourseRedux[activeQuestion].question,
-            ]);
-            // }
-            setPercent(percent + 100 / LearnCourseRedux.length);
-            setWrongAnswer(answer);
-            setActiveExplain(true);
         }
     };
     const renderWrongResult = () => {
@@ -185,7 +189,9 @@ const LearnCourse = (props) => {
                         setWrongAnswer(null);
                         if (activeQuestion + 1 < LearnCourseRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                         } else {
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                             setEndLearn(true);
                         }
                     }}
@@ -212,10 +218,10 @@ const LearnCourse = (props) => {
                                         <Progress
                                             type="circle"
                                             strokeColor="#87d068"
-                                            percent={
+                                            percent={(
                                                 (rightAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                     {/* {rightAnswers.map((item, index) => {
@@ -237,10 +243,10 @@ const LearnCourse = (props) => {
                                         <Progress
                                             strokeColor="#f50057"
                                             type="circle"
-                                            percent={
+                                            percent={(
                                                 (wrongAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                     {/* {wrongAnswers.map((item, index) => {
@@ -303,29 +309,48 @@ const LearnCourse = (props) => {
         }
     };
     return (
-        <Grid container className="container" spacing={2}>
-            <Grid item lg={2} />
-            <Grid item xs={12} lg={6}>
+        // <Grid container className="container" spacing={2}>
+        //     <Grid item lg={2} />
+        //     <Grid item xs={12} lg={6}>
+        //         <Progress
+        //             strokeColor={{
+        //                 "0%": "#108ee9",
+        //                 "100%": "#87d068",
+        //             }}
+        //             percent={percent}
+        //         />
+        //         <Paper className="learn-course-container">
+        //             {renderLearn()}
+        //         </Paper>
+        //     </Grid>
+        //     <Grid item xs={12} lg={2}>
+        //         <SideBarRight
+        //             history={props.history}
+        //             idURL={props.match.params.id}
+        //             typeURL={props.match.path}
+        //         />
+        //     </Grid>
+        //     <Grid item lg={2} />
+        // </Grid>
+        <div className="remember-card-container">
+            <SideBarRight
+                history={props.history}
+                idURL={props.match.params.id}
+                typeURL={props.match.path}
+            />
+            <div className="remember-card-content">
                 <Progress
                     strokeColor={{
                         "0%": "#108ee9",
                         "100%": "#87d068",
                     }}
-                    percent={percent}
+                    percent={percent.toFixed(2)}
                 />
                 <Paper className="learn-course-container">
                     {renderLearn()}
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={2}>
-                <SideBarRight
-                    history={props.history}
-                    idURL={props.match.params.id}
-                    typeURL={props.match.path}
-                />
-            </Grid>
-            <Grid item lg={2} />
-        </Grid>
+            </div>
+        </div>
     );
 };
 

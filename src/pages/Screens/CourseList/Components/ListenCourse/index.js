@@ -20,8 +20,8 @@ import Speech from "speak-tts";
 import {Progress} from "antd";
 import "./styles.scss";
 import * as TimerActions from "actions/Timer";
-import callApi from 'helpers/ApiCaller'
-var timeVar
+import callApi from "helpers/ApiCaller";
+var timeVar;
 const ListenCourse = (props) => {
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -41,12 +41,22 @@ const ListenCourse = (props) => {
     const dispatch = useDispatch();
     const speech = new Speech();
     const LearnCourseRedux = useSelector((state) => state.Courses.courseLearn);
+    const [isWaiting, setIsWaiting] = useState(true);
+    const coursesRedux = useSelector((state) => state.Courses.courses);
     useEffect(() => {
+        if (coursesRedux.length === 0) {
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
+        }
         if (LearnCourseRedux && LearnCourseRedux.length === 0) {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
     }, []);
-    const onSpeak = (word) => () => {
+    useEffect(()=>{
+        if (LearnCourseRedux.length!==0) {
+            onSpeak(LearnCourseRedux[activeQuestion].question);
+        }
+    }, [LearnCourseRedux, activeQuestion])
+    const onSpeak = (word) => {
         if (word.charCodeAt() > parseInt(0x3040)) speech.setLanguage("ja-JP");
         else speech.setLanguage("en-US");
         speech.setRate(0.7);
@@ -55,23 +65,21 @@ const ListenCourse = (props) => {
             text: `${word}`,
         });
     };
-    useEffect(() => {
-        timeVar = setInterval(function () {
-            console.log("Hello");
-            dispatch(TimerActions.Increase_Second())
-        }, 1000);
-    return ()=>{clearInterval(timeVar)}
-}, []);
-    const checkAnswer = (answer) =>async () => {
+    // useEffect(() => {
+    //     timeVar = setInterval(function () {
+    //         console.log("Hello");
+    //         dispatch(TimerActions.Increase_Second());
+    //     }, 1000);
+    //     return () => {
+    //         clearInterval(timeVar);
+    //     };
+    // }, []);
+    const checkAnswer = async (answer) => {
         console.log(answer);
         if (
-            LearnCourseRedux[activeQuestion].question.toLowerCase() === answer.toLowerCase()
+            LearnCourseRedux[activeQuestion].question.toLowerCase() ===
+            answer.toLowerCase()
         ) {
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "listen", answer: true}
-            );
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
@@ -79,6 +87,11 @@ const ListenCourse = (props) => {
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "listen", answer: true}
+            );
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
@@ -91,19 +104,18 @@ const ListenCourse = (props) => {
                 }
             }, 2000);
         } else {
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "listen", answer: false}
-            );
             // if (wrongAnswers.find((item) => item !== index)) {
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,
                 LearnCourseRedux[activeQuestion].question,
             ]);
             // }
-            setPercent(percent + 100 / LearnCourseRedux.length);
             setActiveExplain(true);
+            const res = await callApi(
+                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
+                "PUT",
+                {type: "listen", answer: false}
+            );
         }
     };
     const renderWrongResult = () => {
@@ -134,9 +146,7 @@ const ListenCourse = (props) => {
                         style={{color: "#23b26d"}}
                         className="listen-course-container__body__wrong-result-row__define"
                     >
-                        {
-                            LearnCourseRedux[activeQuestion].question
-                        }
+                        {LearnCourseRedux[activeQuestion].question}
                     </div>
                 </div>
                 <Divider />
@@ -157,7 +167,9 @@ const ListenCourse = (props) => {
                         setWrongAnswer(null);
                         if (activeQuestion + 1 < LearnCourseRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                         } else {
+                            setPercent(percent + 100 / LearnCourseRedux.length);
                             setEndLearn(true);
                         }
                     }}
@@ -184,10 +196,10 @@ const ListenCourse = (props) => {
                                         <Progress
                                             type="circle"
                                             strokeColor="#87d068"
-                                            percent={
+                                            percent={(
                                                 (rightAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                 </Grid>
@@ -201,10 +213,10 @@ const ListenCourse = (props) => {
                                         <Progress
                                             strokeColor="#f50057"
                                             type="circle"
-                                            percent={
+                                            percent={(
                                                 (wrongAnswers.length * 100) /
                                                 LearnCourseRedux.length
-                                            }
+                                            ).toFixed(2)}
                                         />
                                     </div>
                                 </Grid>
@@ -232,9 +244,16 @@ const ListenCourse = (props) => {
                             ) : (
                                 <React.Fragment>
                                     <div>
-                                        <IconButton  onClick={onSpeak(LearnCourseRedux[activeQuestion].question)}>
-                                          <VolumeUpIcon style={{fontSize: 30}}/>
-                                         </IconButton>
+                                        <IconButton
+                                            onClick={()=>onSpeak(
+                                                LearnCourseRedux[activeQuestion]
+                                                    .question
+                                            )}
+                                        >
+                                            <VolumeUpIcon
+                                                style={{fontSize: 30}}
+                                            />
+                                        </IconButton>
                                     </div>
                                     <Grid
                                         container
@@ -242,6 +261,15 @@ const ListenCourse = (props) => {
                                     >
                                         <Grid item xs={12} lg={8}>
                                             <TextField
+                                                autoFocus
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        console.log("huhu");
+                                                        checkAnswer(
+                                                            wrongAnswer
+                                                        );
+                                                    }
+                                                }}
                                                 value={wrongAnswer}
                                                 onChange={(e) =>
                                                     setWrongAnswer(
@@ -250,16 +278,18 @@ const ListenCourse = (props) => {
                                                 }
                                                 className="listen-course-container__body__answer-container__text-field"
                                                 label={t("YourAnswer")}
-                                                helperText={t("EnterWhatYouListen")}
+                                                helperText={t(
+                                                    "EnterWhatYouListen"
+                                                )}
                                             />
                                         </Grid>
                                         <Grid xs={0} lg={1} />
                                         <Grid item xs={12} lg={3}>
                                             <Button
-                                                disabled={wrongAnswer===""}
-                                                onClick={checkAnswer(
-                                                    wrongAnswer
-                                                )}
+                                                disabled={wrongAnswer === ""}
+                                                onClick={() =>
+                                                    checkAnswer(wrongAnswer)
+                                                }
                                                 className={`${
                                                     result
                                                         ? "listen-course-container__body__answer-container__show-result"
@@ -306,29 +336,25 @@ const ListenCourse = (props) => {
         }
     };
     return (
-        <Grid container className="container" spacing={2}>
-            <Grid item lg={2} />
-            <Grid item xs={12} lg={6}>
+        <div className="remember-card-container">
+            <SideBarRight
+                history={props.history}
+                idURL={props.match.params.id}
+                typeURL={props.match.path}
+            />
+            <div className="remember-card-content">
                 <Progress
                     strokeColor={{
                         "0%": "#108ee9",
                         "100%": "#87d068",
                     }}
-                    percent={percent}
+                    percent={percent.toFixed(2)}
                 />
-                <Paper className="listen-course-container">
+                <Paper className="learn-course-container">
                     {renderLearn()}
                 </Paper>
-            </Grid>
-            <Grid item xs={12} lg={2}>
-                <SideBarRight
-                    history={props.history}
-                    idURL={props.match.params.id}
-                    typeURL={props.match.path}
-                />
-            </Grid>
-            <Grid item lg={2} />
-        </Grid>
+            </div>
+        </div>
     );
 };
 

@@ -14,6 +14,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import CardContent from "@material-ui/core/CardContent";
+import {Progress} from "antd";
 import Button from "@material-ui/core/Button";
 import "../styles.scss";
 import * as CoursesActions from "actions/Courses";
@@ -57,7 +58,7 @@ const Course = (props) => {
             <div className="paper-container" onClick={onShowModal}>
                 <Card
                     style={{
-                        minHeight: "41rem",
+                        minHeight: "30rem",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-between",
@@ -81,18 +82,28 @@ const Course = (props) => {
                             />
                         )}
                         {isLoading ? (
-                            <Skeleton animation="wave" height={50} />
+                            <Skeleton animation="wave" />
                         ) : (
                             <CardContent>
                                 <h2
                                     style={{wordBreak: "break-word"}}
-                                    className="general-color"
+                                    className="general-color h2-title-course"
                                 >
                                     {item.title}
                                 </h2>
                                 <h4>
                                     {item.contents.length} {t("Word")}
                                 </h4>
+                                <div>
+                                    <Progress
+                                        strokeColor={{
+                                            "0%": "#108ee9",
+                                            "100%": "#87d068",
+                                        }}
+                                        percent={item.master?item.master.toFixed(0):""}
+                                    />
+                                </div>
+                                <div></div>
                             </CardContent>
                         )}
                     </CardActionArea>

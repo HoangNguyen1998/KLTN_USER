@@ -6,14 +6,14 @@
 }
 
 .message-col1 {
-    min-height: 100%;
-    max-height: 100%;
+    min-height: 90vh;
+    max-height: 90vh;
     overflow-y: scroll;
 }
 
 .message-col2 {
-    min-height: 100%;
-    max-height: 100%;
+    min-height: 90vh;
+    max-height: 90vh;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -59,5 +59,69 @@
     }
     &__text-field {
         width: 100%;
+    }
+}
+
+.col2 {
+    overflow-y: scroll;
+    min-height: 60rem !important;
+    max-height: 60rem !important;
+    &__search-container {
+        margin: 1rem;
+    }
+    &__list-user-container {
+        &:hover{
+            cursor: pointer;
+        }
+        margin: 1rem;
+        &__item-container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            height: 8rem;
+            border: 0.1rem solid map-get($color, "blue");
+            border-radius: 1rem;
+            box-shadow: 1rem 1rem 2rem rgba($color: #000000, $alpha: 0.05);
+            &__info {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                &__image {
+                    width: 5rem;
+                    height: 5rem;
+                    border-radius: 50%;
+                    background-color: red;
+                    margin-right: 2rem;
+                }
+            }
+            &__action-container {
+                display: flex;
+                flex-direction: row;
+                &__action {
+                    width: 10rem;
+                    height: 3rem;
+                    background-color: map-get($color, "blue");
+                    border: 0.1rem solid map-get($color, "blue");
+                    border-radius: 2rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: map-get($color, "white");
+                }
+                &__action:nth-child(1) {
+                    margin-right: 1rem;
+                    background-color: transparent;
+                    color: map-get($color, "black");
+                }
+                &__action:hover {
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }

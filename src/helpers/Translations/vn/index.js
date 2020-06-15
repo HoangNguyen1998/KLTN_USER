@@ -103,6 +103,7 @@ export default {
     Edit1Word: "Chỉnh sửa từ vựng này",
     Speak: "Phát âm",
     RecentCourses: 'Khoá học gần đây',
-    Word: "Thuật ngữ"
-
+    Word: "Thuật ngữ",
+    HistoryCourse: "Lịch sử của bạn",
+    ToolBar: "Thanh công cụ"
 };

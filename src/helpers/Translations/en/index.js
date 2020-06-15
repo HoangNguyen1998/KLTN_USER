@@ -100,5 +100,7 @@ export default {
     Edit1Word: "Edit this word",
     Speak: "Speak",
     RecentCourses: 'Recently courses',
-    Word: "words"
+    Word: "words", 
+    HistoryCourse: "Your history",
+    ToolBar: "Toolbar"
 };

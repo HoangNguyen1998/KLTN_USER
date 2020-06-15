@@ -99,7 +99,7 @@ const History = (props) => {
                             className="history-container__word-container__word"
                         >
                             {indexWrong === index ? (
-                                <div>
+                                <div className="history-container__word-container__text">
                                     <TextField
                                         value={editWrongWord}
                                         onChange={(e) =>
@@ -108,10 +108,12 @@ const History = (props) => {
                                     />
                                 </div>
                             ) : (
-                                <div>{item.text}</div>
+                                <div className="history-container__word-container__text">
+                                    {item.text}
+                                </div>
                             )}
                             {indexWrong === index ? (
-                                <div>
+                                <div className="history-container__word-container__mean">
                                     <TextField
                                         value={editWrongMean}
                                         onChange={(e) =>
@@ -120,9 +122,11 @@ const History = (props) => {
                                     />
                                 </div>
                             ) : (
-                                <div>{item.mean}</div>
+                                <div className="history-container__word-container__mean">
+                                    {item.mean}
+                                </div>
                             )}
-                            <div>
+                            <div className="history-container__word-container__item-action">
                                 <Tooltip title={t("Speak")}>
                                     <IconButton onClick={onSpeak(item.text)}>
                                         <VolumeUpIcon />
@@ -175,7 +179,7 @@ const History = (props) => {
                             className="history-container__word-container__word"
                         >
                             {indexCorrect === index ? (
-                                <div>
+                                <div className="history-container__word-container__text">
                                     <TextField
                                         value={editCorrectWord}
                                         onChange={(e) =>
@@ -184,10 +188,12 @@ const History = (props) => {
                                     />
                                 </div>
                             ) : (
-                                <div>{item.text}</div>
+                                <div className="history-container__word-container__text">
+                                    {item.text}
+                                </div>
                             )}
                             {indexCorrect === index ? (
-                                <div>
+                                <div className="history-container__word-container__mean">
                                     <TextField
                                         value={editCorrectMean}
                                         onChange={(e) =>
@@ -196,9 +202,11 @@ const History = (props) => {
                                     />
                                 </div>
                             ) : (
-                                <div>{item.mean}</div>
+                                <div className="history-container__word-container__mean">
+                                    {item.mean}
+                                </div>
                             )}
-                            <div>
+                            <div className="history-container__word-container__item-action">
                                 <Tooltip title={t("Speak")}>
                                     <IconButton onClick={onSpeak(item.text)}>
                                         <VolumeUpIcon />
