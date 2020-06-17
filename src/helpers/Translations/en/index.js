@@ -102,5 +102,9 @@ export default {
     RecentCourses: 'Recently courses',
     Word: "words", 
     HistoryCourse: "Your history",
-    ToolBar: "Toolbar"
+    ToolBar: "Toolbar",
+    Accept: "Accept",
+    Detail: "Detail",
+    Reject: "Reject",
+    Add: "Add"
 };

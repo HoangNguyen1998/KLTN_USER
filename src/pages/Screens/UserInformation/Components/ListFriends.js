@@ -7,6 +7,7 @@ import * as FriendsActions from "actions/Friends";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MessageIcon from "@material-ui/icons/Message";
 import {isEmpty} from "lodash";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CloseIcon from "@material-ui/icons/Close";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -71,34 +72,45 @@ const ListFriends = (props) => {
             );
         }
         if (data) {
-                if (data.friends.length !== 0) {
-                    return data.friends.map((item, index) => {
-                        return (
-                            <div className="col2__list-user-container">
-                                <div className="col2__list-user-container__item-container">
-                                    <div className="col1__item-container__info">
-                                        <div className="col1__item-container__info__image"></div>
-                                        <div>{item ? item.username : ""}</div>
+            if (data.friends.length !== 0) {
+                return data.friends.map((item, index) => {
+                    return (
+                        <div className="col2__list-user-container">
+                            <div className="col2__list-user-container__item-container">
+                                <div className="col1__item-container__info">
+                                    <div className="col1__item-container__info__image"></div>
+                                    <div>{item ? item.username : ""}</div>
+                                </div>
+                                <div
+                                    // onClick={(e) => {
+                                    //     handleClick(
+                                    //         e,
+                                    //         item.username,
+                                    //         item._id,
+                                    //         "friends"
+                                    //     );
+                                    // }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
+                                    {/* <div className="col2__list-user-container__item-container__action-container__action">
+                                        Detail
                                     </div>
-                                    <div className="col2__list-user-container__item-container__action-container">
-                                        <div className="col2__list-user-container__item-container__action-container__action">
-                                            Detail
-                                        </div>
-                                        <div
-                                            onClick={acceptFriend(
-                                                item.username,
-                                                item._id
-                                            )}
-                                            className="col2__list-user-container__item-container__action-container__action"
-                                        >
-                                            Message
-                                        </div>
-                                    </div>
+                                    <div
+                                        onClick={acceptFriend1(
+                                            item.username,
+                                            item._id
+                                        )}
+                                        className="col2__list-user-container__item-container__action-container__action"
+                                    >
+                                        Message
+                                    </div> */}
                                 </div>
                             </div>
-                        );
-                    });
-                }
+                        </div>
+                    );
+                });
+            }
         }
     };
     return (

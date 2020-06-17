@@ -58,28 +58,6 @@ import * as FriendsActions from "actions/Friends";
 const drawerWidth = 250;
 
 var date = new Date();
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         display: "flex",
-//     },
-//     appBar: {
-//         zIndex: theme.zIndex.drawer + 1,
-//     },
-//     drawer: {
-//         width: drawerWidth,
-//         flexShrink: 0,
-//     },
-//     drawerPaper: {
-//         width: drawerWidth,
-//     },
-//     drawerContainer: {
-//         overflow: "auto",
-//     },
-//     content: {
-//         flexGrow: 1,
-//         padding: theme.spacing(3),
-//     },
-// }));
 const categories = [
     {
         id: "Learn",
@@ -310,22 +288,6 @@ const Home = (props) => {
                                     </IconButton>
                                 </Tooltip>
                             </Grid>
-
-                            {/* <Grid item>
-                                <IconButton
-                                    color="inherit"
-                                    className={classes.iconButtonAvatar}
-                                    onClick={onSignOut}
-                                >
-                                    <ExitToAppIcon
-                                        style={{
-                                            fontSize: 25,
-                                            color: "white",
-                                            marginRight: 5,
-                                        }}
-                                    />
-                                </IconButton>
-                            </Grid> */}
                         </Grid>
                     </Toolbar>
                 </AppBar>
@@ -337,116 +299,7 @@ const Home = (props) => {
                     variant="temporary"
                 ></SideBar>
             </Hidden>
-            {/* <Hidden smUp>
-                <Drawer
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    className={classes.drawer}
-                    variant="temporary"
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <Toolbar />
-                    <div className={classes.drawerContainer}>
-                        <List>
-                            {categories.map(({id, children}) => (
-                                <React.Fragment key={id}>
-                                    {children.map(
-                                        ({id: childId, icon, active}) => (
-                                            <ListItem
-                                                key={childId}
-                                                button
-                                                onClick={() =>
-                                                    _useListItem(childId)
-                                                }
-                                                className={clsx(
-                                                    classes.item,
-                                                    category === childId &&
-                                                        classes.itemActiveItem
-                                                )}
-                                            >
-                                                <ListItemIcon
-                                                    className={classes.itemIcon}
-                                                >
-                                                    {icon}
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                    classes={{
-                                                        primary:
-                                                            classes.itemPrimary,
-                                                    }}
-                                                >
-                                                    {t(`${childId}`)}
-                                                </ListItemText>
-                                            </ListItem>
-                                        )
-                                    )}
-
-                                    <Divider className={classes.divider} />
-                                </React.Fragment>
-                            ))}
-                        </List>
-                    </div>
-                </Drawer>
-            </Hidden> */}
-            {/* <Hidden smDown>
-                <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <Toolbar />
-                    <div className="user-container">
-                        <Avatar className="user-container__avatar" alt="User" src="https://picsum.photos/200" />
-                        <div></div>
-                    </div>
-                    <div className={classes.drawerContainer}>
-                        <List>
-                            {categories.map(({id, children}) => (
-                                <React.Fragment key={id}>
-                                    {children.map(
-                                        ({id: childId, icon, active}) => (
-                                            <ListItem
-                                                key={childId}
-                                                button
-                                                onClick={() =>
-                                                    _useListItem(childId)
-                                                }
-                                                className={`${
-                                                    props.history.location ===
-                                                    childId
-                                                        ? "item-active"
-                                                        : ""
-                                                }`}
-                                            >
-                                                <ListItemIcon>
-                                                    {icon}
-                                                </ListItemIcon>
-                                                <ListItemText>
-                                                    {t(`${childId}`)}
-                                                </ListItemText>
-                                            </ListItem>
-                                        )
-                                    )}
-
-                                    <Divider className={classes.divider} />
-                                </React.Fragment>
-                            ))}
-                        </List>
-                    </div>
-                </Drawer>
-            </Hidden> */}
             <Hidden smDown>
-                {/* <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                ></Drawer> */}
                 <SideBar variant="permanent" />
             </Hidden>
             <main style={{width: "100%", marginTop: "5rem"}}>

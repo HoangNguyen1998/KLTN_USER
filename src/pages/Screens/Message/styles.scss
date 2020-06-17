@@ -20,12 +20,18 @@
     justify-content: space-between;
     &__content {
         padding: 1rem;
-        overflow-y: scroll;
+        overflow-y: auto;
+        &:hover {
+            &::-webkit-scrollbar {
+                background-color: inherit;
+            }
+        }
         display: flex;
         flex-direction: column;
         &__left-side {
             display: flex;
             justify-content: flex-start;
+            align-items: center;
             margin-bottom: 1rem;
         }
         &__right-side {
@@ -36,7 +42,9 @@
     }
     &__right-side-style {
         border: 1px solid;
-        border-radius: 10px;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        border-bottom-left-radius: 2rem;
         padding: 1rem;
         color: white;
         background: map-get($color, "blue");
@@ -46,7 +54,9 @@
     }
     &__left-side-style {
         border: 1px solid #f4f6f8;
-        border-radius: 10px;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        border-bottom-right-radius: 2rem;
         padding: 1rem;
         color: black;
         background: #f4f6f8;
@@ -60,6 +70,21 @@
     &__text-field {
         width: 100%;
     }
+    &__avatar-left {
+        margin-right: 1rem;
+        width: 4rem;
+        height: 4rem;
+        // background-color: red;
+        background-image: url("https://picsum.photos/200");
+
+        border-radius: 50%;
+    }
+    &__avatar-left-none {
+        margin-right: 1rem;
+        width: 4rem;
+        height: 4rem;
+        // background-color: red;
+    }
 }
 
 .col2 {
@@ -70,7 +95,7 @@
         margin: 1rem;
     }
     &__list-user-container {
-        &:hover{
+        &:hover {
             cursor: pointer;
         }
         margin: 1rem;

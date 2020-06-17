@@ -17,8 +17,12 @@ import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Line} from "react-chartjs-2";
 import moment from "moment";
+import Popover from "@material-ui/core/Popover";
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
 import {isEmpty} from "lodash";
 import CallApi from "helpers/ApiCaller";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import * as NotifiActions from "actions/Notification";
 import "./styles.scss";
 
@@ -55,9 +59,15 @@ const UserInformation = (props) => {
     const user = useSelector((state) => {
         return state.GetMe.user;
     });
+    const {history} = props;
     const socket = useSelector((state) => state.Socket.socket);
     const dispatch = useDispatch();
     const [listNotFriend, setListNotFriend] = useState([]);
+    // set state luu gia tri cho popover
+    const [userName, setUserName] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [typePopover, setTypePopover] = useState("");
+
     const [txtSearch, setTxtSearch] = useState("");
     const [listUsers, setListUsers] = useState([]);
     const [isSearch, setIsSearch] = useState(false);
@@ -65,6 +75,112 @@ const UserInformation = (props) => {
     const getMeRedux = useSelector((state) => state.GetMe.user);
     const listAddRedux = useSelector((state) => state.Friends.listAdd);
     const listRequestRedux = useSelector((state) => state.Friends.listRequest);
+    // open popover
+    const handleClick = (event, username, id, type) => {
+        console.log(username, id);
+        setAnchorEl(event.currentTarget);
+        setUserName(username);
+        setUserId(id);
+        setTypePopover(type);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setUserName(null);
+        setUserId(null);
+        setTypePopover("");
+    };
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openMenu = Boolean(anchorEl);
+    const renderPopover = () => {
+        // render ban be
+        if (typePopover === "friends") {
+            return (
+                <List>
+                    <ListItem button>{t("Detail")}</ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            onMessages(userId);
+                        }}
+                    >
+                        {t("Chat")}
+                    </ListItem>
+                </List>
+            );
+        }
+        // render danh sach nguoi dung theo dang search
+        if (typePopover === "listusersearch") {
+            return (
+                <List>
+                    <ListItem button>{t("Detail")}</ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            removeInSearchUser(userId);
+                            addFriend(userName, userId);
+                            handleClose();
+                        }}
+                    >
+                        {t("Add")}
+                    </ListItem>
+                </List>
+            );
+        }
+        // render danh sach nguoi dung
+        if (typePopover === "listuser") {
+            return (
+                <List>
+                    <ListItem button>{t("Detail")}</ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            addFriend(userName, userId);
+                            handleClose();
+                        }}
+                    >
+                        {t("Add")}
+                    </ListItem>
+                </List>
+            );
+        }
+        // render danh sach loi moi ket ban da gui
+        if (typePopover === "sendaddfriend") {
+            return (
+                <List>
+                    <ListItem button>{t("Detail")}</ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            rejectFriend(userId);
+                            handleClose();
+                        }}
+                    >
+                        {t("Reject")}
+                    </ListItem>
+                </List>
+            );
+        }
+        // render danh sach loi moi ket ban
+        if (typePopover === "addfriend") {
+            return (
+                <List>
+                    <ListItem button>{t("Detail")}</ListItem>
+                    <ListItem button>{t("Reject")}</ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            acceptFriend(userName, userId);
+                            handleClose();
+                        }}
+                    >
+                        {t("Accept")}
+                    </ListItem>
+                </List>
+            );
+        }
+    };
+
     useEffect(() => {
         dispatch(FriendsActions.Get_List_Users_Request());
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
@@ -82,6 +198,8 @@ const UserInformation = (props) => {
         };
     }, []);
     console.log(user);
+
+    // ----- LIST FRIENDS -----
     useEffect(() => {
         if (!isEmpty(socket)) {
             socket.on("authenticate", (data) => {
@@ -111,19 +229,9 @@ const UserInformation = (props) => {
             };
         }
     });
-    // FUNC
-    const acceptFriend1 = (username, id) => () => {
-        if (!isEmpty(socket)) {
-            socket.emit(
-                "onAcceptAddFriend",
-                {senderId: id, senderName: username},
-                () => {
-                    console.log("accept success");
-                    dispatch(FriendsActions.On_Accept_Add_Friend(id));
-                    dispatch(GetMeActions.Get_Me_Request());
-                }
-            );
-        }
+
+    const onMessages = (id) => {
+        history.push(`messages/${id}`);
     };
     const renderListFriends = (data) => {
         if (!data) {
@@ -143,19 +251,18 @@ const UserInformation = (props) => {
                                     <div className="col1__item-container__info__image"></div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
-                                <div className="col2__list-user-container__item-container__action-container">
-                                    <div className="col2__list-user-container__item-container__action-container__action">
-                                        Detail
-                                    </div>
-                                    <div
-                                        onClick={acceptFriend1(
+                                <div
+                                    onClick={(e) => {
+                                        handleClick(
+                                            e,
                                             item.username,
-                                            item._id
-                                        )}
-                                        className="col2__list-user-container__item-container__action-container__action"
-                                    >
-                                        Message
-                                    </div>
+                                            item.userId,
+                                            "friends"
+                                        );
+                                    }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
                                 </div>
                             </div>
                         </div>
@@ -164,6 +271,9 @@ const UserInformation = (props) => {
             }
         }
     };
+    // ----- HET LIST FRIENDS -----
+
+    // ----- LOI MOI KET BAN -----
     useEffect(() => {
         if (!isEmpty(socket)) {
             socket.on("authenticate", (data) => {
@@ -194,8 +304,7 @@ const UserInformation = (props) => {
             };
         }
     });
-    // FUNC
-    const acceptFriend = (username, id) => () => {
+    const acceptFriend = (username, id) => {
         if (!isEmpty(socket)) {
             socket.emit(
                 "onAcceptAddFriend",
@@ -226,19 +335,18 @@ const UserInformation = (props) => {
                                     <div className="col1__item-container__info__image"></div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
-                                <div className="col2__list-user-container__item-container__action-container">
-                                    <div className="col2__list-user-container__item-container__action-container__action">
-                                        Detail
-                                    </div>
-                                    <div
-                                        onClick={acceptFriend(
+                                <div
+                                    onClick={(e) => {
+                                        handleClick(
+                                            e,
                                             item.username,
-                                            item._id
-                                        )}
-                                        className="col2__list-user-container__item-container__action-container__action"
-                                    >
-                                        Accept
-                                    </div>
+                                            item._id,
+                                            "addfriend"
+                                        );
+                                    }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
                                 </div>
                             </div>
                         </div>
@@ -247,9 +355,11 @@ const UserInformation = (props) => {
             }
         }
     };
+    // ----- HET LOI MOI KET BAN -----
+
+    // ----- LOI MOI KET BAN DA GUI -----
     useEffect(() => {
         if (!isEmpty(socket)) {
-            // console.log("hello mother fucker ")
             socket.on("authenticate", (data) => {
                 alert(JSON.stringify(data));
             });
@@ -271,7 +381,7 @@ const UserInformation = (props) => {
         }
     });
     // FUNC
-    const rejectFriend = (id) => () => {
+    const rejectFriend = (id) => {
         if (!isEmpty(socket)) {
             socket.emit("onRejectAddFriend", {receiverId: id}, () => {
                 dispatch(FriendsActions.Reject_Add_Friend_Request(id));
@@ -296,16 +406,18 @@ const UserInformation = (props) => {
                                     <div className="col1__item-container__info__image"></div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
-                                <div className="col2__list-user-container__item-container__action-container">
-                                    <div className="col2__list-user-container__item-container__action-container__action">
-                                        Detail
-                                    </div>
-                                    <div
-                                        onClick={rejectFriend(item._id)}
-                                        className="col2__list-user-container__item-container__action-container__action"
-                                    >
-                                        Reject
-                                    </div>
+                                <div
+                                    onClick={(e) => {
+                                        handleClick(
+                                            e,
+                                            item.username,
+                                            item._id,
+                                            "sendaddfriend"
+                                        );
+                                    }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
                                 </div>
                             </div>
                         </div>
@@ -314,6 +426,9 @@ const UserInformation = (props) => {
             }
         }
     };
+    // ----- HET LOI MOI KET BAN DA GUI -----
+
+    // ----- NGUOI DUNG KHONG PHAI BAN BE -----
     useEffect(() => {
         if (!isEmpty(socket)) {
             socket.on("authenticate", (data) => {
@@ -349,13 +464,11 @@ const UserInformation = (props) => {
         getListNotFriend();
     }, []);
 
-    // CALL API
     useEffect(() => {
         dispatch(FriendsActions.Get_List_Users_Request());
         dispatch(FriendsActions.Get_List_Add_Friend_Request());
     }, []);
 
-    // FUNC
     const searchUser = (value) => {
         console.log(value);
         const data = usersRedux.filter((item) =>
@@ -404,8 +517,19 @@ const UserInformation = (props) => {
                                     <div className="col1__item-container__info__image"></div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
-                                <div className="col2__list-user-container__item-container__action-container">
-                                    <div className="col2__list-user-container__item-container__action-container__action">
+                                <div
+                                    onClick={(e) => {
+                                        handleClick(
+                                            e,
+                                            item.username,
+                                            item._id,
+                                            "listusersearch"
+                                        );
+                                    }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
+                                    {/* <div className="col2__list-user-container__item-container__action-container__action">
                                         Detail
                                     </div>
                                     <div
@@ -416,7 +540,7 @@ const UserInformation = (props) => {
                                         className="col2__list-user-container__item-container__action-container__action"
                                     >
                                         Add
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -440,8 +564,19 @@ const UserInformation = (props) => {
                                     <div className="col1__item-container__info__image"></div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
-                                <div className="col2__list-user-container__item-container__action-container">
-                                    <div className="col2__list-user-container__item-container__action-container__action">
+                                <div
+                                    onClick={(e) => {
+                                        handleClick(
+                                            e,
+                                            item.username,
+                                            item._id,
+                                            "listuser"
+                                        );
+                                    }}
+                                    className="col2__list-user-container__item-container__action-container"
+                                >
+                                    <MoreVertIcon style={{fontSize: 30}} />
+                                    {/* <div className="col2__list-user-container__item-container__action-container__action">
                                         Detail
                                     </div>
                                     <div
@@ -451,7 +586,7 @@ const UserInformation = (props) => {
                                         className="col2__list-user-container__item-container__action-container__action"
                                     >
                                         Add
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -460,6 +595,7 @@ const UserInformation = (props) => {
             }
         }
     };
+    // ----- HET NGUOI DUNG KHONG PHAI BAN BE -----
     return (
         <div className="container">
             <Grid container spacing={3}>
@@ -583,7 +719,9 @@ const UserInformation = (props) => {
                                 className="col-change-pw__text-input-container__text-input"
                             />
                         </div>
-                        <div className="col-change-pw__button">Accept</div>
+                        <div className="col-change-pw__button">
+                            {t("Accept")}
+                        </div>
                     </Paper>
                     <Paper elevation={3} className="col-change-pw">
                         <div>{t("ChangePw")}</div>
@@ -607,15 +745,36 @@ const UserInformation = (props) => {
                                 className="col-change-pw__text-input-container__text-input"
                             />
                         </div>
-                        <div className="col-change-pw__button">Accept</div>
+                        <div className="col-change-pw__button">
+                            {t("Accept")}
+                        </div>
                     </Paper>
                 </Grid>
-                <Grid item lg={12}>
-                    <Paper>
-                        <Line width={"100%"} height={"50%"} data={data} />
+                <Grid item lg={8}>
+                    <Paper className="canvas-container">
+                        <Line
+                            data={data}
+                            options={{maintainAspectRatio: false}}
+                        />
                     </Paper>
                 </Grid>
             </Grid>
+            <Popover
+                // id={id}
+                open={openMenu}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                }}
+            >
+                <div className="pop-over">{renderPopover()}</div>
+            </Popover>
         </div>
     );
 };

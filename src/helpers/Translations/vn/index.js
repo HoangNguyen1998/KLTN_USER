@@ -73,7 +73,7 @@ export default {
     Challenges: "Thử thách",
     Alphabet: "Bảng chữ cái",
     Video: "Video",
-    Chat: "Tin nhắn",
+    Chat: "Nhắn tin",
 
     Friend: "Bạn bè",
     CreatedAt: "Ngày tạo",
@@ -105,5 +105,9 @@ export default {
     RecentCourses: 'Khoá học gần đây',
     Word: "Thuật ngữ",
     HistoryCourse: "Lịch sử của bạn",
-    ToolBar: "Thanh công cụ"
+    ToolBar: "Thanh công cụ",
+    Accept: "Đồng ý",
+    Detail: "Chi tiết",
+    Reject: "Xoá",
+    Add: "Thêm"
 };

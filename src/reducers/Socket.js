@@ -28,6 +28,7 @@ const reducer = (state = {socket: {}}, action) => {
                 socket: {},
             };
         case GetMeConstants.SIGN_OUT:
+            console.log("nhay dc vao day luon ak????")
             return {
                 ...state,
                 socket: {},

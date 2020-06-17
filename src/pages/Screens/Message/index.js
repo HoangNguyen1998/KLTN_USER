@@ -38,9 +38,14 @@ const Message = (props) => {
     console.log(id);
     // REF
     const messagesEndRef = useRef(null);
+    // const autoScrollToBottom = () => {
+    //     messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+    // };
     const scrollToBottom = () => {
-        console.log("scroll toi bottom")
-        messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+        console.log("scroll toi bottom");
+        // messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+        var element = document.getElementById("testSroll");
+        element.scrollTop = element.scrollHeight;
     };
 
     // STATE
@@ -76,6 +81,7 @@ const Message = (props) => {
                     ...messages,
                     {receiver: receiver, sender: sender, message: message},
                 ]);
+                // autoScrollToBottom();
             });
             return () => socket.removeEventListener("emitCreateMessage");
         }
@@ -151,7 +157,7 @@ const Message = (props) => {
                 setMessages(resMess.data.result);
             }
         }
-        scrollToBottom()
+        scrollToBottom();
     };
     const onChangeFriendChat = (userID) => async () => {
         setMessages([]);
@@ -214,6 +220,7 @@ const Message = (props) => {
                                 message: yourMessage,
                             },
                         ]);
+                        // autoScrollToBottom();
                         setYourMessage("");
                     }
                 );
@@ -224,21 +231,58 @@ const Message = (props) => {
         if (messages) {
             return messages.map((item, index) => {
                 if (item.sender === id) {
-                    return (
-                        <div className="message-col2__content__left-side">
-                            <div className="message-col2__left-side-style">
-                                {item.message}
+                    // return (
+                    //     <div className="message-col2__content__left-side">
+                    //         <div className="message-col2__avatar-left"></div>
+                    //         <div className="message-col2__left-side-style">
+                    //             {item.message}
+                    //         </div>
+                    //     </div>
+                    // );
+                        if (
+                            messages[index + 1] &&
+                            messages[index + 1].sender !== item.sender
+                        ) {
+                            return (
+                                <div className="message-col2__content__left-side">
+                                    <div className="message-col2__avatar-left"></div>
+                                    <div className="message-col2__left-side-style">
+                                        {item.message}
+                                    </div>
+                                </div>
+                            );
+                        }
+                        if (
+                            messages[index + 1] &&
+                            messages[index + 1].sender === item.sender
+                        ) {
+                            return (
+                                <div className="message-col2__content__left-side">
+                                    <div className="message-col2__avatar-left-none"></div>
+                                    <div className="message-col2__left-side-style">
+                                        {item.message}
+                                    </div>
+                                </div>
+                            );
+                        }
+                        if (messages[index + 1] === undefined) {
+                            return (
+                                <div className="message-col2__content__left-side">
+                                    <div className="message-col2__avatar-left"></div>
+                                    <div className="message-col2__left-side-style">
+                                        {item.message}
+                                    </div>
+                                </div>
+                            );
+                        }
+                    } else {
+                        return (
+                            <div className="message-col2__content__right-side">
+                                <div className="message-col2__right-side-style">
+                                    {item.message}
+                                </div>
                             </div>
-                        </div>
-                    );
-                } else {
-                    return (
-                        <div className="message-col2__content__right-side">
-                            <div className="message-col2__right-side-style">
-                                {item.message}
-                            </div>
-                        </div>
-                    );
+                        );
                 }
             });
         } else {
@@ -268,18 +312,16 @@ const Message = (props) => {
                 </Grid>
                 <Grid item xs={12} lg={5}>
                     <Paper elevation={3} className="message-col2">
-                        <div
-                            className="message-col2__content"
-                        >
+                        <div id="testSroll" className="message-col2__content">
                             {renderMessage()}
-                            <div ref={messagesEndRef} />
+                            {/* <div ref={messagesEndRef} /> */}
                         </div>
                         <div>
                             <Divider className="message-col2__divider" />
                             <TextField
                                 required
                                 onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
+                                    if (e.keyCode === 13) {
                                         sendMessage(id);
                                     }
                                 }}

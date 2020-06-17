@@ -16,10 +16,9 @@ import CallApi from "helpers/ApiCaller";
 
 function* Sign_Out_Request(action) {
     console.log("fgdgsdfdfg: ", action)
+    yield call(deleteToken, "token");
     const {payload} = action;
     yield put(GetMeActions.Reset_Me());
-    yield call(deleteToken, "token");
-    yield delay(200);
     payload.push("/signin");
 }
 function* Get_Me_Request(){
