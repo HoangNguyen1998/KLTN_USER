@@ -49,7 +49,7 @@ export default {
 
     LoadMore: "Tải thêm...",
     AreYouSure: "Bạn cho chắc không?",
-    OK: "Xoá",
+    OK: "Ok",
     Cancel: "Không",
     BlankCourses:
         "Bạn không có khoá học nào, vui lòng tạo một khoá học để tiếp tục.",

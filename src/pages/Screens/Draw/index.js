@@ -56,7 +56,7 @@ const Draw = (props) => {
     };
     return (
         <div className="container">
-            {/* <div
+            <div
                 ref={renderRef}
                 style={{
                     marginTop: "1rem",
@@ -69,18 +69,7 @@ const Draw = (props) => {
             <div style={{marginTop: "1rem"}}>
                 <Button onClick={action.clear}>Clear</Button>
                 <Button onClick={action.download}>Dowload</Button>
-            </div> */}
-            <input
-        value={input}
-        placeholder={"Tap on the virtual keyboard to start"}
-        onChange={onChangeInput}
-      />
-      <Keyboard
-        keyboardRef={r => (keyboard.current = r)}
-        layoutName={layout}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-      />
+            </div>
         </div>
     );
 };

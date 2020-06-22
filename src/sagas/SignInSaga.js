@@ -24,11 +24,11 @@ function* SignInFlow(user) {
         enqueueSnackbar(t("SignInSuccess"), {variant: "success"});
     } catch (err) {
         // const { message } = err.response.data;
-        console.log(err);
+        console.log(err.response.data.message);
         yield delay(500);
         yield put(LoadingActions.HideLoading());
         yield put(SignInActions.SignIn_Error(err, t));
-        enqueueSnackbar(t("SignInFail"), {variant: "error"});
+        enqueueSnackbar(err.response.data.message, {variant: "error"});
     }
 }
 function* SignInWatcher() {

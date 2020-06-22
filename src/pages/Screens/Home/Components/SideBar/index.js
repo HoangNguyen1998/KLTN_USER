@@ -34,6 +34,7 @@ import Avatar from "@material-ui/core/Avatar";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
 import * as GetMeActions from "actions/GetMe";
 import GestureIcon from "@material-ui/icons/Gesture";
+import KeyboardIcon from '@material-ui/icons/Keyboard';
 import * as TimerAction from "actions/Timer";
 import styles from "./styles";
 import "./styles.scss";
@@ -76,6 +77,7 @@ const categories = [
             {id: "Alphabet", icon: <TranslateIcon />},
             {id: "Video", icon: <VideoLibraryIcon />},
             {id: "Draw", icon: <GestureIcon />},
+            {id: "Keyboard", icon: <KeyboardIcon/>}
         ],
     },
     {

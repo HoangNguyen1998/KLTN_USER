@@ -58,12 +58,24 @@ const WriteCourse = (props) => {
     }, []);
 
     const checkAnswer = async (answer) => {
-        console.log(answer);
-        if (
-            LearnCourseRedux[activeQuestion].answers[
-                LearnCourseRedux[activeQuestion].answer_id
-            ] === answer
-        ) {
+        var convertEnglish = answer
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D")
+            .toLowerCase();
+        console.log(convertEnglish);
+        var convertAnswerToEnglish = LearnCourseRedux[activeQuestion].answers[
+            LearnCourseRedux[activeQuestion].answer_id
+        ]
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D")
+            .toLowerCase();
+        console.log(convertAnswerToEnglish);
+        if (convertAnswerToEnglish === convertEnglish) {
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [

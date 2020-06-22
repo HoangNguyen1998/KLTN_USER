@@ -17,34 +17,8 @@ import FlashCard from "pages/Screens/CourseList/Components/FlashCard";
 import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
 import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
 import Draw from "pages/Screens/Draw";
+import Keyboard from "pages/Screens/Keyboard";
 
-const categories = [
-    {
-        id: "FlashCard",
-        name: "flash-card",
-        render: <FlashCard />,
-    },
-    {
-        id: "Learn",
-        name: "learn",
-        render: <FlashCard />,
-    },
-    {
-        id: "Write",
-        name: "write",
-        render: <WriteCourse />,
-    },
-    {
-        id: "Listen",
-        name: "listen",
-        render: <FlashCard />,
-    },
-    {
-        id: "Test",
-        name: "test",
-        render: <FlashCard />,
-    },
-];
 
 // const renderCoursePath = () => {
 //     console.log("Hello")
@@ -54,6 +28,11 @@ const categories = [
 // };
 
 const routes = [
+    {
+        path: "/keyboard",
+        exact: false,
+        main: () => (CheckAuthen() ? <Keyboard /> : <SignIn />),
+    },
     {
         path: "/draw",
         exact: false,

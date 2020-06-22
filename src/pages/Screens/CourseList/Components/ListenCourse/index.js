@@ -22,7 +22,317 @@ import "./styles.scss";
 import * as TimerActions from "actions/Timer";
 import callApi from "helpers/ApiCaller";
 var timeVar;
+const EnglishKeyboard = [
+    {
+        line: 1,
+        content: [
+            "`",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "0",
+            "-",
+            "=",
+        ],
+    },
+    {
+        line: 2,
+        content: [
+            "",
+            "q",
+            "w",
+            "e",
+            "r",
+            "t",
+            "y",
+            "u",
+            "i",
+            "o",
+            "p",
+            "[",
+            "]",
+            "``",
+        ],
+    },
+    {
+        line: 3,
+        content: [
+            "",
+            "a",
+            "s",
+            "d",
+            "f",
+            "g",
+            "h",
+            "j",
+            "k",
+            "l",
+            ";",
+            "'",
+            "",
+        ],
+    },
+    {
+        line: 4,
+        content: [
+            "",
+            "z",
+            "x",
+            "c",
+            "v",
+            "b",
+            "n",
+            "m",
+            ",",
+            ".",
+            "/",
+            "",
+            "",
+            "",
+        ],
+    },
+    {
+        line: 5,
+        content: [""],
+    },
+];
+
+const Hiragana = [
+    {
+        line: 1,
+        content: [
+            "ろ",
+            "ぬ",
+            "ふ",
+            "あ",
+            "う",
+            "え",
+            "お",
+            "や",
+            "ゆ",
+            "よ",
+            "わ",
+            "ほ",
+            "へ",
+            "Backspace",
+        ],
+    },
+    {
+        line: 2,
+        content: [
+            "Tab",
+            "た",
+            "て",
+            "い",
+            "す",
+            "か",
+            "ん",
+            "な",
+            "に",
+            "ら",
+            "せ",
+            "゛",
+            "゜",
+            "む",
+        ],
+    },
+
+    {
+        line: 3,
+        content: [
+            "Caps lock",
+            "ち",
+            "と",
+            "し",
+            "は",
+            "き",
+            "く",
+            "ま",
+            "の",
+            "り",
+            "れ",
+            "け",
+            "Enter",
+        ],
+    },
+
+    {
+        line: 4,
+        content: [
+            "Shift",
+            "つ",
+            "さ",
+            "そ",
+            "ひ",
+            "こ",
+            "み",
+            "も",
+            "ね",
+            "る",
+            "め",
+            "Shift",
+        ],
+    },
+    {
+        line: 5,
+        content: ["Space"],
+    },
+];
+
+const Katakana = [
+    {
+        line: 1,
+        content: [
+            "ロ",
+            "ヌ",
+            "フ",
+            "ア",
+            "ウ",
+            "エ",
+            "オ",
+            "ヤ",
+            "ユ",
+            "ヨ",
+            "ワ",
+            "ホ",
+            "ヘ",
+            "Backspace",
+        ],
+    },
+    {
+        line: 2,
+        content: [
+            "Tab",
+            "タ",
+            "テ",
+            "イ",
+            "ス",
+            "カ",
+            "ン",
+            "ナ",
+            "ニ",
+            "ラ",
+            "セ",
+            "゛",
+            "゜",
+            "ム",
+        ],
+    },
+
+    {
+        line: 3,
+        content: [
+            "Caps lock",
+            "チ",
+            "ト",
+            "シ",
+            "ハ",
+            "キ",
+            "ク",
+            "マ",
+            "ノ",
+            "リ",
+            "レ",
+            "ケ",
+            "Enter",
+        ],
+    },
+
+    {
+        line: 4,
+        content: [
+            "Shift",
+            "ツ",
+            "サ",
+            "ソ",
+            "ヒ",
+            "コ",
+            "ミ",
+            "モ",
+            "ネ",
+            "ル",
+            "メ",
+            "Shift",
+        ],
+    },
+    {
+        line: 5,
+        content: ["Space"],
+    },
+];
 const ListenCourse = (props) => {
+    const [changeKeyboard, setChangeKeyboard] = useState(false);
+    const [valueInput, setValueInput] = useState([]);
+    const _listenVirtualKeyboard = (value) => {
+        if (value === "Backspace") {
+            const custom = [...valueInput];
+            custom.splice(custom.length - 1, 1);
+            setValueInput(custom);
+        } else {
+            if (value === "Space") {
+                setValueInput((state) => [...state, " "]);
+            } else {
+                setValueInput((state) => [...state, value]);
+            }
+        }
+        console.log(valueInput.join(""));
+    };
+    const renderHiraKeyboard = () => {
+        return Hiragana.map((line, parent) => {
+            return (
+                <div className={`line-container-${parent}`}>
+                    {line.content.map((item, child) => {
+                        return (
+                            <div
+                                onClick={() => _listenVirtualKeyboard(item)}
+                                className={`line-container-${parent}__item-normal`}
+                            >
+                                <div>
+                                    {EnglishKeyboard[parent].content[child]}
+                                </div>
+                                <div
+                                    className={`line-container-${parent}__item-normal__middle`}
+                                >
+                                    {item}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        });
+    };
+    const renderKataKeyboard = () => {
+        return Katakana.map((line, parent) => {
+            return (
+                <div className={`line-container-${parent}`}>
+                    {line.content.map((item, child) => {
+                        return (
+                            <div
+                                onClick={() => _listenVirtualKeyboard(item)}
+                                className={`line-container-${parent}__item-normal`}
+                            >
+                                <div>
+                                    {EnglishKeyboard[parent].content[child]}
+                                </div>
+                                <div
+                                    className={`line-container-${parent}__item-normal__middle`}
+                                >
+                                    {item}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        });
+    };
     // Set % cho progress
     const [wrongAnswers, setWrongAnswers] = useState([]);
     const [rightAnswers, setRightAnswers] = useState([]);
@@ -51,11 +361,11 @@ const ListenCourse = (props) => {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
         }
     }, []);
-    useEffect(()=>{
-        if (LearnCourseRedux.length!==0) {
+    useEffect(() => {
+        if (LearnCourseRedux.length !== 0) {
             onSpeak(LearnCourseRedux[activeQuestion].question);
         }
-    }, [LearnCourseRedux, activeQuestion])
+    }, [LearnCourseRedux, activeQuestion]);
     const onSpeak = (word) => {
         if (word.charCodeAt() > parseInt(0x3040)) speech.setLanguage("ja-JP");
         else speech.setLanguage("en-US");
@@ -75,7 +385,6 @@ const ListenCourse = (props) => {
     //     };
     // }, []);
     const checkAnswer = async (answer) => {
-        console.log(answer);
         if (
             LearnCourseRedux[activeQuestion].question.toLowerCase() ===
             answer.toLowerCase()
@@ -97,7 +406,7 @@ const ListenCourse = (props) => {
                     setActiveQuestion(activeQuestion + 1);
                     setPercent(percent + 100 / LearnCourseRedux.length);
                     setResult(null);
-                    setWrongAnswer("");
+                    setValueInput([]);
                 } else {
                     setPercent(percent + 100 / LearnCourseRedux.length);
                     setEndLearn(true);
@@ -156,7 +465,7 @@ const ListenCourse = (props) => {
                         style={{color: "#f50057"}}
                         className="listen-course-container__body__wrong-result-row__define"
                     >
-                        {wrongAnswer}
+                        {valueInput.join("")}
                     </div>
                 </div>
                 <Button
@@ -164,7 +473,7 @@ const ListenCourse = (props) => {
                     onClick={() => {
                         setActiveQuestion(activeQuestion);
                         setActiveExplain(false);
-                        setWrongAnswer(null);
+                        setValueInput([]);
                         if (activeQuestion + 1 < LearnCourseRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
                             setPercent(percent + 100 / LearnCourseRedux.length);
@@ -226,7 +535,7 @@ const ListenCourse = (props) => {
                                 onClick={() => {
                                     setActiveQuestion(0);
                                     setActiveExplain(false);
-                                    setWrongAnswer(null);
+                                    setValueInput([]);
                                     setEndLearn(false);
                                     setPercent(0);
                                     setResult(null);
@@ -245,10 +554,13 @@ const ListenCourse = (props) => {
                                 <React.Fragment>
                                     <div>
                                         <IconButton
-                                            onClick={()=>onSpeak(
-                                                LearnCourseRedux[activeQuestion]
-                                                    .question
-                                            )}
+                                            onClick={() =>
+                                                onSpeak(
+                                                    LearnCourseRedux[
+                                                        activeQuestion
+                                                    ].question
+                                                )
+                                            }
                                         >
                                             <VolumeUpIcon
                                                 style={{fontSize: 30}}
@@ -266,16 +578,16 @@ const ListenCourse = (props) => {
                                                     if (e.key === "Enter") {
                                                         console.log("huhu");
                                                         checkAnswer(
-                                                            wrongAnswer
+                                                            valueInput.join("")
                                                         );
                                                     }
                                                 }}
-                                                value={wrongAnswer}
-                                                onChange={(e) =>
-                                                    setWrongAnswer(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                value={valueInput.join("")}
+                                                // onChange={(e) =>
+                                                //     setWrongAnswer(
+                                                //         e.target.value
+                                                //     )
+                                                // }
                                                 className="listen-course-container__body__answer-container__text-field"
                                                 label={t("YourAnswer")}
                                                 helperText={t(
@@ -286,9 +598,13 @@ const ListenCourse = (props) => {
                                         <Grid xs={0} lg={1} />
                                         <Grid item xs={12} lg={3}>
                                             <Button
-                                                disabled={wrongAnswer === ""}
+                                                disabled={
+                                                    valueInput.length === 0
+                                                }
                                                 onClick={() =>
-                                                    checkAnswer(wrongAnswer)
+                                                    checkAnswer(
+                                                        valueInput.join("")
+                                                    )
                                                 }
                                                 className={`${
                                                     result
@@ -317,6 +633,22 @@ const ListenCourse = (props) => {
                                                 ) : (
                                                     `${t("Answer")}`
                                                 )}
+                                            </Button>
+                                        </Grid>
+                                        <Grid>
+                                            {changeKeyboard
+                                                ? renderKataKeyboard()
+                                                : renderHiraKeyboard()}
+                                            <Button
+                                                onClick={() =>
+                                                    setChangeKeyboard(
+                                                        !changeKeyboard
+                                                    )
+                                                }
+                                            >
+                                                {changeKeyboard
+                                                    ? "Katakana"
+                                                    : "Hiragana"}
                                             </Button>
                                         </Grid>
                                     </Grid>
