@@ -181,7 +181,7 @@ const Hiragana = [
     },
     {
         line: 5,
-        content: ["Space"],
+        content: ["Hiragana/Katakana", "Space"],
     },
 ];
 
@@ -263,7 +263,7 @@ const Katakana = [
     },
     {
         line: 5,
-        content: ["Space"],
+        content: ["Hiragana/Katakana", "Space"],
     },
 ];
 const ListenCourse = (props) => {
@@ -278,9 +278,14 @@ const ListenCourse = (props) => {
             if (value === "Space") {
                 setValueInput((state) => [...state, " "]);
             } else {
-                setValueInput((state) => [...state, value]);
+                if (value === "Hiragana/Katakana") {
+                    setChangeKeyboard(!changeKeyboard);
+                } else {
+                    setValueInput((state) => [...state, value]);
+                }
             }
         }
+
         console.log(valueInput.join(""));
     };
     const renderHiraKeyboard = () => {
@@ -639,17 +644,7 @@ const ListenCourse = (props) => {
                                             {changeKeyboard
                                                 ? renderKataKeyboard()
                                                 : renderHiraKeyboard()}
-                                            <Button
-                                                onClick={() =>
-                                                    setChangeKeyboard(
-                                                        !changeKeyboard
-                                                    )
-                                                }
-                                            >
-                                                {changeKeyboard
-                                                    ? "Katakana"
-                                                    : "Hiragana"}
-                                            </Button>
+                                            
                                         </Grid>
                                     </Grid>
                                 </React.Fragment>

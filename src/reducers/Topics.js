@@ -6,10 +6,16 @@ const reducer = (
     state = {
         topics: [],
         topicDetail: [],
+        topicLearn: [],
     },
     action
 ) => {
     switch (action.type) {
+        case TopicsConstants.GET_TOPICS_LEARN_SUCCESS: {
+            console.log(action.payload);
+            const {payload} = action;
+            return {...state, topicLearn: payload};
+        }
         case TopicsConstants.GET_TOPICS_REQUEST: {
             return {...state};
         }
@@ -20,11 +26,11 @@ const reducer = (
                 topics: payload,
             };
         }
-        case TopicsConstants.GET_TOPIC_DETAILS_SUCCESS:{
+        case TopicsConstants.GET_TOPIC_DETAILS_SUCCESS: {
             return {
                 ...state,
-                topicDetail: action.payload
-            }
+                topicDetail: action.payload,
+            };
         }
         case TopicsConstants.GET_TOPICS_ERROR: {
             return {...state};

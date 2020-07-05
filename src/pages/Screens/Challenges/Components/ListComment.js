@@ -40,6 +40,9 @@ const ListComment = (props) => {
             return state.GetMe.user._id;
         }
     });
+    const user = useSelector((state) => {
+        return state.GetMe.user;
+    });
     const [openReport, setOpenReport] = useState(false);
     const [valueReport, setValueReport] = useState("");
     const [indexUpdateCmt, setIndexUpdateCmt] = useState("");
@@ -171,7 +174,7 @@ const ListComment = (props) => {
                     )
                 ) : (
                     ""
-                )}             
+                )}
             </span>,
         ];
         return actions;
@@ -179,6 +182,7 @@ const ListComment = (props) => {
     const renderComment = (commentRedux) => {
         if (commentRedux.length !== 0) {
             return commentRedux.map((item, index) => {
+                console.log(item)
                 return (
                     <div className="list-comment-container__list-item">
                         <Comment
@@ -186,7 +190,11 @@ const ListComment = (props) => {
                             author={item.userName}
                             avatar={
                                 <Avatar
-                                    src="https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/59768137_2282186408669057_5480248346935296000_n.jpg?_nc_cat=103&_nc_sid=7aed08&_nc_oc=AQk5byZ680e67vKG2KbblxkHhQa6x4y8dX0uX-4pjH8r2PVwn3rtfAi5zicSme9Cmi0&_nc_ht=scontent.fsgn2-2.fna&oh=5ed5cffcac6655dbb25f45c152fed96b&oe=5ED73346"
+                                    src={
+                                        user && user.avatar
+                                            ? user.avatar
+                                            : "https://picsum.photos/200"
+                                    }
                                     alt="Han Solo"
                                 />
                             }
@@ -242,95 +250,97 @@ const ListComment = (props) => {
     };
     return (
         <Paper elevation={3} style={{marginBottom: "1rem", padding: "1rem"}}>
-        <div className="list-comment-container">
-            <div className=" font-custom18 list-comment-container__header">
-                {t("ListComment")}
-            </div>
-            {renderComment(commentRedux)}
+            <div className="list-comment-container">
+                <div className=" font-custom18 list-comment-container__header">
+                    {t("ListComment")}
+                </div>
+                {renderComment(commentRedux)}
 
-            {/* modal bao cao vi pham */}
-            <Dialog
-                className="list-comment-container__modal-report"
-                open={openReport}
-                keepMounted
-                onClose={() => setOpenReport(false)}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">
-                    {t("Report")}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        <TextField
-                            style={{width: "50rem"}}
-                            id="outlined-multiline-static"
-                            value={valueReport}
-                            onChange={(e) => setValueReport(e.target.value)}
-                            multiline
-                            rows={4}
-                            defaultValue="Default Value"
-                            variant="outlined"
-                        />
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => setOpenReport(false)}
-                        color="primary"
-                    >
-                        {t("Cancel")}
-                    </Button>
-                    <Button onClick={onReportUser} color="primary">
-                    {t("OK")}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                {/* modal bao cao vi pham */}
+                <Dialog
+                    className="list-comment-container__modal-report"
+                    open={openReport}
+                    keepMounted
+                    onClose={() => setOpenReport(false)}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle id="alert-dialog-slide-title">
+                        {t("Report")}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            <TextField
+                                style={{width: "50rem"}}
+                                id="outlined-multiline-static"
+                                value={valueReport}
+                                onChange={(e) => setValueReport(e.target.value)}
+                                multiline
+                                rows={4}
+                                defaultValue="Default Value"
+                                variant="outlined"
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => setOpenReport(false)}
+                            color="primary"
+                        >
+                            {t("Cancel")}
+                        </Button>
+                        <Button onClick={onReportUser} color="primary">
+                            {t("OK")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
-            {/* modal chinh sua comment */}
-            <Dialog
-                className="list-comment-container__modal-report"
-                open={openUpdateCmt}
-                keepMounted
-                onClose={() => setOpenUpdateCmt(false)}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">
-                {t("EditCmt")}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        <TextField
-                            style={{width: "50rem"}}
-                            id="outlined-multiline-static"
-                            value={valueUpdateCmt}
-                            onChange={(e) => setValueUpdateCmt(e.target.value)}
-                            multiline
-                            rows={4}
-                            defaultValue="Default Value"
-                            variant="outlined"
-                        />
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => setOpenUpdateCmt(false)}
-                        color="primary"
-                    >
-                        {t("Cancel")}
-                    </Button>
-                    <Button onClick={onUpdateCmt} color="primary">
-                    {t("OK")}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* <iframe
+                {/* modal chinh sua comment */}
+                <Dialog
+                    className="list-comment-container__modal-report"
+                    open={openUpdateCmt}
+                    keepMounted
+                    onClose={() => setOpenUpdateCmt(false)}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle id="alert-dialog-slide-title">
+                        {t("EditCmt")}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            <TextField
+                                style={{width: "50rem"}}
+                                id="outlined-multiline-static"
+                                value={valueUpdateCmt}
+                                onChange={(e) =>
+                                    setValueUpdateCmt(e.target.value)
+                                }
+                                multiline
+                                rows={4}
+                                defaultValue="Default Value"
+                                variant="outlined"
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => setOpenUpdateCmt(false)}
+                            color="primary"
+                        >
+                            {t("Cancel")}
+                        </Button>
+                        <Button onClick={onUpdateCmt} color="primary">
+                            {t("OK")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                {/* <iframe
                 src="https://drive.google.com/file/d/1UJYsP6cUGpd11Rztbg4qLprB5eOCYgKk/preview"
                 width={640}
                 height={480}
             /> */}
-        </div>
+            </div>
         </Paper>
     );
 };

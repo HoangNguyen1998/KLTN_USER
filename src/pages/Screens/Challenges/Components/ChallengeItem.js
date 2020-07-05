@@ -29,7 +29,7 @@ const ChallengeItem = (props) => {
                     }`}
                     onClick={() => history.push(`/challenges/${item._id}`)}
                 >
-                    {`${t("Question")} ${cau + 1}`}
+                    {`${t("Question")} ${item.index}`}
                 </Button>
                 <Rating value={item.level} readOnly max={3} />
             </div>

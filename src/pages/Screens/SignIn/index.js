@@ -154,7 +154,7 @@ const SignIn = props => {
                                 )
                             }}
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={
                                 <Checkbox
                                     name="remember"
@@ -166,7 +166,7 @@ const SignIn = props => {
                                 />
                             }
                             label={t("Remember")}
-                        />
+                        /> */}
                         <Button
                             type="submit"
                             fullWidth
@@ -179,7 +179,7 @@ const SignIn = props => {
                         <Grid container className={classes.container}>
                             <Grid item xs={12} className={classes.forgot}>
                                 <Button
-                                    to="#"
+                                    onClick={()=>history.push("/forgot-pw")}
                                     style={{fontSize: "1.2rem"}}
                                 >
                                     {t("ForgotPassword")}

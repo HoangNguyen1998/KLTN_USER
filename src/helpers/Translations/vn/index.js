@@ -2,6 +2,7 @@ export default {
     // Authen
     Hello: "Xin chào",
     Learn: "Học",
+    BackToSignIn: "Quay trở lại màn hình đăng nhập",
     Username: "Tên người dùng",
     Password: "Mật khẩu",
     Email: "Địa chỉ email",

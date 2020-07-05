@@ -45,7 +45,7 @@ const Video = (props) => {
                                 height="300"
                                 allowFullScreen
                             ></iframe> */}
-                            <img height="250px" src={item.thumbnailLink} alt="Khong tai duoc anh" />
+                            <img height="250px" src={`https://learn-jp-kltn.herokuapp.com/api/assets/videos/${item.thumbnailLink}`} alt="Khong tai duoc anh" />
                             <Divider style={{marginTop: "0.5rem"}}></Divider>
                             <div style={{textAlign: "center"}}>{item.name}</div>
                         </Paper>

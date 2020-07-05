@@ -10,7 +10,7 @@
 
 .right-side-container {
     min-height: 90rem;
-    max-height: 90rem;
+    max-height: 150rem;
     overflow: scroll;
     &__detail {
         display: flex;
@@ -26,4 +26,7 @@
 .play-video{
     height: 67rem;
     width: 100%;
+}
+
+.practice-container{
 }

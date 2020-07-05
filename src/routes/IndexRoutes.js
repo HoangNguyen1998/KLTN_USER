@@ -18,6 +18,8 @@ import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
 import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
 import Draw from "pages/Screens/Draw";
 import Keyboard from "pages/Screens/Keyboard";
+import HomePage from 'pages/Screens/Homepage'
+import LearnTopic from 'pages/Screens/Topics/Components/LearnTopic'
 
 
 // const renderCoursePath = () => {
@@ -37,6 +39,11 @@ const routes = [
         path: "/draw",
         exact: false,
         main: () => (CheckAuthen() ? <Draw /> : <SignIn />),
+    },
+    {
+        path: "/topics/:id/learn",
+        exact: false,
+        main: () => (CheckAuthen() ? <LearnTopic /> : <SignIn />),
     },
     {
         path: "/courses/:id/listen",
@@ -126,6 +133,11 @@ const routes = [
         path: "/getme",
         exact: false,
         main: () => (CheckAuthen() ? <UserInformation /> : <SignIn />),
+    },
+    {
+        path: "/",
+        exact: false,
+        main: () =>(CheckAuthen()?<HomePage/>:<SignIn/>)
     },
 ];
 

@@ -331,7 +331,6 @@ const Keyboard = (props) => {
     return (
         <div className="container">
             <div className="show-input-result">{valueInput}</div>
-            <Button onClick={() => _check()}>Check</Button>
             {changeKeyboard ? renderKataKeyboard() : renderHiraKeyboard()}
             <Button onClick={() => setChangeKeyboard(!changeKeyboard)}>
                 {changeKeyboard?"Katakana":"Hiragana"}

@@ -80,8 +80,8 @@
             &__image {
                 width: 5rem;
                 height: 5rem;
+                background-color: inherit !important;
                 border-radius: 50%;
-                background-color: red;
                 margin-right: 2rem;
             }
         }
@@ -120,7 +120,6 @@
                     width: 5rem;
                     height: 5rem;
                     border-radius: 50%;
-                    background-color: red;
                     margin-right: 2rem;
                 }
             }

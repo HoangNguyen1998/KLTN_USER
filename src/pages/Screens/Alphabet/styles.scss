@@ -27,12 +27,11 @@
 
 .alphabet-detail-container {
     padding: 1rem;
-    position: fixed;
-    min-height: 30rem;
-    min-width: 32rem;
-    box-shadow: 0.1rem 0.1rem 0.9rem rgba($color: #000000, $alpha: 0.5);
+    // min-height: 30rem;
+    // min-width: 32rem;
+    // box-shadow: 0.1rem 0.1rem 0.9rem rgba($color: #000000, $alpha: 0.5);
     &__card-detail {
-        height: 40rem;
+        min-height: 40rem;
         display: flex;
         flex-direction: column;
         align-items: center;

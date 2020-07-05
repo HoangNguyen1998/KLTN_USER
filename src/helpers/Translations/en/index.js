@@ -2,6 +2,7 @@ export default {
     // Authen
     Hello: "who are you",
     Learn: "Learn",
+    BackToSignIn: "Back to sign in screen",
     Username: "Username",
     Password: "Password",
     Email: "Email Address",

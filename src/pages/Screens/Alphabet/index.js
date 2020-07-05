@@ -6,19 +6,28 @@ import Loading from "pages/Components/Loading";
 import {withRouter} from "react-router-dom";
 import * as AlphabetActions from "actions/Alphabet";
 import {Tabs} from "antd";
+import {Button} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import AlphabetItem from "./Components/AlphabetItem";
 import AlphabetDetail from "./Components/AlphabetDetail";
 import Media from "react-media";
+import {useSvgDrawing} from "react-hooks-svgdrawing";
 import Speech from "speak-tts";
 
 import "./styles.scss";
+import {Paper} from "@material-ui/core";
 
 const Alphabet = (props) => {
     // STATE
     const [isWaiting, setIsWaiting] = useState(true);
     const [valueTab, setValueTab] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [renderRef, action] = useSvgDrawing({
+        penWidth: 5, // pen width
+        penColor: "#1890ff", // pen color
+        width: 300, // drawing area width
+        height: 200, // drawing area height
+    });
     // DEFINE
     const {TabPane} = Tabs;
     const {id} = props.match.params;
@@ -97,11 +106,26 @@ const Alphabet = (props) => {
                         <TabPane tab="Katakana" key="2">
                             <Grid container>
                                 <Grid item xs={12}>
-                                    <AlphabetDetail
-                                        isLoading={isLoading}
-                                        valueTab={valueTab}
-                                        onSpeak={onSpeak}
-                                    />
+                                    <div className="container">
+                                        <div
+                                            ref={renderRef}
+                                            style={{
+                                                marginTop: "1rem",
+                                                width: "100%",
+                                                height: "50%",
+                                                border: "1px solid black",
+                                                margin: "auto",
+                                            }}
+                                        ></div>
+                                        <div style={{marginTop: "1rem"}}>
+                                            <Button onClick={action.clear}>
+                                                Clear
+                                            </Button>
+                                            <Button onClick={action.download}>
+                                                Dowload
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </Grid>
                                 <Grid spacing={3} container item xs={12}>
                                     {renderAlphabet(alphabetRedux)}
@@ -120,48 +144,164 @@ const Alphabet = (props) => {
                         defaultActiveKey="1"
                     >
                         <TabPane tab="Hiragana" key="1">
-                            <Grid container spacing={3}>
-                                <Grid
-                                    spacing={3}
-                                    container
-                                    item
-                                    xs={12}
-                                    md={9}
-                                    sm={9}
-                                    lg={9}
-                                >
-                                    {renderAlphabet(alphabetRedux)}
+                            <div>
+                                <Grid container spacing={3}>
+                                    <Grid item lg={6}>
+                                        <Paper
+                                            style={{
+                                                minHeight: "45rem",
+                                                maxHeight: "45rem",
+                                            }}
+                                        >
+                                            <AlphabetDetail
+                                                isLoading={isLoading}
+                                                onSpeak={onSpeak}
+                                                valueTab={valueTab}
+                                            />
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item lg={6}>
+                                    <Paper
+                                            style={{
+                                                minHeight: "45rem",
+                                                maxHeight: "45rem",
+                                            }}
+                                        >
+                                            <div className="container" style={{height: "45rem"}}>
+                                                <div
+                                                    ref={renderRef}
+                                                    style={{
+                                                        marginTop: "1rem",
+                                                        width: "100%",
+                                                        height: "85%",
+                                                        border:
+                                                            "1px solid black",
+                                                        margin: "auto",
+                                                    }}
+                                                ></div>
+                                                <div
+                                                    style={{marginTop: "1rem"}}
+                                                >
+                                                    <Button
+                                                        onClick={action.clear}
+                                                    >
+                                                        Clear
+                                                    </Button>
+                                                    <Button
+                                                        onClick={
+                                                            action.download
+                                                        }
+                                                    >
+                                                        Dowload
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Paper>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} lg={3}>
+                            </div>
+                            <div>
+                                <Grid container spacing={3}>
+                                    <Grid
+                                        spacing={3}
+                                        container
+                                        item
+                                        xs={12}
+                                        md={9}
+                                        sm={9}
+                                        lg={12}
+                                    >
+                                        {renderAlphabet(alphabetRedux)}
+                                    </Grid>
+                                    {/* <Grid item xs={12} lg={3}>
                                     <AlphabetDetail
                                         isLoading={isLoading}
                                         onSpeak={onSpeak}
                                         valueTab={valueTab}
                                     />
+                                </Grid> */}
                                 </Grid>
-                            </Grid>
+                            </div>
                         </TabPane>
                         <TabPane tab="Katakana" key="2">
-                            <Grid container spacing={3}>
-                                <Grid
-                                    spacing={3}
-                                    container
-                                    item
-                                    xs={12}
-                                    md={9}
-                                    sm={9}
-                                    lg={9}
-                                >
-                                    {renderAlphabet(alphabetRedux)}
+                            <div>
+                                <Grid container spacing={3}>
+                                    <Grid item lg={6}>
+                                        <Paper
+                                            style={{
+                                                minHeight: "45rem",
+                                                maxHeight: "45rem",
+                                            }}
+                                        >
+                                            <AlphabetDetail
+                                                isLoading={isLoading}
+                                                onSpeak={onSpeak}
+                                                valueTab={valueTab}
+                                            />
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item lg={6}>
+                                        <Paper
+                                            style={{
+                                                minHeight: "45rem",
+                                                maxHeight: "45rem",
+                                            }}
+                                        >
+                                            <div className="container" style={{height: "45rem"}}>
+                                                <div
+                                                    ref={renderRef}
+                                                    style={{
+                                                        marginTop: "1rem",
+                                                        width: "100%",
+                                                        height: "60%",
+                                                        border:
+                                                            "1px solid black",
+                                                        margin: "auto",
+                                                    }}
+                                                ></div>
+                                                <div
+                                                    style={{marginTop: "1rem"}}
+                                                >
+                                                    <Button
+                                                        onClick={action.clear}
+                                                    >
+                                                        Clear
+                                                    </Button>
+                                                    <Button
+                                                        onClick={
+                                                            action.download
+                                                        }
+                                                    >
+                                                        Dowload
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Paper>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} lg={3}>
+                            </div>
+                            <div>
+                                <Grid container spacing={3}>
+                                    <Grid
+                                        spacing={3}
+                                        container
+                                        item
+                                        xs={12}
+                                        md={9}
+                                        sm={9}
+                                        lg={12}
+                                    >
+                                        {renderAlphabet(alphabetRedux)}
+                                    </Grid>
+                                    {/* <Grid item xs={12} lg={3}>
                                     <AlphabetDetail
                                         isLoading={isLoading}
                                         valueTab={valueTab}
                                         onSpeak={onSpeak}
                                     />
+                                </Grid> */}
                                 </Grid>
-                            </Grid>
+                            </div>
                         </TabPane>
                     </Tabs>
                 )}

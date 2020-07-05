@@ -243,7 +243,7 @@ const WriteCourse = (props) => {
                                 renderWrongResult()
                             ) : (
                                 <React.Fragment>
-                                    <div>
+                                    <div style={{fontSize: "3rem"}}>
                                         {
                                             LearnCourseRedux[activeQuestion]
                                                 .question

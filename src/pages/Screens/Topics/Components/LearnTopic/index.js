@@ -9,11 +9,10 @@ import NoteIcon from "@material-ui/icons/Note";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
-import RememberCard from "./Components/RememberCard";
+import * as TopicActions from "actions/Topics";
 import * as CoursesActions from "actions/Courses";
 import SentimentVerySatisfiedOutlinedIcon from "@material-ui/icons/SentimentVerySatisfiedOutlined";
 import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined";
-import LearnTab from "./Components/LearnTab";
 import SideBarRight from "../SideBarRight";
 import {Progress} from "antd";
 import "./styles.scss";
@@ -38,25 +37,28 @@ const LearnCourse = (props) => {
     const [result, setResult] = useState(null);
     const {t} = useTranslation("translation");
     const dispatch = useDispatch();
-    const LearnCourseRedux = useSelector((state) => state.Courses.courseLearn);
+    const LearnTopicsRedux = useSelector((state) => state.Topics.topicLearn);
     const coursesRedux = useSelector((state) => state.Courses.courses);
     useEffect(() => {
         if (coursesRedux.length === 0) {
-            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
+            // dispatch(TopicActions.gettopicdetailsRequest(id));
+            // dispatch(TopicActions.getTopicsLearnRequest(id));
         }
-        if (LearnCourseRedux && LearnCourseRedux.length === 0) {
+        if (LearnTopicsRedux && LearnTopicsRedux.length === 0) {
             dispatch(CoursesActions.Get_Course_Request(props.match.params.id));
+            dispatch(TopicActions.gettopicdetailsRequest(props.match.params.id));
+            dispatch(TopicActions.getTopicsLearnRequest(props.match.params.id));
         }
     }, []);
-    useEffect(() => {
-        timeVar = setInterval(function () {
-            console.log("Hello");
-            dispatch(TimerActions.Increase_Second());
-        }, 1000);
-        return () => {
-            clearInterval(timeVar);
-        };
-    }, []);
+    // useEffect(() => {
+    //     timeVar = setInterval(function () {
+    //         console.log("Hello");
+    //         dispatch(TimerActions.Increase_Second());
+    //     }, 1000);
+    //     return () => {
+    //         clearInterval(timeVar);
+    //     };
+    // }, []);
     const renderAnswers = (data) => {
         if (data.length !== 0) {
             return data.map((item, index) => {
@@ -95,27 +97,27 @@ const LearnCourse = (props) => {
         console.log(wrongAnswers);
         console.log("---------------");
         console.log(rightAnswers);
-        if (LearnCourseRedux[activeQuestion].answer_id === index) {
+        if (LearnTopicsRedux[activeQuestion].answer_id === index) {
             setResult(index);
             // if (rightAnswers.find((item) => item !== index)) {
             setRightAnswers((rightAnswers) => [
                 ...rightAnswers,
-                LearnCourseRedux[activeQuestion].question,
+                LearnTopicsRedux[activeQuestion].question,
             ]);
             // }
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "learn", answer: true}
-            );
-            console.log("kiem tra dap an ne: ", res.data);
+            // const res = await callApi(
+            //     `content/${LearnTopicsRedux[activeQuestion]._id}/triggerAnswer`,
+            //     "PUT",
+            //     {type: "learn", answer: true}
+            // );
+            // console.log("kiem tra dap an ne: ", res.data);
             setTimeout(function () {
-                if (activeQuestion + 1 < LearnCourseRedux.length) {
+                if (activeQuestion + 1 < LearnTopicsRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
-                    setPercent(percent + 100 / LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnTopicsRedux.length);
                     setResult(null);
                 } else {
-                    setPercent(percent + 100 / LearnCourseRedux.length);
+                    setPercent(percent + 100 / LearnTopicsRedux.length);
                     setEndLearn(true);
                 }
             }, 1000);
@@ -123,17 +125,17 @@ const LearnCourse = (props) => {
             // if (wrongAnswers.find((item) => item !== index)) {
             setWrongAnswers((wrongAnswers) => [
                 ...wrongAnswers,
-                LearnCourseRedux[activeQuestion].question,
+                LearnTopicsRedux[activeQuestion].question,
             ]);
             // }
             setWrongAnswer(answer);
             setActiveExplain(true);
-            const res = await callApi(
-                `content/${LearnCourseRedux[activeQuestion]._id}/triggerAnswer`,
-                "PUT",
-                {type: "learn", answer: false}
-            );
-            console.log("kiem tra dap an ne: ", res.data);
+            // const res = await callApi(
+            //     `content/${LearnTopicsRedux[activeQuestion]._id}/triggerAnswer`,
+            //     "PUT",
+            //     {type: "learn", answer: false}
+            // );
+            // console.log("kiem tra dap an ne: ", res.data);
         }
     };
     const renderWrongResult = () => {
@@ -154,7 +156,7 @@ const LearnCourse = (props) => {
                         style={{color: "#009be5"}}
                         className="learn-course-container__body__wrong-result-row__define"
                     >
-                        {LearnCourseRedux[activeQuestion].question}
+                        {LearnTopicsRedux[activeQuestion].question}
                     </div>
                 </div>
                 <Divider />
@@ -165,8 +167,8 @@ const LearnCourse = (props) => {
                         className="learn-course-container__body__wrong-result-row__define"
                     >
                         {
-                            LearnCourseRedux[activeQuestion].answers[
-                                LearnCourseRedux[activeQuestion].answer_id
+                            LearnTopicsRedux[activeQuestion].answer[
+                                LearnTopicsRedux[activeQuestion].answer_id
                             ]
                         }
                     </div>
@@ -187,11 +189,11 @@ const LearnCourse = (props) => {
                         setActiveQuestion(activeQuestion);
                         setActiveExplain(false);
                         setWrongAnswer(null);
-                        if (activeQuestion + 1 < LearnCourseRedux.length) {
+                        if (activeQuestion + 1 < LearnTopicsRedux.length) {
                             setActiveQuestion(activeQuestion + 1);
-                            setPercent(percent + 100 / LearnCourseRedux.length);
+                            setPercent(percent + 100 / LearnTopicsRedux.length);
                         } else {
-                            setPercent(percent + 100 / LearnCourseRedux.length);
+                            setPercent(percent + 100 / LearnTopicsRedux.length);
                             setEndLearn(true);
                         }
                     }}
@@ -202,7 +204,7 @@ const LearnCourse = (props) => {
         );
     };
     const renderLearn = () => {
-        if (LearnCourseRedux && LearnCourseRedux.length !== 0) {
+        if (LearnTopicsRedux && LearnTopicsRedux.length !== 0) {
             return (
                 <React.Fragment>
                     {endLearn ? (
@@ -220,7 +222,7 @@ const LearnCourse = (props) => {
                                             strokeColor="#87d068"
                                             percent={(
                                                 (rightAnswers.length * 100) /
-                                                LearnCourseRedux.length
+                                                LearnTopicsRedux.length
                                             ).toFixed(2)}
                                         />
                                     </div>
@@ -245,7 +247,7 @@ const LearnCourse = (props) => {
                                             type="circle"
                                             percent={(
                                                 (wrongAnswers.length * 100) /
-                                                LearnCourseRedux.length
+                                                LearnTopicsRedux.length
                                             ).toFixed(2)}
                                         />
                                     </div>
@@ -283,15 +285,15 @@ const LearnCourse = (props) => {
                                 <React.Fragment>
                                     <div style={{fontSize: "3rem"}}>
                                         {
-                                            LearnCourseRedux[activeQuestion]
+                                            LearnTopicsRedux[activeQuestion]
                                                 .question
                                         }{" "}
                                         ?
                                     </div>
-                                    <div className="learn-course-container__body__answer-container">
+                                    <div style={{display:"flex", flexDirection: "column"}} className="learn-course-container__body__answer-container">
                                         {renderAnswers(
-                                            LearnCourseRedux[activeQuestion]
-                                                .answers
+                                            LearnTopicsRedux[activeQuestion]
+                                                .answer
                                         )}
                                     </div>
                                 </React.Fragment>
@@ -309,29 +311,6 @@ const LearnCourse = (props) => {
         }
     };
     return (
-        // <Grid container className="container" spacing={2}>
-        //     <Grid item lg={2} />
-        //     <Grid item xs={12} lg={6}>
-        //         <Progress
-        //             strokeColor={{
-        //                 "0%": "#108ee9",
-        //                 "100%": "#87d068",
-        //             }}
-        //             percent={percent}
-        //         />
-        //         <Paper className="learn-course-container">
-        //             {renderLearn()}
-        //         </Paper>
-        //     </Grid>
-        //     <Grid item xs={12} lg={2}>
-        //         <SideBarRight
-        //             history={props.history}
-        //             idURL={props.match.params.id}
-        //             typeURL={props.match.path}
-        //         />
-        //     </Grid>
-        //     <Grid item lg={2} />
-        // </Grid>
         <div className="remember-card-container">
             <SideBarRight
                 history={props.history}

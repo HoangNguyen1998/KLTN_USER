@@ -267,22 +267,6 @@ const History = (props) => {
                     {renderCorrectWord(contents)}
                 </div>
             </div>
-            <Button
-                onClick={async () => {
-                    const minute = timerReducer
-                        ? timerReducer.hours * 60 +
-                          timerReducer.minutes -
-                          timerReducer.old
-                        : "";
-                    const res = await callApi("/timeOnline", "POST", {
-                        minute,
-                        date,
-                    });
-                    console.log("res tra ve", res);
-                }}
-            >
-                Hello
-            </Button>
         </div>
     );
 };

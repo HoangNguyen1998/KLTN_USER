@@ -2,14 +2,13 @@ import axios from "axios";
 import GetToken from "./GetToken";
 const test = new axios.create({
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     Authorization: `Bearer ${GetToken()}`
   }
 });
 test.interceptors.request.use(
   function(config) {
     config.headers.Authorization = `Bearer ${GetToken()}`;
-    // config.headers["Content-Type"] = "multipart/form-data";
     return config;
   },
   function(error) {

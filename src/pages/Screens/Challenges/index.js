@@ -58,7 +58,6 @@ const Challenges = (props) => {
                     <ChallengeItem
                         ChallengeDetail={ChallengesRedux.challengeDetail}
                         onChangeChallenge={onChangeChallenge}
-                        cau={index}
                         item={item}
                     />
                 );

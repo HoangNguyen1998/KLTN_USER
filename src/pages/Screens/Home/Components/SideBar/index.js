@@ -34,7 +34,7 @@ import Avatar from "@material-ui/core/Avatar";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
 import * as GetMeActions from "actions/GetMe";
 import GestureIcon from "@material-ui/icons/Gesture";
-import KeyboardIcon from '@material-ui/icons/Keyboard';
+import KeyboardIcon from "@material-ui/icons/Keyboard";
 import * as TimerAction from "actions/Timer";
 import styles from "./styles";
 import "./styles.scss";
@@ -77,7 +77,7 @@ const categories = [
             {id: "Alphabet", icon: <TranslateIcon />},
             {id: "Video", icon: <VideoLibraryIcon />},
             {id: "Draw", icon: <GestureIcon />},
-            {id: "Keyboard", icon: <KeyboardIcon/>}
+            {id: "Keyboard", icon: <KeyboardIcon />},
         ],
     },
     {
@@ -158,13 +158,14 @@ const NavigatorCustom = (props) => {
                 <Avatar
                     className="user-container__avatar"
                     alt="User"
-                    src="https://picsum.photos/200"
+                    src={
+                        user && user.avatar
+                            ? user.avatar
+                            : "https://picsum.photos/200"
+                    }
                 />
                 <div className="user-container__name">
                     {userRedux ? userRedux.username : ""}
-                </div>
-                <div className="user-container__time-online">
-                    <AvTimerIcon /> Time Online: {1} hours {20} minutes
                 </div>
             </div>
             <Divider style={{backgroundColor: "#eeeeee"}} variant="middle" />
