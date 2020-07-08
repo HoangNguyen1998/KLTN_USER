@@ -21,7 +21,7 @@ const reducer = (
             const dataReverse = payload.reverse();
             return {
                 ...state,
-                courses: [...state.courses, ...dataReverse],
+                courses: [...dataReverse],
                 isLoading: false,
             };
         }

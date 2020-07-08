@@ -191,8 +191,8 @@ const ListComment = (props) => {
                             avatar={
                                 <Avatar
                                     src={
-                                        user && user.avatar
-                                            ? user.avatar
+                                        item && item.avatar
+                                            ? item.avatar
                                             : "https://picsum.photos/200"
                                     }
                                     alt="Han Solo"

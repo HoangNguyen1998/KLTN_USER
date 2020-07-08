@@ -10,15 +10,25 @@ import {Button, IconButton, Divider} from "@material-ui/core";
 import * as TopicActions from "actions/Topics";
 import AddIcon from "@material-ui/icons/Add";
 import {withRouter} from "react-router-dom";
-import {Modal, Radio} from "antd";
+import {Modal, Radio, Checkbox} from "antd";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import * as listApi from "helpers/ListApi";
 import * as CoursesActions from "actions/Courses";
+import {
+    RadioButtonUncheckedOutlined,
+    RadioButtonCheckedOutlined,
+} from "@material-ui/icons";
+
+const CheckboxGroup = Checkbox.Group;
 
 const TopicDetail = (props) => {
     const topicDetailRedux = useSelector((state) => state.Topics.topicDetail);
+    const [selectArr, setSelectArr] = useState([]);
     const [isWaiting, setIsWaiting] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showModalSelect, setShowModalSelect] = useState(false);
     const [textAdd, setTextAdd] = useState("");
     const [valueRadio, setValueRadio] = useState("");
     const {history, enqueueSnackbar} = props;
@@ -48,18 +58,47 @@ const TopicDetail = (props) => {
             text: `${word}`,
         });
     };
+    useEffect(() => {
+        console.log(selectArr);
+    }, [selectArr]);
     const _addToCourse = (item) => {
         setTextAdd(item);
         setShowModal(!showModal);
     };
+    const _selectWord = (item) => {
+        if (selectArr.includes(item)) {
+            const copyArr = [...selectArr];
+            copyArr.splice(selectArr.indexOf(item), 1);
+            setSelectArr(copyArr);
+        } else {
+            setSelectArr([...selectArr, item]);
+        }
+    };
+    const _selectAll = (data) => {
+        console.log(data);
+        if (selectArr.length === data.length) {
+            setSelectArr([]);
+        } else {
+            console.log(data);
+            setSelectArr(data);
+        }
+    };
     const _confirmAddToCourse = async () => {
         console.log(valueRadio);
+        var arrayAddToCourse = [];
+        for (let i = 0; i < selectArr.length; i++) {
+            arrayAddToCourse.push({
+                text: selectArr[i].text,
+                mean: selectArr[i].vocabulary_meaning,
+            });
+        }
         const res = await listApi._puttData(
             `courses/${valueRadio}/addContent`,
-            [{text: textAdd.text, mean: textAdd.vocabulary_meaning}]
+            arrayAddToCourse
         );
         console.log(res);
         if (res.code === 200) {
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
             setTextAdd("");
             setValueRadio("");
             setShowModal(!showModal);
@@ -110,8 +149,16 @@ const TopicDetail = (props) => {
                                 <IconButton onClick={() => onSpeak(item.text)}>
                                     <VolumeDownIcon style={{fontSize: 25}} />
                                 </IconButton>
-                                <IconButton onClick={() => _addToCourse(item)}>
-                                    <AddIcon style={{fontSize: 25}} />
+                                <IconButton onClick={() => _selectWord(item)}>
+                                    {selectArr.includes(item) ? (
+                                        <RadioButtonCheckedOutlined
+                                            style={{fontSize: 25}}
+                                        />
+                                    ) : (
+                                        <RadioButtonUncheckedOutlined
+                                            style={{fontSize: 25}}
+                                        />
+                                    )}
                                 </IconButton>
                             </div>
                         </Paper>
@@ -122,8 +169,31 @@ const TopicDetail = (props) => {
     };
     return (
         <div className="container">
-            <Button className="button-test" onClick={() => _test()}>
+            <Button
+                style={{marginRight: "1rem"}}
+                className="button-test"
+                onClick={() => _test()}
+            >
                 Kiem tra
+            </Button>
+            <Button
+                style={{marginRight: "1rem"}}
+                className="button-test"
+                onClick={() => _selectAll(topicDetailRedux)}
+            >
+                {selectArr.length === topicDetailRedux.length &&
+                selectArr.length !== 0 ? (
+                    <RadioButtonCheckedOutlined style={{fontSize: 25}} />
+                ) : (
+                    <RadioButtonUncheckedOutlined style={{fontSize: 25}} />
+                )}
+                Chon tat ca
+            </Button>
+            <Button
+                className="button-test"
+                onClick={() => setShowModal(!showModal)}
+            >
+                Tuy chon
             </Button>
             <Grid container>{renderTopic(topicDetailRedux)}</Grid>
             <Modal

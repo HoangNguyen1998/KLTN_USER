@@ -406,6 +406,7 @@ const ListenCourse = (props) => {
                 "PUT",
                 {type: "listen", answer: true}
             );
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
             setTimeout(function () {
                 if (activeQuestion + 1 < LearnCourseRedux.length) {
                     setActiveQuestion(activeQuestion + 1);
@@ -430,6 +431,7 @@ const ListenCourse = (props) => {
                 "PUT",
                 {type: "listen", answer: false}
             );
+            dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
         }
     };
     const renderWrongResult = () => {

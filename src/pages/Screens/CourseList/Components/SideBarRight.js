@@ -13,6 +13,7 @@ import {
     PlaylistAddCheck,
     BorderColor,
 } from "@material-ui/icons";
+import SettingsVoiceIcon from '@material-ui/icons/SettingsVoice';
 
 const categories = [
     {
@@ -35,6 +36,11 @@ const categories = [
         name: "listen",
         icon: <VolumeUp style={{fontSize: 25}} />,
     },
+    {
+        id: "Speak",
+        name: "speak",
+        icon: <SettingsVoiceIcon style={{fontSize: 25}}/>
+    }
 ];
 
 const SideBarRight = (props) => {

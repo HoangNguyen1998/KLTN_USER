@@ -5,7 +5,7 @@ import {withSnackbar} from "notistack";
 import {TextField, Button} from "@material-ui/core";
 import {withRouter} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import SpeechRecognition from "react-speech-recognition";
 import "./styles.scss";
 
 const EnglishKeyboard = [
@@ -252,16 +252,27 @@ const Katakana = [
         content: ["Space"],
     },
 ];
+// const recognition = new SpeechRecognition()
+
+// recognition.continous = true
+// recognition.interimResults = true
+// recognition.lang = 'ja-JP'
+const options = {
+    autoStart: false,
+  }
 
 const Keyboard = (props) => {
     // DEFINE
-
+    const { recognition, transcript, resetTranscript, startListening, stopListening} = props;
     // STATE
     const [changeKeyboard, setChangeKeyboard] = useState(false);
     const [valueInput, setValueInput] = useState([]);
     const _listenKeyboard = (e) => {
         console.log(e.target.value);
     };
+    useEffect(()=>{
+        recognition.lang="ja-JP"
+    })
     const _listenVirtualKeyboard = (value) => {
         if (value === "Backspace") {
             console.log("vao phim backpace");
@@ -303,6 +314,10 @@ const Keyboard = (props) => {
             );
         });
     };
+    const _startListening = () =>{
+        startListening()
+        resetTranscript()
+    }
     const renderKataKeyboard = () => {
         return Katakana.map((line, parent) => {
             return (
@@ -333,10 +348,16 @@ const Keyboard = (props) => {
             <div className="show-input-result">{valueInput}</div>
             {changeKeyboard ? renderKataKeyboard() : renderHiraKeyboard()}
             <Button onClick={() => setChangeKeyboard(!changeKeyboard)}>
-                {changeKeyboard?"Katakana":"Hiragana"}
+                {changeKeyboard ? "Katakana" : "Hiragana"}
             </Button>
+            <div>
+            <button onClick={()=>{_startListening()}}>Start</button>
+            <button onClick={()=>stopListening()}>Start</button>
+                <button onClick={resetTranscript}>Reset</button>
+                <span>{transcript}</span>
+            </div>
         </div>
     );
 };
 
-export default withRouter(withSnackbar(Keyboard));
+export default withRouter(withSnackbar(SpeechRecognition(options)(Keyboard)));

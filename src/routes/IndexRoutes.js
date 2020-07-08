@@ -16,6 +16,7 @@ import LearnCourse from "pages/Screens/CourseList/Components/LearnCourse";
 import FlashCard from "pages/Screens/CourseList/Components/FlashCard";
 import WriteCourse from "pages/Screens/CourseList/Components/WriteCourse";
 import ListenCourse from "pages/Screens/CourseList/Components/ListenCourse";
+import SpeakCourse from 'pages/Screens/CourseList/Components/SpeakCourse'
 import Draw from "pages/Screens/Draw";
 import Keyboard from "pages/Screens/Keyboard";
 import HomePage from 'pages/Screens/Homepage'
@@ -44,6 +45,11 @@ const routes = [
         path: "/topics/:id/learn",
         exact: false,
         main: () => (CheckAuthen() ? <LearnTopic /> : <SignIn />),
+    },
+    {
+        path: "/courses/:id/speak",
+        exact: false,
+        main: () => (CheckAuthen() ? <SpeakCourse /> : <SignIn />),
     },
     {
         path: "/courses/:id/listen",
