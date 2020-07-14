@@ -38,7 +38,7 @@ const SpeakCourse = (props) => {
     }, []);
     const _startListening = () => {
         // startListening();
-        recognition.start()
+        startListening()
         resetTranscript();
     };
     // Set % cho progress
@@ -79,7 +79,7 @@ const SpeakCourse = (props) => {
     }, []);
 
     const checkAnswer = async (answer) => {
-        recognition.stop()
+        stopListening()
         console.log(answer)
         // var convertEnglish = answer
         //     .trim()
@@ -187,6 +187,7 @@ const SpeakCourse = (props) => {
                 <Button
                     className="write-course-container__body__button-continue"
                     onClick={() => {
+                        resetTranscript();
                         setActiveQuestion(activeQuestion);
                         setActiveExplain(false);
                         setWrongAnswer(null);

@@ -7,7 +7,7 @@ import * as FriendsActions from "actions/Friends";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MessageIcon from "@material-ui/icons/Message";
 import {isEmpty} from "lodash";
-import * as GetMeActions from 'actions/GetMe'
+import * as GetMeActions from "actions/GetMe";
 import CloseIcon from "@material-ui/icons/Close";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -73,34 +73,48 @@ const ListFriends = (props) => {
             );
         }
         if (data) {
-                if (data.friends.length !== 0) {
-                    return data.friends.map((item, index) => {
-                        return (
-                            <div className="col2__list-user-container">
-                                <div className="col2__list-user-container__item-container">
-                                    <div className="col1__item-container__info">
-                                        <div className="col1__item-container__info__image"></div>
-                                        <div>{item ? item.username : ""}</div>
+            if (data.friends.length !== 0) {
+                return data.friends.map((item, index) => {
+                    return (
+                        <div className="col2__list-user-container">
+                            <div className="col2__list-user-container__item-container">
+                                <div className="col1__item-container__info">
+                                    <div className="col1__item-container__info__image">
+                                    <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
                                     </div>
-                                    <div className="col2__list-user-container__item-container__action-container">
-                                        <div className="col2__list-user-container__item-container__action-container__action">
-                                            Detail
-                                        </div>
-                                        <div
-                                            onClick={acceptFriend(
-                                                item.username,
-                                                item._id
-                                            )}
-                                            className="col2__list-user-container__item-container__action-container__action"
-                                        >
-                                            Message
-                                        </div>
+                                    <div>{item ? item.username : ""}</div>
+                                </div>
+                                <div className="col2__list-user-container__item-container__action-container">
+                                    <div className="col2__list-user-container__item-container__action-container__action">
+                                        Detail
+                                    </div>
+                                    <div
+                                        onClick={acceptFriend(
+                                            item.username,
+                                            item._id
+                                        )}
+                                        className="col2__list-user-container__item-container__action-container__action"
+                                    >
+                                        Message
                                     </div>
                                 </div>
                             </div>
-                        );
-                    });
-                }
+                        </div>
+                    );
+                });
+            }
         }
     };
     return (

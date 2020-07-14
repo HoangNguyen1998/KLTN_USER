@@ -124,7 +124,7 @@ const NavigatorCustom = (props) => {
         if (childId === "Messages") {
             if (user && user.friends.length !== 0) {
                 checkPathname = `/${childId.toLowerCase()}/${
-                    user.friends[0].userId
+                    user.friends[0].userId._id
                 }`;
             }
         }

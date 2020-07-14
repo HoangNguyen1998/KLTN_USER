@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
 const ChallengeItem = (props) => {
-    const {item, cau, onChangeChallenge, ChallengeDetail, history} = props;
+    const {item, cau, onChangeChallenge, ChallengeDetail, history, setShowResult, setPosition} = props;
     const {t} = useTranslation("translation");
     const checkPosition = (item, ChallengeDetail) => {
         if (ChallengeDetail._id === item._id) {
@@ -18,6 +18,11 @@ const ChallengeItem = (props) => {
         }
         return false;
     };
+    // const _changeItem = () =>{
+    //     setShowResult(0)
+    //     setPosition(0)
+    //     hi
+    // }
     return (
         <React.Fragment>
             <div className="col2__card">

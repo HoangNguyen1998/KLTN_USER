@@ -156,13 +156,13 @@ const UserInformation = (props) => {
     };
     const [oldImage, setOldImage] = useState("");
     const [imageCustom, setImageCustom] = useState("");
-    const [linkGoc, setLinkGoc]=useState("")
+    const [linkGoc, setLinkGoc] = useState("");
     const _changeImage = (e) => {
         if (e.target.files[0]) {
             const selectFile = URL.createObjectURL(e.target.files[0]);
-            setLinkGoc(e.target.files[0])
+            setLinkGoc(e.target.files[0]);
             setOldImage(imageCustom);
-            console.log(selectFile)
+            console.log(selectFile);
             setImageCustom(selectFile);
         }
     };
@@ -175,8 +175,8 @@ const UserInformation = (props) => {
         formData.append("file", linkGoc);
         console.log(formData.getAll("file"));
         const res = await listApi._postFormData("users/image", formData);
-        console.log(res)
-        if(res.code===200){
+        console.log(res);
+        if (res.code === 200) {
             dispatch(Get_Me_Request());
         }
     };
@@ -349,7 +349,21 @@ const UserInformation = (props) => {
                         <div className="col2__list-user-container">
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
-                                    <div className="col1__item-container__info__image"></div>
+                                    <div className="col1__item-container__info__image">
+                                        <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
+                                    </div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
                                 <div
@@ -433,7 +447,21 @@ const UserInformation = (props) => {
                         <div className="col2__list-user-container">
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
-                                    <div className="col1__item-container__info__image"></div>
+                                    <div className="col1__item-container__info__image">
+                                        <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
+                                    </div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
                                 <div
@@ -504,7 +532,21 @@ const UserInformation = (props) => {
                         <div className="col2__list-user-container">
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
-                                    <div className="col1__item-container__info__image"></div>
+                                    <div className="col1__item-container__info__image">
+                                    <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
+                                    </div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
                                 <div
@@ -615,7 +657,21 @@ const UserInformation = (props) => {
                         <div className="col2__list-user-container">
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
-                                    <div className="col1__item-container__info__image"></div>
+                                    <div className="col1__item-container__info__image">
+                                    <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
+                                    </div>
                                     <div>
                                         {item
                                             ? item.username
@@ -667,13 +723,17 @@ const UserInformation = (props) => {
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image">
-                                        <img
+                                    <img
                                             style={{
                                                 width: "5rem",
                                                 height: "5rem",
                                                 borderRadius: "50%",
                                             }}
-                                            src={item&&item.avatar?item.avatar:`https://picsum.photos/200`}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
                                             alt="huhu"
                                         />
                                         {/* <iframe src="https://drive.google.com/file/d/12vuuaFbvsO8aXTAjsishhDi0rLztygG0/preview" style={{width: "5rem", height: "5rem", borderRadius: "50%"}}></iframe> */}

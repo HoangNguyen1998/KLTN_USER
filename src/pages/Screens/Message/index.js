@@ -191,7 +191,21 @@ const Message = (props) => {
                         >
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
-                                    <div className="col1__item-container__info__image"></div>
+                                    <div className="col1__item-container__info__image">
+                                    <img
+                                            style={{
+                                                width: "5rem",
+                                                height: "5rem",
+                                                borderRadius: "50%",
+                                            }}
+                                            src={
+                                                item && item.userId.avatar
+                                                    ? item.userId.avatar
+                                                    : `https://picsum.photos/200`
+                                            }
+                                            alt="huhu"
+                                        />
+                                    </div>
                                     <div>{item ? item.username : ""}</div>
                                 </div>
                             </div>
