@@ -28,6 +28,12 @@ const Alphabet = (props) => {
         width: 300, // drawing area width
         height: 200, // drawing area height
     });
+    const [renderRef1, action1] = useSvgDrawing({
+        penWidth: 5, // pen width
+        penColor: "#1890ff", // pen color
+        width: 300, // drawing area width
+        height: 200, // drawing area height
+    });
     // DEFINE
     const {TabPane} = Tabs;
     const {id} = props.match.params;
@@ -224,7 +230,7 @@ const Alphabet = (props) => {
                             </div>
                         </TabPane>
                         <TabPane tab="Katakana" key="2">
-                            <div>
+                        <div>
                                 <Grid container spacing={3}>
                                     <Grid item lg={6}>
                                         <Paper
@@ -241,7 +247,7 @@ const Alphabet = (props) => {
                                         </Paper>
                                     </Grid>
                                     <Grid item lg={6}>
-                                        <Paper
+                                    <Paper
                                             style={{
                                                 minHeight: "45rem",
                                                 maxHeight: "45rem",
@@ -249,11 +255,11 @@ const Alphabet = (props) => {
                                         >
                                             <div className="container" style={{height: "45rem"}}>
                                                 <div
-                                                    ref={renderRef}
+                                                    ref={renderRef1}
                                                     style={{
                                                         marginTop: "1rem",
                                                         width: "100%",
-                                                        height: "60%",
+                                                        height: "85%",
                                                         border:
                                                             "1px solid black",
                                                         margin: "auto",
@@ -263,13 +269,13 @@ const Alphabet = (props) => {
                                                     style={{marginTop: "1rem"}}
                                                 >
                                                     <Button
-                                                        onClick={action.clear}
+                                                        onClick={action1.clear}
                                                     >
                                                         Clear
                                                     </Button>
                                                     <Button
                                                         onClick={
-                                                            action.download
+                                                            action1.download
                                                         }
                                                     >
                                                         Dowload
@@ -296,8 +302,8 @@ const Alphabet = (props) => {
                                     {/* <Grid item xs={12} lg={3}>
                                     <AlphabetDetail
                                         isLoading={isLoading}
-                                        valueTab={valueTab}
                                         onSpeak={onSpeak}
+                                        valueTab={valueTab}
                                     />
                                 </Grid> */}
                                 </Grid>

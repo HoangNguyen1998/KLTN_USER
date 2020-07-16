@@ -10,7 +10,15 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 
 const ChallengeItem = (props) => {
-    const {item, cau, onChangeChallenge, ChallengeDetail, history, setShowResult, setPosition} = props;
+    const {
+        item,
+        cau,
+        onChangeChallenge,
+        ChallengeDetail,
+        history,
+        setShowResult,
+        setPosition,
+    } = props;
     const {t} = useTranslation("translation");
     const checkPosition = (item, ChallengeDetail) => {
         if (ChallengeDetail._id === item._id) {
@@ -32,7 +40,11 @@ const ChallengeItem = (props) => {
                             ? "col2__card__card-active"
                             : ""
                     }`}
-                    onClick={() => history.push(`/challenges/${item._id}`)}
+                    onClick={() => {
+                        history.push(`/challenges/${item._id}`);
+                        setPosition(0)
+                        setShowResult(0)
+                    }}
                 >
                     {`${t("Question")} ${item.index}`}
                 </Button>

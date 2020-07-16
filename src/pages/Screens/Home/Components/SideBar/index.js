@@ -72,12 +72,12 @@ const categories = [
         id: "Learn",
         children: [
             {id: "Courses", icon: <GolfCourseIcon />, active: true},
+            {id: "Alphabet", icon: <TranslateIcon />},
             {id: "Topics", icon: <MenuBookIcon />},
             {id: "Challenges", icon: <LandscapeIcon />},
-            {id: "Alphabet", icon: <TranslateIcon />},
             {id: "Video", icon: <VideoLibraryIcon />},
-            {id: "Draw", icon: <GestureIcon />},
-            {id: "Keyboard", icon: <KeyboardIcon />},
+            // {id: "Draw", icon: <GestureIcon />},
+            // {id: "Keyboard", icon: <KeyboardIcon />},
         ],
     },
     {

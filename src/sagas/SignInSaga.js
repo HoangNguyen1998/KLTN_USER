@@ -20,7 +20,7 @@ function* SignInFlow(user) {
         yield delay(500);
         yield put(LoadingActions.HideLoading());
         yield put(SocketActions.Connect_Socket())
-        history.push("/");
+        history.push("/courses");
         enqueueSnackbar(t("SignInSuccess"), {variant: "success"});
     } catch (err) {
         // const { message } = err.response.data;

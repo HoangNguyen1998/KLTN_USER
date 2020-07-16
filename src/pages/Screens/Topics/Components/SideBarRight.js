@@ -161,7 +161,7 @@ const SideBarRight = (props) => {
                 {renderRecentCourses(coursesRedux)}
             </div>
         </div>
-    );
+    )
 };
 
 export default withRouter(SideBarRight);
