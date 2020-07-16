@@ -59,6 +59,8 @@ const Challenges = (props) => {
                         ChallengeDetail={ChallengesRedux.challengeDetail}
                         onChangeChallenge={onChangeChallenge}
                         item={item}
+                        setPosition = {setPosition}
+                        setShowResult = {setShowResult}
                     />
                 );
             });

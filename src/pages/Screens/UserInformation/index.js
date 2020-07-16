@@ -357,10 +357,11 @@ const UserInformation = (props) => {
                                                 borderRadius: "50%",
                                             }}
                                             src={
-                                                item && item.userId.avatar
-                                                    ? item.userId.avatar
+                                                item && item.avatar
+                                                    ? item.avatar
                                                     : `https://picsum.photos/200`
                                             }
+                                            // src={`https://picsum.photos/200`}
                                             alt="huhu"
                                         />
                                     </div>
@@ -455,10 +456,11 @@ const UserInformation = (props) => {
                                                 borderRadius: "50%",
                                             }}
                                             src={
-                                                item && item.userId.avatar
-                                                    ? item.userId.avatar
+                                                item && item.avatar
+                                                    ? item.avatar
                                                     : `https://picsum.photos/200`
                                             }
+                                            // src={`https://picsum.photos/200`}
                                             alt="huhu"
                                         />
                                     </div>
@@ -533,17 +535,18 @@ const UserInformation = (props) => {
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image">
-                                    <img
+                                        <img
                                             style={{
                                                 width: "5rem",
                                                 height: "5rem",
                                                 borderRadius: "50%",
                                             }}
                                             src={
-                                                item && item.userId.avatar
-                                                    ? item.userId.avatar
+                                                item && item.avatar
+                                                    ? item.avatar
                                                     : `https://picsum.photos/200`
                                             }
+                                            // src={`https://picsum.photos/200`}
                                             alt="huhu"
                                         />
                                     </div>
@@ -658,15 +661,15 @@ const UserInformation = (props) => {
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image">
-                                    <img
+                                        <img
                                             style={{
                                                 width: "5rem",
                                                 height: "5rem",
                                                 borderRadius: "50%",
                                             }}
                                             src={
-                                                item && item.userId.avatar
-                                                    ? item.userId.avatar
+                                                item && item.avatar
+                                                    ? item.avatar
                                                     : `https://picsum.photos/200`
                                             }
                                             alt="huhu"
@@ -723,17 +726,18 @@ const UserInformation = (props) => {
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image">
-                                    <img
+                                        <img
                                             style={{
                                                 width: "5rem",
                                                 height: "5rem",
                                                 borderRadius: "50%",
                                             }}
                                             src={
-                                                item && item.userId.avatar
-                                                    ? item.userId.avatar
+                                                item && item.avatar
+                                                    ? item.avatar
                                                     : `https://picsum.photos/200`
                                             }
+                                            // src={`https://picsum.photos/200`}
                                             alt="huhu"
                                         />
                                         {/* <iframe src="https://drive.google.com/file/d/12vuuaFbvsO8aXTAjsishhDi0rLztygG0/preview" style={{width: "5rem", height: "5rem", borderRadius: "50%"}}></iframe> */}

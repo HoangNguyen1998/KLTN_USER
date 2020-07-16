@@ -186,13 +186,13 @@ const Message = (props) => {
                 return data.friends.map((item, index) => {
                     return (
                         <div
-                            onClick={onChangeFriendChat(item.userId)}
+                            onClick={onChangeFriendChat(item.userId._id)}
                             className="col2__list-user-container"
                         >
                             <div className="col2__list-user-container__item-container">
                                 <div className="col1__item-container__info">
                                     <div className="col1__item-container__info__image">
-                                    <img
+                                        <img
                                             style={{
                                                 width: "5rem",
                                                 height: "5rem",
@@ -211,6 +211,33 @@ const Message = (props) => {
                             </div>
                         </div>
                     );
+                });
+            }
+        }
+    };
+    const _renderAvatar = (data) => {
+        if (!data) {
+            return (
+                <div className="loading-container">
+                    <CircularProgress />
+                </div>
+            );
+        }
+        if (data) {
+            if (data.friends.length !== 0) {
+                return data.friends.map((item, index) => {
+                    if (item.userId._id === id) {
+                        return (
+                            <img
+                                className="message-col2__avatar-left"
+                                src={
+                                    item && item.userId.avatar
+                                        ? item.userId.avatar
+                                        : `https://picsum.photos/200`
+                                }
+                            />
+                        );
+                    }
                 });
             }
         }
@@ -253,50 +280,52 @@ const Message = (props) => {
                     //         </div>
                     //     </div>
                     // );
-                        if (
-                            messages[index + 1] &&
-                            messages[index + 1].sender !== item.sender
-                        ) {
-                            return (
-                                <div className="message-col2__content__left-side">
-                                    <div className="message-col2__avatar-left"></div>
-                                    <div className="message-col2__left-side-style">
-                                        {item.message}
-                                    </div>
-                                </div>
-                            );
-                        }
-                        if (
-                            messages[index + 1] &&
-                            messages[index + 1].sender === item.sender
-                        ) {
-                            return (
-                                <div className="message-col2__content__left-side">
-                                    <div className="message-col2__avatar-left-none"></div>
-                                    <div className="message-col2__left-side-style">
-                                        {item.message}
-                                    </div>
-                                </div>
-                            );
-                        }
-                        if (messages[index + 1] === undefined) {
-                            return (
-                                <div className="message-col2__content__left-side">
-                                    <div className="message-col2__avatar-left"></div>
-                                    <div className="message-col2__left-side-style">
-                                        {item.message}
-                                    </div>
-                                </div>
-                            );
-                        }
-                    } else {
+                    if (
+                        messages[index + 1] &&
+                        messages[index + 1].sender !== item.sender
+                    ) {
                         return (
-                            <div className="message-col2__content__right-side">
-                                <div className="message-col2__right-side-style">
+                            <div className="message-col2__content__left-side">
+                                <div className="message-col2__avatar-left"> {_renderAvatar(user)}</div>
+                                <div className="message-col2__left-side-style">
                                     {item.message}
                                 </div>
                             </div>
                         );
+                    }
+                    if (
+                        messages[index + 1] &&
+                        messages[index + 1].sender === item.sender
+                    ) {
+                        return (
+                            <div className="message-col2__content__left-side">
+                                <div className="message-col2__avatar-left-none"></div>
+                                <div className="message-col2__left-side-style">
+                                    {item.message}
+                                </div>
+                            </div>
+                        );
+                    }
+                    if (messages[index + 1] === undefined) {
+                        return (
+                            <div className="message-col2__content__left-side">
+                                <div className="message-col2__avatar-left">
+                                    {_renderAvatar(user)}
+                                </div>
+                                <div className="message-col2__left-side-style">
+                                    {item.message}
+                                </div>
+                            </div>
+                        );
+                    }
+                } else {
+                    return (
+                        <div className="message-col2__content__right-side">
+                            <div className="message-col2__right-side-style">
+                                {item.message}
+                            </div>
+                        </div>
+                    );
                 }
             });
         } else {

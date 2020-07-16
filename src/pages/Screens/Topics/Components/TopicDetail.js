@@ -101,6 +101,7 @@ const TopicDetail = (props) => {
             dispatch(CoursesActions.Get_All_Courses_Request(setIsWaiting));
             setTextAdd("");
             setValueRadio("");
+            setSelectArr([])
             setShowModal(!showModal);
             enqueueSnackbar("Them tu vung vao khoa hoc thanh cong", {
                 variant: "success",
@@ -174,7 +175,7 @@ const TopicDetail = (props) => {
                 className="button-test"
                 onClick={() => _test()}
             >
-                Kiem tra
+                Kiểm tra
             </Button>
             <Button
                 style={{marginRight: "1rem"}}
@@ -187,19 +188,19 @@ const TopicDetail = (props) => {
                 ) : (
                     <RadioButtonUncheckedOutlined style={{fontSize: 25}} />
                 )}
-                Chon tat ca
+                Chọn tất cả
             </Button>
             <Button
                 className="button-test"
                 onClick={() => setShowModal(!showModal)}
             >
-                Tuy chon
+                Tuỳ chọn
             </Button>
             <Grid container>{renderTopic(topicDetailRedux)}</Grid>
             <Modal
                 onOk={() => _confirmAddToCourse()}
                 onCancel={() => setShowModal(!showModal)}
-                title="Chon khoa hoc ban muon them vao"
+                title="Chọn khoá học mà bạn muốn thêm vào"
                 visible={showModal}
             >
                 <Radio.Group

@@ -38,7 +38,7 @@ const SpeakCourse = (props) => {
     }, []);
     const _startListening = () => {
         // startListening();
-        startListening()
+        startListening();
         resetTranscript();
     };
     // Set % cho progress
@@ -79,8 +79,9 @@ const SpeakCourse = (props) => {
     }, []);
 
     const checkAnswer = async (answer) => {
+        // SpeechRecognition.abortListening()
         stopListening()
-        console.log(answer)
+        console.log(answer);
         // var convertEnglish = answer
         //     .trim()
         //     .normalize("NFD")
@@ -98,7 +99,7 @@ const SpeakCourse = (props) => {
         //     .replace(/Đ/g, "D")
         //     .toLowerCase();
         // console.log(convertAnswerToEnglish);
-        resetTranscript()
+        resetTranscript();
         if (LearnCourseRedux[activeQuestion].question === answer) {
             setResult(answer);
             // if (rightAnswers.find((item) => item !== index)) {
@@ -286,7 +287,9 @@ const SpeakCourse = (props) => {
                                         <Grid item xs={12} lg={8}>
                                             <div>Phat am de kiem tra</div>
                                             <IconButton
-                                                onClick={()=>_startListening()}
+                                                onClick={() =>
+                                                    _startListening()
+                                                }
                                             >
                                                 <SettingsVoiceIcon />
                                             </IconButton>

@@ -26,11 +26,11 @@ const categories = [
         name: "learn",
         icon: <ImportContacts style={{fontSize: 25}} />,
     },
-    {
-        id: "Write",
-        name: "write",
-        icon: <BorderColor style={{fontSize: 25}} />,
-    },
+    // {
+    //     id: "Write",
+    //     name: "write",
+    //     icon: <BorderColor style={{fontSize: 25}} />,
+    // },
     {
         id: "Listen",
         name: "listen",

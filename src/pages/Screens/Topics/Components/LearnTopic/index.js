@@ -312,11 +312,11 @@ const LearnCourse = (props) => {
     };
     return (
         <div className="remember-card-container">
-            <SideBarRight
+            {/* <SideBarRight
                 history={props.history}
                 idURL={props.match.params.id}
                 typeURL={props.match.path}
-            />
+            /> */}
             <div className="remember-card-content">
                 <Progress
                     strokeColor={{

@@ -126,6 +126,9 @@ const History = (props) => {
                                     {item.mean}
                                 </div>
                             )}
+                            <div>
+                                {item.totalTrueLearn}/{item.totalClickLearn}
+                            </div>
                             <div className="history-container__word-container__item-action">
                                 <Tooltip title={t("Speak")}>
                                     <IconButton onClick={onSpeak(item.text)}>
@@ -206,6 +209,10 @@ const History = (props) => {
                                     {item.mean}
                                 </div>
                             )}
+                            <div>
+                                {item.totalTrueLearn}/{item.totalClickLearn}
+                            </div>
+
                             <div className="history-container__word-container__item-action">
                                 <Tooltip title={t("Speak")}>
                                     <IconButton onClick={onSpeak(item.text)}>
