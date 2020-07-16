@@ -9,7 +9,7 @@ const test = new axios.create({
 test.interceptors.request.use(
   function(config) {
     config.headers.Authorization = `Bearer ${GetToken()}`;
-    //config.headers["Content-Type"] = "multipart/form-data";
+    // config.headers["Content-Type"] = "multipart/form-data";
     return config;
   },
   function(error) {

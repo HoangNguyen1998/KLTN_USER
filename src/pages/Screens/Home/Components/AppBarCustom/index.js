@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Switch, Route, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 import AppBar from "@material-ui/core/AppBar";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -26,6 +27,7 @@ import Box from "@material-ui/core/Box";
 import BackspaceIcon from "@material-ui/icons/Backspace";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
+import * as _ from "lodash";
 
 import styles from "./styles";
 import "./styles.scss";
@@ -34,14 +36,26 @@ import MenuLanguages from "pages/Components/MenuLanguage";
 import CourseList from "pages/Screens/CourseList";
 import checkAuthen from "helpers/GetToken";
 import * as GetMeActions from "actions/GetMe";
+import Badge from '@material-ui/core/Badge';
+import {useEffect} from "react";
 
-const AppBarCustom = props => {
+const AppBarCustom = (props) => {
+    const [age, setAge] = useState(20);
+    const {i18n, t} = useTranslation("translation");
+    const UserInformation = useSelector((state) => {
+        return state.GetMe;
+    });
+    const NotificationsRedux = useSelector(state=> {return state.Notifications})
+    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("thanh app bar ne");
+        // if (_.isEmpty(UserInformation)) {
+        //     dispatch(GetMeActions.Get_Me_Request());
+        // }
+    }, []);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const {classes, onDrawerToggle, history} = props;
-    const dispatch = useDispatch();
-    console.log(props);
-
-    const handleClick = event => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -51,16 +65,16 @@ const AppBarCustom = props => {
     const onSignOut = () => {
         dispatch(GetMeActions.Sign_Out(history));
     };
+    const onShowUser = () => {
+        history.push("/getme");
+        setAnchorEl(null);
+    };
     const openMenu = Boolean(anchorEl);
     return (
         <React.Fragment>
-            <AppBar
-                color="primary"
-                position="sticky"
-                elevation={0}
-                className="test"
-            >
+            <AppBar color="primary" elevation={0} className="test">
                 <Toolbar>
+                    <div>Learn JP</div>
                     <Grid container spacing={1} alignItems="center">
                         <Hidden smUp>
                             <Grid item>
@@ -81,13 +95,15 @@ const AppBarCustom = props => {
                         <Grid item>
                             <Tooltip title="Alerts • No alerts">
                                 <IconButton color="inherit">
+                                    <Badge badgeContent="2">
                                     <NotificationsIcon
                                         style={{
                                             fontSize: 25,
                                             color: "white",
-                                            marginRight: 5
+                                            marginRight: 5,
                                         }}
                                     />
+                                    </Badge>
                                 </IconButton>
                             </Tooltip>
                         </Grid>
@@ -107,19 +123,20 @@ const AppBarCustom = props => {
                     </Grid>
                 </Toolbar>
             </AppBar>
-
-            <Switch>
-                {IndexRoutes.map((prop, key) => {
-                    return (
-                        <Route
-                            path={prop.path}
-                            exact={prop.exact}
-                            component={prop.main}
-                            key={key}
-                        />
-                    );
-                })}
-            </Switch>
+            <div style={{marginTop: "50px"}}>
+                {/* <Switch>
+                    {IndexRoutes.map((prop, key) => {
+                        return (
+                            <Route
+                                path={prop.path}
+                                exact={prop.exact}
+                                component={prop.main}
+                                key={key}
+                            />
+                        );
+                    })}
+                </Switch> */}
+            </div>
             <Popover
                 // id={id}
                 open={openMenu}
@@ -127,26 +144,26 @@ const AppBarCustom = props => {
                 onClose={handleClose}
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "center"
+                    horizontal: "center",
                 }}
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "center"
+                    horizontal: "center",
                 }}
             >
                 <div className="pop-over">
                     <List>
-                        <ListItem button>
+                        <ListItem button onClick={onShowUser}>
                             <AssignmentIndIcon
                                 style={{fontSize: 20, marginRight: "1rem"}}
                             />
-                            <ListItemText primary="User Information" />
+                            <ListItemText primary={t("UserInfor")} />
                         </ListItem>
                         <ListItem button onClick={onSignOut}>
                             <BackspaceIcon
                                 style={{fontSize: 20, marginRight: "1rem"}}
                             />
-                            <ListItemText primary="Sign out" />
+                            <ListItemText primary={t("SignOut")} />
                         </ListItem>
                     </List>
                 </div>
@@ -157,7 +174,7 @@ const AppBarCustom = props => {
 
 AppBarCustom.propTypes = {
     classes: PropTypes.object.isRequired,
-    onDrawerToggle: PropTypes.func.isRequired
+    onDrawerToggle: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(withRouter(AppBarCustom));

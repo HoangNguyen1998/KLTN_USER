@@ -1,30 +1,38 @@
 import React, {useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import {withStyles} from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
+import {useTranslation} from "react-i18next";
+import {withSnackbar} from "notistack";
+import {withRouter} from "react-router-dom";
+import {
+    Box,
+    CardContent,
+    CardHeader,
+    Divider,
+    Grid,
+    Paper,
+    IconButton,
+    Card,
+    Button,
+    CircularProgress,
+    TextField,
+    Tooltip,
+} from "@material-ui/core";
+import {Delete as DeleteIcon} from "@material-ui/icons";
 
 import * as CoursesActions from "actions/Courses";
 
-const AddCourse = props => {
+const CreateCourse = (props) => {
+    const {history, enqueueSnackbar}=props
+    const {i18n, t} = useTranslation("translation");
+    const circularRedux = useSelector((state) => state.Loading.showCircular);
     const [array, setArray] = useState({
         title: "",
         content: [
             {text: "", mean: ""},
-            {text: "", mean: ""}
-        ]
+            {text: "", mean: ""},
+        ],
     });
-    const {history, enqueueSnackbar, t} = props;
-    const AddCourseValue = useSelector(state => {
+    const AddCourseValue = useSelector((state) => {
         return state.Courses.course;
     });
     const dispatch = useDispatch();
@@ -34,11 +42,11 @@ const AddCourse = props => {
         data.push(item);
         setArray({...array, content: data});
     };
-    const handleChange = event => {
+    const handleChange = (event) => {
         var value = event.target.value;
         setArray({...array, title: value});
     };
-    const onDeleteCard = index => {
+    const onDeleteCard = (index) => {
         const data = [...array.content];
         data.splice(index, 1);
         setArray({...array, content: data});
@@ -57,28 +65,26 @@ const AddCourse = props => {
         }
         setArray({...array, content: data});
     };
-    const onHandleSubmit = event => {
+    const onHandleSubmit = (event) => {
         event.preventDefault();
-        console.log(array);
         dispatch(
             CoursesActions.Add_Course_Request(
                 array,
                 history,
                 enqueueSnackbar,
-                t
+                t,
             )
         );
     };
-    const renderCard = data => {
+    const renderCard = (data) => {
         let xhtml = null;
         xhtml = data.map((item, index) => {
-            console.log("????: ", index);
             return (
                 <Card key={index} style={{marginBottom: "4%"}}>
                     <CardHeader
                         title={index + 1}
                         action={
-                            <Tooltip title="Xoa the nay">
+                            <Tooltip title={t("DeleteCard")}>
                                 <IconButton onClick={() => onDeleteCard(index)}>
                                     <DeleteIcon style={{fontSize: 25}} />
                                 </IconButton>
@@ -97,11 +103,11 @@ const AddCourse = props => {
                                         style={{margin: "1%"}}
                                         fullWidth
                                         id="standard-textarea"
-                                        label="New Word"
+                                        label={t("NewWord")}
                                         placeholder="Enter your new word at here"
                                         multiline
                                         margin="normal"
-                                        onChange={e => onChange(e, index)}
+                                        onChange={(e) => onChange(e, index)}
                                         // onKeyDown={e => this.props.onPress(e, index)}
                                     />
                                 </Box>
@@ -115,11 +121,11 @@ const AddCourse = props => {
                                         style={{margin: "1%"}}
                                         fullWidth
                                         id="standard-textarea"
-                                        label="Mean Of Word"
+                                        label={t("MeanWord")}
                                         placeholder="Enter mean of word you just entered"
                                         multiline
                                         margin="normal"
-                                        onChange={e => onChange(e, index)}
+                                        onChange={(e) => onChange(e, index)}
                                     />
                                 </Box>
                             </Grid>
@@ -153,21 +159,25 @@ const AddCourse = props => {
                             fullWidth
                             variant="contained"
                             onClick={onAddNewCard}
+                            disabled={circularRedux}
                         >
                             <Grid container spacing={5}>
                                 <Grid item xs={12}>
-                                    Tao the moi
+                                    {t("CreateNewCard")}
                                 </Grid>
                             </Grid>
                         </Button>
-
                         <Button
                             variant="contained"
-                            color="primary"
+                            color="secondary"
                             className="add-course-container__button"
                             type="submit"
                         >
-                            Create
+                            {circularRedux ? (
+                                <CircularProgress color="#ffffff" size={25} />
+                            ) : (
+                                t("Create")
+                            )}
                         </Button>
                     </Box>
                 </form>
@@ -176,4 +186,5 @@ const AddCourse = props => {
     );
 };
 
-export default AddCourse;
+export default withRouter(withSnackbar(CreateCourse));
+

@@ -1,0 +1,18 @@
+import axios from "axios";
+import GetToken from "./GetToken";
+const test = new axios.create({
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Authorization: `Bearer ${GetToken()}`
+  }
+});
+test.interceptors.request.use(
+  function(config) {
+    config.headers.Authorization = `Bearer ${GetToken()}`;
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+export default test;

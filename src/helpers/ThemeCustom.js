@@ -25,7 +25,7 @@ let theme = createMuiTheme({
     },
     mixins: {
         toolbar: {
-            minHeight: 48
+            minHeight: 50
         }
     }
 });
@@ -45,13 +45,21 @@ theme = {
         },
         MuiDrawer: {
             paper: {
-                backgroundColor: "#18202c"
+                backgroundColor: "#ffffff"
             }
         },
         MuiTypography: {
             body1: {
                 fontSize: "1.6rem"
             }
+        },
+        MuiFormHelperText:{
+            root: {
+                fontSize: "1rem"
+            }
+        },
+        MuiMobileStepper:{
+            root: {backgroundColor: "white !important"}
         },
         MuiFormLabel: {root: {fontSize: "1.6rem"}},
         MuiButton: {
@@ -64,6 +72,11 @@ theme = {
                 "&:active": {
                     boxShadow: "none"
                 }
+            }
+        },
+        MuiBadge:{
+            badge: {
+                fontSize: "1.75rem !important"
             }
         },
         MuiTabs: {
@@ -96,7 +109,8 @@ theme = {
         },
         MuiTooltip: {
             tooltip: {
-                borderRadius: 4
+                borderRadius: 4,
+                fontSize: 14
             }
         },
         MuiDivider: {

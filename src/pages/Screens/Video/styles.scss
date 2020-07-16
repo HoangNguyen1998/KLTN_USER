@@ -1,0 +1,14 @@
+@import "../../../styles/global.scss";
+
+.container {
+    margin: 2rem;
+}
+
+.video-item-container{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    &:hover{
+        cursor: pointer;
+    }
+}

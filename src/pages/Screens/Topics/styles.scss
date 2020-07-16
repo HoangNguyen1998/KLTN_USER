@@ -1,0 +1,48 @@
+@import "../../../styles/global.scss";
+
+.topic-item-container {
+    &__item {
+        border: 1px solid map-get($color, "blue");
+        min-height: 20rem;
+        width: 90% !important;
+    }
+}
+
+.item-container {
+    border: 1px solid map-get($color, "blue");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 1rem 1rem 2rem rgba($color: #000000, $alpha: 0.05);
+    border-radius: 1rem;
+    min-height: 13rem;
+    padding: 3rem;
+    width: 90% !important;
+}
+.item-container:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 1rem 1rem 4rem rgba($color: #000000, $alpha: 0.1);
+    transform: scale(1.02);
+}
+
+.panigation {
+    margin: 1rem 0rem !important;
+    justify-content: center;
+}
+
+.item-detail-container {
+    border: 1px solid map-get($color, "blue");
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;  box-shadow: 1rem 1rem 2rem rgba($color: #000000, $alpha: 0.05);
+    border-radius: 4rem;
+    min-height: 10rem;
+    padding: 1rem;
+    width: 90% !important;
+}
+
+.button-test{
+    background-color: map-get($color, "blue") !important;
+}

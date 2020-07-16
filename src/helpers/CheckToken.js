@@ -1,4 +1,4 @@
-const getCookie = () => {
+const getToken = () => {
   var name = "token=";
   var ca = document.cookie.split("; ");
   for (var i = 0; i < 2; i++) {
@@ -14,4 +14,4 @@ const getCookie = () => {
     }
   }
 };
-export default getCookie;
+export default getToken;

@@ -1,0 +1,13 @@
+
+
+.timer-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1.6rem; 
+    &__left-side, &__right-side{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

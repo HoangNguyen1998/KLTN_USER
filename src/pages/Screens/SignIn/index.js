@@ -1,11 +1,11 @@
-import React from 'react'
-import { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { withFormik } from "formik";
-import { withSnackbar } from "notistack";
-import { Link } from "react-router-dom";
+import React from "react";
+import {useEffect, useState} from "react";
+import {withRouter} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {withFormik} from "formik";
+import {withSnackbar} from "notistack";
+import {Link} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -20,16 +20,16 @@ import Typography from "@material-ui/core/Typography";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
-import { withStyles } from "@material-ui/core";
+import {withStyles} from "@material-ui/core";
 import * as Yup from "yup";
 
 import * as SignInActions from "actions/SignIn";
 import CheckAuthen from "helpers/GetToken";
 import MenuLanguage from "pages/Components/MenuLanguage";
-import styles from './styles'
+import styles from "./styles";
 
-const SignIn = (props) => {
-    const { i18n, t } = useTranslation("translation");
+const SignIn = props => {
+    const {i18n, t} = useTranslation("translation");
     const dispatch = useDispatch();
     const {
         history,
@@ -42,7 +42,7 @@ const SignIn = (props) => {
         enqueueSnackbar,
         errors
     } = props;
-    const { username, password, remember } = values;
+    const {username, password, remember} = values;
     const [showPassword, setShowPassword] = useState(false);
     const _onHandleSubmit = event => {
         event.preventDefault();
@@ -52,7 +52,9 @@ const SignIn = (props) => {
             remember: remember
         };
         if (username !== "" && password !== "") {
-            dispatch(SignInActions.SignIn_Request(user, history, enqueueSnackbar, t));
+            dispatch(
+                SignInActions.SignIn_Request(user, history, enqueueSnackbar, t)
+            );
         }
     };
     const _handleClickShowPassword = () => {
@@ -61,35 +63,24 @@ const SignIn = (props) => {
     const _handleMouseDownPassword = event => {
         event.preventDefault();
     };
-    const _handleChangeLanguage = () => {
-        let currentLanguage = i18n.language;
-        if (currentLanguage === "vn") {
-            i18n.changeLanguage("en");
-        }
-        if (currentLanguage === "en") {
-            i18n.changeLanguage("vn");
-        }
-    };
-    const _checkCurrentLanguage = () => {
-        var lng = null;
-        if (i18n.language === "vn") {
-            lng = t("ChangeToEN");
-        }
-        if (i18n.language === "en") {
-            lng = t("ChangeToVN");
-        }
-        return lng;
-    };
     useEffect(() => {
         if (CheckAuthen()) {
             history.push("/");
         }
-    }, []);
+    }, [history]);
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Grid
+                item
+                xs={12}
+                sm={8}
+                md={5}
+                component={Paper}
+                elevation={6}
+                square
+            >
                 <MenuLanguage />
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -111,12 +102,20 @@ const SignIn = (props) => {
                             label={t("Username")}
                             name="username"
                             autoComplete="username"
-                            error={touched.username && errors.username ? true : false}
-                            helperText={touched.username ? t(errors.username) : ""}
+                            error={
+                                touched.username && errors.username
+                                    ? true
+                                    : false
+                            }
+                            helperText={
+                                touched.username ? t(errors.username) : ""
+                            }
                             // error={testError}
                             //autoFocus
                             onChange={handleChange}
-                            onKeyUp={() => setFieldTouched("username", true, false)}
+                            onKeyUp={() =>
+                                setFieldTouched("username", true, false)
+                            }
                         />
                         <TextField
                             variant="outlined"
@@ -127,23 +126,35 @@ const SignIn = (props) => {
                             label={t("Password")}
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            error={touched.password && errors.password ? true : false}
+                            error={
+                                touched.password && errors.password
+                                    ? true
+                                    : false
+                            }
                             autoComplete="current-password"
-                            helperText={touched.password ? t(errors.password) : ""}
+                            helperText={
+                                touched.password ? t(errors.password) : ""
+                            }
                             onChange={handleChange}
-                            onKeyUp={() => setFieldTouched("password", true, false)}
+                            onKeyUp={() =>
+                                setFieldTouched("password", true, false)
+                            }
                             InputProps={{
                                 endAdornment: (
                                     <IconButton
                                         onClick={_handleClickShowPassword}
                                         onMouseDown={_handleMouseDownPassword}
                                     >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        {showPassword ? (
+                                            <Visibility />
+                                        ) : (
+                                            <VisibilityOff />
+                                        )}
                                     </IconButton>
                                 )
                             }}
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={
                                 <Checkbox
                                     name="remember"
@@ -155,7 +166,7 @@ const SignIn = (props) => {
                                 />
                             }
                             label={t("Remember")}
-                        />
+                        /> */}
                         <Button
                             type="submit"
                             fullWidth
@@ -166,23 +177,30 @@ const SignIn = (props) => {
                             {t("SignIn")}
                         </Button>
                         <Grid container className={classes.container}>
-                            <Grid item xs className={classes.forgot}>
-                                <Link to="#" variant="body2">
+                            <Grid item xs={12} className={classes.forgot}>
+                                <Button
+                                    onClick={()=>history.push("/forgot-pw")}
+                                    style={{fontSize: "1.2rem"}}
+                                >
                                     {t("ForgotPassword")}
-                                </Link>
+                                </Button>
                             </Grid>
-                            <Grid item xs className={classes.signup}>
-                                <Link to="/signup" variant="body2" className={classes.hover}>
+                            <Grid item xs={12} className={classes.signup}>
+                            <Button
+                                    onClick={()=>history.push("/signup")}
+                                    className={classes.hover}
+                                    style={{fontSize: "1.2rem"}}
+                                >
                                     {t("DontHaveAcc")}
-                                </Link>
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>
                 </div>
             </Grid>
         </Grid>
-    )
-}
+    );
+};
 
 const SignInFormik = withFormik({
     mapPropsToValues: () => ({
@@ -196,4 +214,4 @@ const SignInFormik = withFormik({
     })
 })(SignIn);
 
-export default withRouter(withStyles(styles)(withSnackbar(SignInFormik)))
+export default withRouter(withStyles(styles)(withSnackbar(SignInFormik)));

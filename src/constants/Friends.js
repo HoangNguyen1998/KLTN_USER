@@ -1,0 +1,56 @@
+// Lay danh sach ban be
+export const GET_LIST_FRIENDS_REQUEST = "GET_LIST_FRIENDS_REQUEST";
+export const GET_LIST_FRIENDS_SUCCESS = "GET_LIST_FRIENDS_SUCCESS";
+export const GET_LIST_FRIENDS_ERROR = "GET_LIST_FRIENDS_ERROR";
+
+// Tim kiem mot nguoi dung de ket ban
+export const SEARCH_FRIENDS_REQUEST = "SEARCH_FRIENDS_REQUEST";
+export const SEARCH_FRIENDS_SUCCESS = "SEARCH_FRIENDS_SUCCESS";
+export const SEARCH_FRIENDS_ERROR = "SEARCH_FRIENDS_ERROR";
+
+// Lay danh sach nguoi dung de co the gui loi moi ket ban
+export const GET_LIST_USERS_REQUEST = "GET_LIST_USERS_REQUEST";
+export const GET_LIST_USERS_SUCCESS = "GET_LIST_USERS_SUCCESS";
+export const GET_LIST_USERS_ERROR = "GET_LIST_USERS_ERROR";
+
+// Gui loi moi ket ban cho mot nguoi
+export const ADD_FRIEND_REQUEST = "ADD_FRIEND_REQUEST";
+export const ADD_FRIEND_SUCCESS = "ADD_FRIEND_SUCCESS";
+export const ADD_FRIEND_ERROR = "ADD_FRIEND_ERROR";
+
+// Lay danh sach nguoi duoc ban gui loi moi ket ban
+export const GET_LIST_ADD_FRIEND_REQUEST = "GET_LIST_ADD_FRIEND_REQUEST";
+export const GET_LIST_ADD_FRIEND_SUCCESS = "GET_LIST_ADD_FRIEND_SUCCESS";
+export const GET_LIST_ADD_FRIEND_ERROR = "GET_LIST_ADD_FRIEND_ERROR";
+
+// Huy loi moi ket ban mot nguoi
+export const REJECT_ADD_FRIEND_REQUEST = "REJECT_ADD_FRIEND_REQUEST";
+export const REJECT_ADD_FRIEND_SUCCESS = "REJECT_ADD_FRIEND_SUCCESS";
+export const REJECT_ADD_FRIEND_ERROR = "REJECT_ADD_FRIEND_ERROR";
+
+// Chap nhan loi moi ket ban
+export const ACCEPT_REQUEST_FRIEND_REQUEST = "ACCEPT_REQUEST_FRIEND_REQUEST";
+export const ACCEPT_REQUEST_FRIEND_SUCCESS = "ACCEPT_REQUEST_FRIEND_SUCCESS";
+export const ACCEPT_REQUEST_FRIEND_ERROR = "ACCEPT_REQUEST_FRIEND_ERROR";
+
+// Lay danh sach loi moi ket ban
+export const GET_LIST_REQUEST_FRIEND_REQUEST =
+    "GET_LIST_REQUEST_FRIEND_REQUEST";
+export const GET_LIST_REQUEST_FRIEND_ERROR = "GET_LIST_REQUEST_FRIEND_ERROR";
+export const GET_LIST_REQUEST_FRIEND_SUCCESS =
+    "GET_LIST_REQUEST_FRIENSUCCESSST";
+
+// Lay loi moi ket ban vua gui toi cho ban
+export const REQUEST_FRIEND_REQUEST = "REQUEST_FRIEND_REQUEST";
+export const REQUEST_FRIEND_SUCCESS = "REQUEST_FRIEND_SUCCESS";
+export const REQUEST_FRIEND_ERROR = "REQUEST_FRIEND_ERROR";
+
+// emit reject add friend
+export const EMIT_REJECT_ADD_FRIEND = "EMIT_REJECT_ADD_FRIEND";
+
+// chap nhan loi moi ket ban
+export const ON_ACCEPT_ADD_FRIEND="ON_ACCEPT_ADD_FRIEND"
+
+
+// nghe su kien chap nhan loi moi ket ban
+export const EMIT_ACCEPT_ADD_FRIEND="EMIT_ACCEPT_ADD_FRIEND"
