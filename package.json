@@ -12,7 +12,7 @@
     "@welldone-software/why-did-you-render": "^4.1.0-alpha.1",
     "animate.css": "^3.7.2",
     "antd": "^4.1.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "formik": "^2.1.4",
     "fs": "^0.0.1-security",
